@@ -2,5 +2,5 @@
 <resources>
     <!-- Переопределение для сборки RuStore (Английская локаль для очистки) -->
     <string name="support_learn_how">Send donation</string>
-    <string name="support_donate_url">ВСТАВЬТЕ_СЮДА_ВАШУ_ССЫЛКУ_НА_ОПЛАТУ</string>
+    <string name="support_donate_url">https://pay.cloudtips.ru/p/bf94141b</string>
 </resources>

@@ -1,0 +1,19 @@
+Sanctum bundles or depends on the following third-party software:
+- Kotlin standard library — Apache-2.0 (JetBrains)
+- AndroidX libraries — Apache-2.0 (Google / The Android Open Source Project)
+- Jetpack Compose — Apache-2.0
+- Hilt / Dagger — Apache-2.0
+- Room — Apache-2.0
+- kotlinx.coroutines — Apache-2.0
+- kotlinx.serialization — Apache-2.0
+- WorkManager — Apache-2.0
+- Media3 / ExoPlayer — Apache-2.0
+- androidx.security:security-crypto — Apache-2.0
+- androidx.biometric — Apache-2.0
+- SQLCipher for Android (net.zetetic) — BSD-3-Clause
+- LiteRT-LM (com.google.ai.edge.litertlm) — Apache-2.0
+- Gson (transitive via LiteRT-LM) — Apache-2.0
+- Robolectric — MIT (testing only)
+- JUnit — EPL-1.0 / EPL-2.0 (testing only)
+
+Full license texts are available at the respective project pages.

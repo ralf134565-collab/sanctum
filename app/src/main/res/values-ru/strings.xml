@@ -1,0 +1,492 @@
+<resources>
+    <string name="app_name">Санктум</string>
+    <string name="store_title">Санктум: Локальный сейф мыслей</string>
+
+    <!-- Экран «Итоги дня» -->
+    <string name="screen_title">Итоги дня</string>
+    <string name="screen_subtitle">Тихо, без оценок. Только для вас.</string>
+
+    <!-- Личные ориентиры -->
+    <string name="manifesto_title">Личные ориентиры</string>
+    <string name="manifesto_hint">Запишите сюда долгосрочные фокусы, личные границы и ориентиры. Например: «я склонен к переработкам», «после 21:00 телефон не со мной».</string>
+    <string name="manifesto_placeholder">Коснитесь, чтобы записать свои важные ориентиры, привычки, долгосрочные намерения или границы...</string>
+    <string name="manifesto_edit_title">Редактор ориентиров</string>
+    <string name="manifesto_saved_snackbar">Ориентиры сохранены</string>
+    <string name="manifesto_card_teaser">Запишите личные ориентиры — границы, привычки, намерения.</string>
+    <string name="manifesto_card_configured">Ориентиры записаны — откройте, чтобы изменить или настроить контекст</string>
+    <string name="manifesto_include_mentor">Учитывать в отклике ментора</string>
+    <string name="manifesto_include_weekly">Учитывать в зеркале недели</string>
+    <string name="manifesto_context_title">Контекст для ИИ</string>
+    <string name="chat_manifesto_context_switch">Учитывать ориентиры</string>
+    <string name="support_section_title">Санктум независим благодаря вам</string>
+    <string name="support_why_free">Почему в Санктуме нет рекламы и подписок?</string>
+    <string name="support_section_body">Большинство приложений сегодня зарабатывают на продаже вашего внимания и личных данных. Санктум устроен иначе: здесь нет инвесторов, метрик и скрытых трекеров.\n\nПоскольку дневник полностью локальный и работает без серверов, у нас нет расходов на облачную инфраструктуру. Каждое пожертвование идет напрямую создателю проекта — это даёт автору финансовую возможность не только полировать Санктум и дорабатывать локальный ИИ, но и воплощать в жизнь новые идеи: создавать другие бережные и чистые продукты, помогающие людям справляться с тревогой и находить баланс в суетном мире.\n\nДонат здесь — это не покупка функций, а ваш личный вклад в защиту независимого пространства и поддержка новых, честных инструментов, которые ничего от вас не требуют.</string>
+    <string name="support_learn_how">Узнать, как поддержать</string>
+    <string name="support_github">Исходный код (GitHub)</string>
+    <string name="support_open_url_error">Не удалось открыть ссылку. Установите браузер или попробуйте снова.</string>
+
+    <!-- Дыхательный мост -->
+    <string name="breathing_banner_title">Дыхательный мост</string>
+    <string name="breathing_banner_subtitle">Замедлите мысли и тело перед рефлексией (~%1$d мин)</string>
+    <string name="breathing_banner_hint">«Дышите в комфортном темпе. Если задерживать дыхание тяжело — пропускайте задержку и просто плавно вдыхайте и выдыхайте»</string>
+    <string name="breathing_resonant_hint">Закройте глаза. Ощущайте мягкие импульсы — они усиливаются на вдохе и стихают на выдохе, как тихое сердцебиение.</string>
+    <string name="breathing_banner_action">Начать</string>
+    <string name="breathing_phase_inhale">Вдох…</string>
+    <string name="breathing_phase_hold">Задержка дыхания</string>
+    <string name="breathing_phase_exhale">Выдох…</string>
+    <string name="breathing_completion_ready">Спокойствие внутри</string>
+    <string name="breathing_completion_subtitle">Вы готовы встретиться со своими мыслями без суеты.</string>
+
+    <string name="breathing_section_title">Дыхательный мост</string>
+    <string name="breathing_section_subtitle">Вечерний ритуал перед дневником</string>
+    <string name="breathing_pattern_label">Режим дыхания</string>
+    <string name="breathing_pattern_resonant_title">Резонансное</string>
+    <string name="breathing_pattern_resonant_detail">6 вд/мин · вдох и выдох по 5 сек</string>
+    <string name="breathing_pattern_box_title">Классический квадрат</string>
+    <string name="breathing_pattern_box_detail">4-4-4-4 · вдох, задержка, выдох, пауза</string>
+    <string name="breathing_haptic_label">Тактильное ведение</string>
+    <string name="breathing_haptic_summary">Отдельные импульсы: нарастают на вдохе и стихают на выдохе — без непрерывного жужжания</string>
+    <string name="breathing_haptic_intensity_label">Сила резонансного режима</string>
+    <string name="breathing_haptic_intensity_summary">«Мягко» — тихие импульсы, как сердцебиение. На классический квадрат не влияет.</string>
+    <string name="breathing_haptic_intensity_gentle">Мягко</string>
+    <string name="breathing_haptic_intensity_moderate">Умеренно</string>
+    <string name="breathing_cycle_count_label">Циклов за сессию</string>
+    <string name="breathing_cycle_count_option">%1$d циклов</string>
+    <string name="cd_breathing_ritual">Настройки дыхательного ритуала</string>
+
+    <!-- Блок 1: Аффективный лейблинг -->
+    <string name="affective_question">С каким чувством вы завершаете день?</string>
+
+    <!-- Блок 2: Кристаллизация усилий -->
+    <string name="micro_wins_title">Микро-победы дня</string>
+    <string name="micro_wins_hint">Что сегодня получилось, даже если это мелочь?</string>
+
+    <!-- Блок 3: Экстернализация задач -->
+    <string name="tasks_title">Фокус на завтра</string>
+    <string name="tasks_hint">1–3 строки, не больше. Освободите голову — лист помнит за вас.</string>
+    <string name="tasks_limit_hint">До %1$d строк</string>
+
+    <!-- Блок 4: Промпт дня -->
+    <string name="prompt_title">Вопрос дня</string>
+    <string name="prompt_reshuffle">Дать другой</string>
+    <string name="reflection_hint">Запишите мысль, если она пришла…</string>
+
+    <!-- Действия -->
+    <string name="action_save">Завершить день</string>
+    <string name="action_save_general">Сохранить</string>
+    <string name="ai_thinking">ИИ-наставник формирует отклик…</string>
+    <string name="ai_response_title">Отклик наставника</string>
+    <string name="ai_mentor_request">Получить отклик</string>
+    <string name="ai_mentor_refresh">Обновить отклик</string>
+    <string name="ai_mentor_hint_no_tags">Выберите тег состояния — затем можно попросить отклик наставника.</string>
+    <string name="ai_mentor_hint_request">Нажмите, когда будете готовы — отклик сформируется локально на устройстве.</string>
+
+    <!-- Статус локального ИИ (chip на Journal и Chat) -->
+    <string name="ai_status_local_model">ИИ-модель активна</string>
+    <string name="ai_status_model_offline">ИИ-модель не активна</string>
+    <string name="ai_status_fallback">ИИ в режиме ожидания</string>
+    <string name="ai_status_warming">ИИ-модель подключается</string>
+    <string name="ai_thinking_local">ИИ-наставник формирует отклик…</string>
+    <string name="ai_thinking_offline">Подбираем отклик…</string>
+    <string name="ai_status_dialog_title">Локальный ИИ-наставник</string>
+    <string name="ai_status_dialog_button_settings">Настройки ИИ</string>
+    <string name="ai_status_dialog_ready">Модель Gemma полностью подготовлена и запущена в оперативной памяти вашего устройства.\n\nВсе вычисления и отклики формируются 100% локально — без интернета и серверов.</string>
+    <string name="ai_status_dialog_warming">Модель подключается: сейчас идет фоновая загрузка весов ИИ-модели в оперативную память. Это занимает около 30 секунд. Пожалуйста, подождите.</string>
+    <string name="ai_status_dialog_offline">Локальная модель не активна.\n\nОтклики ментора будут формироваться на основе встроенных эмпатичных шаблонов, а чат будет недоступен.\n\nЧтобы использовать весь потенциал ИИ, скачайте и подключите файл модели Gemma в Настройках.</string>
+    <string name="ai_status_dialog_fallback">Локальная модель подключена, но находится в «режиме ожидания» для экономии батареи и оперативной памяти.\n\nОна автоматически запустится и прогреется (около 30 секунд), как только вы воспользуетесь ИИ-функциями: нажмете кнопку «Получить отклик» или откроете чат.</string>
+
+    <!-- Защита: биометрия / системный код блокировки -->
+    <string name="security_section_title">Защита</string>
+    <string name="security_lock_switch">Разблокировка при запуске</string>
+    <string name="security_lock_subtitle">Биометрия или код блокировки экрана — данные не покидают устройство, но никто кроме вас не откроет дневник.</string>
+    <string name="security_lock_unavailable">Чтобы включить, настройте отпечаток или код блокировки экрана в системных настройках устройства.</string>
+    <string name="security_haptic_switch">Тактильный отклик интерфейса</string>
+    <string name="security_haptic_subtitle">Мягкие микро-вибрации при выборе тегов настроения, переключении опций и сохранении — для физического ощущения весомости записей.</string>
+    <string name="screenshot_protection_switch">Оберегать экран от снимков и записи</string>
+    <string name="screenshot_protection_subtitle">Sanctum бережно скрывает ваши мысли от случайных скриншотов и записи экрана — так ваши записи останутся только вашими. Отключите эту защиту, если захотите сохранить памятный фрагмент для себя или поделиться им с тем, кому абсолютно доверяете.</string>
+    <string name="cd_screenshot_protection">Защита от скриншотов</string>
+
+    <!-- Auto-lock интервал -->
+    <string name="auto_lock_label">Через сколько после ухода в фон требовать разблокировку</string>
+    <string name="auto_lock_immediately">Сразу</string>
+    <string name="auto_lock_30_seconds">30 секунд</string>
+    <string name="auto_lock_1_minute">1 минута</string>
+    <string name="auto_lock_5_minutes">5 минут</string>
+
+    <!-- Lock-экран -->
+    <string name="lock_screen_title">Дневник защищён</string>
+    <string name="lock_screen_subtitle">Используйте биометрию или код блокировки экрана, чтобы продолжить.</string>
+    <string name="lock_screen_unlock_button">Разблокировать</string>
+
+    <!-- Заголовки системного BiometricPrompt -->
+    <string name="biometric_prompt_title">Санктум</string>
+    <string name="biometric_prompt_description">Подтвердите, что это вы — биометрией или кодом блокировки экрана.</string>
+
+    <!-- Перенос истории между устройствами (зашифрованный экспорт/импорт) -->
+    <string name="transfer_section_title">Перенос на другое устройство</string>
+    <string name="transfer_section_subtitle">Файл зашифрован паролем. Без облака — вы сами выбираете, куда сохранить, и сами переносите. Сохраните копию — так можно перенести дневник на другой телефон.</string>
+
+    <!-- Локальная БД недоступна (битый ключ / сбой на устройстве) -->
+    <string name="db_unavailable_title">Дневник на этом устройстве недоступен</string>
+    <string name="db_unavailable_body">Данные привязаны к этому телефону. Если вы меняли устройство или сбрасывали настройки — восстановите из файла копии. Иначе можно начать с чистого листа.</string>
+    <string name="db_unavailable_restore">Восстановить из файла</string>
+    <string name="db_unavailable_start_fresh">Начать заново</string>
+    <string name="transfer_export_button">Сохранить копию</string>
+    <string name="transfer_import_button">Восстановить из файла</string>
+
+    <!-- Диалог пароля -->
+    <string name="transfer_password_title_export">Зашифровать копию</string>
+    <string name="transfer_password_title_import">Введите пароль файла</string>
+    <string name="transfer_password_hint">Если забудете пароль — восстановить нельзя. Резервной копии в облаке нет, и в этом весь смысл.</string>
+    <string name="transfer_password_field_label">Пароль</string>
+    <string name="transfer_password_confirm_label">Повторите пароль</string>
+    <string name="transfer_password_mismatch">Пароли не совпадают</string>
+    <string name="transfer_password_save_button">Сохранить</string>
+    <string name="transfer_password_restore_button">Восстановить</string>
+    <string name="transfer_overwrite_checkbox">Перезаписать существующие записи</string>
+    <string name="transfer_cancel">Отмена</string>
+    <string name="transfer_in_progress">Шифруем…</string>
+
+    <!-- Результаты -->
+    <string name="transfer_success_export">Сохранено %1$d записей</string>
+    <string name="transfer_success_import">Импортировано %1$d, пропущено %2$d</string>
+    <string name="transfer_error_wrong_password">Неверный пароль или файл повреждён</string>
+    <string name="transfer_error_not_a_backup">Это не резервная копия Санктума</string>
+    <string name="transfer_error_unsupported_format">Файл создан в более новой версии Санктума</string>
+    <string name="transfer_error_io">Не удалось прочитать или записать файл</string>
+
+    <string name="vault_export_section_title">Экспорт для Obsidian / Markdown</string>
+    <string name="vault_export_section_subtitle">Дневник не заперт в приложении. Экспортируйте структурированный Markdown с YAML-метаданными для локальных баз знаний (Obsidian, Logseq).</string>
+    <string name="vault_export_button">Экспорт хранилища</string>
+    <string name="vault_import_button">Импорт из хранилища</string>
+    <string name="vault_export_include_weekly">Включить зеркала недель</string>
+    <string name="vault_export_include_manifesto">Включить личные ориентиры</string>
+    <string name="vault_export_encrypt">Защитить паролем (.sanctum-vault)</string>
+    <string name="vault_export_hint">Откройте ZIP и скопируйте папку journal/ в хранилище Obsidian. Зашифрованный архив нужно сначала расшифровать.</string>
+    <string name="vault_export_password_title">Зашифровать экспорт хранилища</string>
+    <string name="vault_import_password_title">Импорт хранилища</string>
+    <string name="vault_import_password_hint">Оставьте пароль пустым для незашифрованного .zip. Для .sanctum-vault пароль обязателен.</string>
+    <string name="vault_export_success">Экспортировано %1$d записей (%2$d зеркал недель)</string>
+    <string name="vault_import_success">Импортировано %1$d, пропущено %2$d</string>
+    <string name="vault_export_error_io">Не удалось прочитать или записать файл хранилища</string>
+    <string name="vault_import_error_not_vault">Это не экспорт хранилища Санктума</string>
+    <string name="vault_import_error_no_entries">В архиве не найдено записей дневника</string>
+    <string name="cd_vault_export">Экспорт хранилища Markdown</string>
+    <string name="cd_vault_import">Импорт хранилища Markdown</string>
+
+    <!-- Общие действия (используются в нескольких экранах) -->
+    <string name="action_back">Назад</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_retry">Попробовать снова</string>
+
+    <!-- Секция «ИИ-наставник» в Settings -->
+    <string name="model_section_title">ИИ-наставник</string>
+    <string name="model_section_subtitle_unattached">ИИ-модель не активна — отклики без локальной Gemma.</string>
+    <string name="model_section_subtitle_attached_template">Подключено: %1$s</string>
+    <string name="model_section_open_button">Выбрать модель</string>
+
+    <!-- Экран «Локальная модель» -->
+    <string name="model_screen_title">Локальная модель</string>
+
+    <!-- Инструкция о локальном ИИ -->
+    <string name="model_info_card_title">Как работает локальный ИИ?</string>
+    <string name="model_info_card_subtitle">О конфиденциальности, офлайн-режиме и батарее</string>
+    <string name="model_info_card_hide">Скрыть подробности</string>
+    <string name="model_info_card_show">Узнать больше</string>
+    <string name="model_info_autonomy_title">📦 Полная автономия</string>
+    <string name="model_info_autonomy_text">Локальная модель — это полноценная нейросеть от Google (Gemma), которая физически копируется в память вашего телефона. В отличие от стандартных ИИ, у Санктума нет серверов, лимитов на запросы и скрытых подписок.</string>
+    <string name="model_info_privacy_title">🔒 100% конфиденциальность</string>
+    <string name="model_info_privacy_text">Так как все вычисления происходят прямо на процессоре вашего устройства, ваши мысли и рефлексии никогда не покинут телефон. У Санктума физически отсутствует разрешение на доступ к интернету — ваши данные защищены на уровне системы.</string>
+    <string name="model_info_battery_title">⚡ Спящий режим</string>
+    <string name="model_info_battery_text">Модель работает только тогда, когда вы запрашиваете отклик или открываете чат. В остальное время она находится в режиме ожидания, не расходуя оперативную память и заряд батареи.</string>
+    <string name="model_variant_recommended_subtitle">Рекомендуем по умолчанию</string>
+    <string name="model_variant_advanced_subtitle">Для мощных устройств</string>
+    <string name="model_variant_size_template">Размер файла: %1$s</string>
+    <string name="model_variant_ram_template">Требуется: %1$s</string>
+    <string name="model_variant_ram_value">≥ %1$d ГБ ОЗУ</string>
+    <string name="model_variant_latency_template">Ответ: %1$s после прогрева</string>
+    <string name="model_variant_latency_value">%1$d–%2$d сек</string>
+
+    <!-- Раскрываемая инструкция «Где взять файл?» -->
+    <string name="model_sources_block_title">Где взять файл?</string>
+    <string name="model_sources_block_collapse">Скрыть инструкцию</string>
+    <string name="model_sources_intro">Файл публичный, лицензия Apache-2.0. Скачается напрямую с серверов Hugging Face через ваш браузер. После скачивания вернитесь сюда и нажмите кнопку подключения.</string>
+    <string name="model_sources_open_hf">Открыть HuggingFace</string>
+
+    <!-- Подключение файла -->
+    <string name="model_attach_button">Подключить файл</string>
+    <string name="model_attaching_card_title">Подключаем модель</string>
+    <string name="model_attaching_copying">Копируем файл на устройство…</string>
+    <string name="model_attaching_verifying">Проверяем целостность файла…</string>
+    <string name="model_attach_success_template">Модель %1$s подключена.</string>
+    <string name="model_attach_fail_sha">Файл не прошёл проверку целостности. Скачайте заново.</string>
+    <string name="model_attach_fail_io">Не удалось прочитать файл. Попробуйте снова.</string>
+
+    <!-- Карточка «подключено» -->
+    <string name="model_attached_card_title">Модель подключена</string>
+    <string name="model_attached_size_template">Размер: %1$s</string>
+    <string name="model_attached_at_template">Подключена: %1$s</string>
+    <string name="model_replace_button">Заменить</string>
+    <string name="model_detach_button">Удалить</string>
+
+    <!-- Диалог отключения -->
+    <string name="model_detach_confirm_title">Удалить модель?</string>
+    <string name="model_detach_confirm_text">Файл будет удалён с устройства. Подключить заново можно в любой момент.</string>
+    <string name="model_detach_confirm_button">Удалить</string>
+
+    <!-- Аппаратный бэкенд (GPU/CPU) — Sub-PR #3c -->
+    <string name="model_backend_section_title">Ускорение</string>
+    <string name="model_backend_gpu_label">GPU</string>
+    <string name="model_backend_cpu_label">CPU</string>
+    <string name="model_backend_description">GPU быстрее на современных устройствах. CPU работает везде. Если ИИ-наставник отвечает медленнее обычного — попробуйте другой режим.</string>
+
+    <!-- Бутстрап-экран прогрева модели — Sub-PR #4 -->
+    <string name="bootstrap_preparing_title">Сонастраиваемся с локальным ИИ-наставником…</string>
+    <string name="bootstrap_preparing_subtitle">Это займёт около тридцати секунд. Можно подождать здесь.</string>
+    <string name="bootstrap_failed_subtitle">Локальная модель не активна. Отклики будут упрощёнными — день можно записывать как обычно.</string>
+
+    <!-- Чат с ИИ (local-first) -->
+    <string name="chat_screen_title">Чат</string>
+    <string name="chat_privacy_chip">Только на устройстве</string>
+    <string name="chat_privacy_short">Локально</string>
+    <string name="chat_context_label">Контекст: %1$d%%</string>
+    <string name="chat_context_full">Контекст заполнен — очистите или сожмите чат, чтобы продолжить</string>
+    <string name="chat_compact">Сжать контекст</string>
+    <string name="chat_compact_confirm_title">Сжать историю беседы?</string>
+    <string name="chat_compact_confirm_text">Старые сообщения будут сжаты ИИ в краткое начальное воспоминание, чтобы освободить место. Это действие нельзя отменить.</string>
+    <string name="chat_compact_success">Контекст успешно сжат!</string>
+    <string name="chat_compact_error">Не удалось сжать контекст.</string>
+    <string name="chat_input_hint">Напишите что угодно…</string>
+    <string name="chat_send">Отправить</string>
+    <string name="chat_clear">Очистить чат</string>
+    <string name="chat_clear_confirm_title">Очистить переписку?</string>
+    <string name="chat_clear_confirm_text">Все сообщения чата будут удалены с устройства. Это нельзя отменить.</string>
+    <string name="chat_clear_confirm_button">Очистить</string>
+    <string name="chat_persona_title">Стиль собеседника</string>
+    <string name="chat_journal_context_switch">Учитывать дневник</string>
+    <string name="chat_journal_days_1">1 день</string>
+    <string name="chat_journal_days_3">3 дня</string>
+    <string name="chat_journal_days_7">7 дней</string>
+    <string name="chat_typing">Собеседник печатает…</string>
+    <string name="chat_empty_hint">Здесь можно поговорить на любую тему. Ничего не уходит с телефона.</string>
+    <string name="chat_empty_hint_gentle_mentor">Я здесь, чтобы бережно выслушать ваши переживания и помочь заземлиться…</string>
+    <string name="chat_empty_hint_experienced_friend">Задайте мне сложный вопрос или расскажите о ситуации, в которой хотите разобраться…</string>
+    <string name="chat_empty_hint_supportive_coach">Поделитесь задачей или трудностью — мы разберем её на понятные факты и действия…</string>
+    <string name="chat_empty_hint_free_dialog">Выговоритесь обо всём, что накопилось. Я просто буду рядом…</string>
+    <string name="chat_disclaimer_title">Перед началом</string>
+    <string name="chat_disclaimer_body">ИИ-собеседник не заменяет врача, психиатра или психотерапевта, не ставит диагнозы и не оказывает медицинскую или экстренную психологическую помощь. При кризисных ситуациях или мыслях о причинении вреда себе, пожалуйста, обратитесь к профессионалам или на горячие линии поддержки: 112 (экстренные службы), 8-800-200-01-22 (телефон доверия). Переписка является конфиденциальной, шифруется и хранится только на этом устройстве.</string>
+    <string name="chat_disclaimer_checkbox">Я это понимаю</string>
+    <string name="chat_disclaimer_continue">Продолжить</string>
+    <string name="chat_cancel">Отмена</string>
+    <string name="chat_model_standby_info">Локальная модель подключена, но пока не активна — так экономится батарея. Отправьте сообщение, и она автоматически подгрузится (около 30 секунд).</string>
+    <string name="chat_model_offline_info">Локальная ИИ-модель не подключена. Ответы будут на основе встроенных шаблонов, пока вы не подключите модель Gemma.</string>
+    <string name="chat_model_inactive_action">Подключить модель в Настройках →</string>
+
+    <!-- TalkBack: иконки в Settings / Backup / Journal -->
+    <string name="cd_privacy_local_only">Все данные хранятся локально, без интернета</string>
+    <string name="cd_privacy_offline_icon">Без интернета</string>
+    <string name="cd_reshuffle_prompt">Дать другой вопрос дня</string>
+    <string name="cd_open_model_settings">Открыть настройки локальной модели</string>
+    <string name="cd_navigate_forward">Перейти</string>
+    <string name="cd_security_lock">Разблокировка при запуске</string>
+    <string name="cd_privacy_on_device">Все данные хранятся на устройстве</string>
+    <string name="cd_wipe_all_history">Стереть всю историю</string>
+    <string name="cd_backup_export">Сохранить зашифрованную копию</string>
+    <string name="cd_backup_import">Восстановить из файла</string>
+    <string name="cd_mentor_ai_icon">Отклик ИИ-наставника</string>
+
+    <!-- Недельная картинка (D2) -->
+    <string name="weekly_trend_title">Зеркало недели</string>
+    <string name="weekly_trend_subtitle">Мягкое отражение последних дней — только на этом устройстве.</string>
+    <string name="weekly_trend_need_more_entries">Нужно не меньше 3 сохранённых записей за последние 7 дней для составления зеркала недели.</string>
+    <string name="weekly_trend_hint_request">Когда будете готовы — попросите мягкое зеркало последних дней.</string>
+    <string name="weekly_trend_request">Посмотреть зеркало недели</string>
+    <string name="weekly_trend_refresh">Обновить зеркало недели</string>
+    <string name="weekly_trend_building_local">Формируем зеркало недели…</string>
+    <string name="weekly_trend_building_offline">Формируем зеркало недели…</string>
+    <string name="weekly_trend_build_error">Не удалось получить зеркало недели. Попробуйте ещё раз.</string>
+    <string name="cd_weekly_trend_action">Посмотреть или обновить зеркало недели</string>
+
+    <!-- Кастомное поле на «Сегодня» -->
+    <string name="custom_journal_field_section_title">Своё поле в дневнике</string>
+    <string name="custom_journal_field_section_subtitle">Добавьте свой вопрос на вкладке «Сегодня» — между фокусом на завтра и вопросом дня.</string>
+    <string name="custom_journal_field_switch">Показывать своё поле на «Сегодня»</string>
+    <string name="custom_journal_field_question_label">Ваш вопрос</string>
+    <string name="custom_journal_field_question_placeholder">Например: За что я благодарен сегодня?</string>
+    <string name="custom_journal_field_hint_label">Подсказка в поле (необязательно)</string>
+    <string name="custom_journal_field_hint_placeholder">Показывается в пустом поле как мягкая подсказка</string>
+    <string name="custom_journal_field_question_required">Сначала введите вопрос выше, затем включите переключатель.</string>
+    <string name="custom_field_answer_placeholder">Ваш ответ…</string>
+
+    <!-- Empathic-подсказка под «Фокус на завтра» -->
+    <string name="tomorrow_tasks_empathic_hint">Лучше начать с малого — мозг проще берётся за конкретное.</string>
+    <string name="journal_tasks_limit_warning">Фокус ограничен тремя строками, чтобы вы могли спокойно отдохнуть. Лишние строки не сохранятся.</string>
+
+    <!-- Оформление -->
+    <string name="appearance_section_title">Оформление</string>
+    <string name="appearance_section_subtitle">По умолчанию тёмная тема. Светлая — для дневного использования.</string>
+    <string name="appearance_theme_label">Тема</string>
+    <string name="appearance_theme_dark">Тёмная</string>
+    <string name="appearance_theme_light">Светлая</string>
+    <string name="cd_appearance_theme">Выбор темы оформления</string>
+
+    <!-- Язык -->
+    <string name="language_section_title">Язык</string>
+    <string name="language_section_subtitle">Интерфейс и тексты локального ИИ. По умолчанию — как в системе.</string>
+    <string name="language_label">Язык приложения</string>
+    <string name="language_system">Как в системе</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">English</string>
+    <string name="cd_app_language">Выбор языка приложения</string>
+
+    <!-- Нижняя навигация -->
+    <string name="nav_today">Сегодня</string>
+    <string name="nav_history">История</string>
+    <string name="nav_chat">Чат</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- Настройки: заголовок и приватность -->
+    <string name="settings_screen_title">Настройки</string>
+    <string name="settings_manifesto_line1">Бесплатно. Без метрик. Без уведомлений.</string>
+    <string name="settings_manifesto_line2">Никаких подписок, геймификации и суеты.</string>
+    <string name="settings_manifesto_line3">Дневник, который ничего от вас не требует.</string>
+    <string name="settings_hub_privacy_title">Приватность и безопасность</string>
+    <string name="settings_privacy_policy">Политика конфиденциальности</string>
+    <string name="settings_hub_privacy_lock_on">Защита входа активна · %1$s</string>
+    <string name="settings_hub_privacy_lock_off">Защита входа выключена</string>
+    <string name="settings_hub_privacy_screenshot_on">Защита экрана активна</string>
+    <string name="settings_hub_privacy_screenshot_off">Экран открыт для снимков</string>
+    <string name="settings_hub_appearance_title">Оформление</string>
+    <string name="settings_hub_appearance_summary">%1$s · %2$s</string>
+    <string name="settings_hub_ritual_title">Вечерний ритуал</string>
+    <string name="settings_hub_ritual_summary">%1$s · %2$d циклов · %3$s</string>
+    <string name="settings_hub_ritual_custom_on">Своё поле включено</string>
+    <string name="settings_hub_ritual_custom_off">Своё поле выключено</string>
+    <string name="settings_hub_data_title">Данные</string>
+    <string name="settings_hub_data_summary">Шифрованная копия и экспорт Markdown</string>
+    <string name="privacy_section_title">Приватность</string>
+    <string name="privacy_section_subtitle">Никаких серверов. Никакого интернета. Шифрование базы данных AES-256 (SQLCipher).</string>
+    <string name="privacy_on_device">Все данные хранятся на устройстве</string>
+    <string name="privacy_hide_details">Скрыть детали</string>
+    <string name="privacy_show_details">Что это значит технически</string>
+    <string name="privacy_details_body">• В манифесте отсутствует разрешение android.permission.INTERNET — приложение физически не может выйти в сеть.\n\n• База данных SQLite полностью зашифрована на лету с помощью SQLCipher (стандарт шифрования AES-256). Без пароля вашей разблокировки или ключа шифрования прочитать дневник невозможно, даже получив физический доступ к файлам телефона.\n\n• Автоматическое резервное копирование Android в Google Drive принудительно отключено (allowBackup=false). Ваши резервные копии создаются только вручную и хранятся там, куда вы сами их сохраните.\n\n• Дневник можно экспортировать в Markdown для Obsidian (YAML + .md в ZIP) или как зашифрованную копию для переноса — оба варианта через системный выбор файла, без облака.\n\n• Локальный ИИ (Gemma) подключается вручную через системный выбор файлов. Файл модели остаётся на устройстве и никуда не передаётся.\n\n• Разрешения системы (обычные, без доступа к записям дневника): вибрация — только если включена тактильная отдача в дыхательном мосту; биометрия или PIN — только для блокировки приложения по вашему выбору (Санктум не хранит отпечаток, решение принимает Android); фоновые задачи — служебный прогрев локальной модели ИИ (WorkManager), без сети и без push-уведомлений.\n\n• Приложение не содержит рекламных и аналитических SDK и не занимается скрытым трекингом.</string>
+    <string name="settings_wipe_completed">История стёрта. Можно начать заново.</string>
+    <string name="settings_wipe_confirm_word">стереть</string>
+    <string name="settings_wipe_error">Не удалось стереть данные</string>
+    <string name="settings_wipe_final_title">Подтвердите стирание</string>
+    <string name="settings_wipe_final_hint">Введите слово «%1$s», чтобы подтвердить полную очистку.</string>
+    <string name="settings_wipe_confirm_action">Стереть всё</string>
+
+    <!-- История: детали записи -->
+    <string name="entry_detail_prompt_section">Вопрос дня</string>
+
+    <!-- Чат: персоны (отображение) -->
+    <string name="chat_persona_gentle_mentor">Бережный проводник</string>
+    <string name="chat_persona_experienced_friend">Честное зеркало</string>
+    <string name="chat_persona_supportive_coach">Реалист-прагматик</string>
+    <string name="chat_persona_free_dialog">Тихий слушатель</string>
+
+    <!-- Настроения (чипы) -->
+    <string name="mood_calm">Спокойствие</string>
+    <string name="mood_joy">Радость</string>
+    <string name="mood_gratitude">Благодарность</string>
+    <string name="mood_focused">Сфокусированность</string>
+    <string name="mood_tired">Усталость</string>
+    <string name="mood_overwhelmed">Перегруз</string>
+    <string name="mood_anxiety">Тревога</string>
+    <string name="mood_sadness">Грусть</string>
+    <string name="mood_irritation">Раздражение</string>
+
+    <string name="action_done">Готово</string>
+    <string name="action_continue">Продолжить</string>
+    <string name="switch_on">Включено</string>
+    <string name="switch_off">Выключено</string>
+    <string name="action_understood">Понятно</string>
+
+    <string name="affective_subtitle">Можно выбрать сразу несколько. Шкал нет — только слова.</string>
+    <string name="journal_update_entry">Обновить запись</string>
+    <string name="journal_save_hint_no_tags">Выберите хотя бы один тег состояния — он задаст тон отклика.</string>
+    <string name="journal_saved_snackbar">День записан. Берегите себя.</string>
+    <string name="journal_saved_today_subtitle">Запись за сегодня сохранена</string>
+    <string name="journal_saved_past_day_subtitle">Запись за этот день сохранена</string>
+    <string name="journal_past_day_hint">Дописываете прошедший день</string>
+    <string name="journal_date_picker_confirm">Выбрать</string>
+    <string name="journal_date_picker_cancel">Отмена</string>
+    <string name="journal_privacy_dialog_title">Без интернета</string>
+    <string name="journal_privacy_dialog_body">Значок означает, что приложение работает только на этом устройстве. Записи, теги и ответы ИИ-наставника не уходят на серверы — у приложения нет разрешения выходить в сеть.\n\nПодробности можно посмотреть в разделе «Настройки → Приватность».</string>
+    <string name="journal_micro_wins_placeholder">Например: лечь вовремя без телефона, выпить норму воды, прогуляться 15 минут.</string>
+    <string name="journal_tasks_lines">Строк: %1$d/%2$d</string>
+    <string name="journal_save_error">Не удалось сохранить запись</string>
+    <string name="journal_bootstrap_error">Не удалось загрузить дневник. Записи в безопасности — попробуйте ещё раз.</string>
+    <string name="history_load_error">Не удалось загрузить историю. Попробуйте ещё раз.</string>
+    <string name="ai_mentor_beside_title">Я рядом</string>
+
+    <string name="history_subtitle">Без сравнения с другими. Только ваш путь.</string>
+    <string name="history_search_hint">Поиск по записям…</string>
+    <string name="history_search_empty">Ничего не найдено</string>
+    <string name="history_search_empty_title">Совпадений нет</string>
+    <string name="history_search_empty_body">Попробуйте другое слово — задачу, настроение или фразу из рефлексии.</string>
+    <string name="history_search_results_count">Найдено: %1$d</string>
+    <string name="cd_history_search">Поиск по истории</string>
+    <string name="cd_history_search_clear">Очистить поиск</string>
+    <string name="history_empty_title">Пока пусто</string>
+    <string name="history_empty_body">Первая запись появится здесь после того, как вы завершите вечер на главном экране.</string>
+
+    <string name="entry_detail_title_fallback">Запись</string>
+    <string name="entry_detail_not_found">Запись не найдена. Возможно, её только что удалили.</string>
+    <string name="entry_detail_mood_section">Состояние</string>
+    <string name="entry_detail_no_tags">Без тегов</string>
+    <string name="entry_detail_no_reflection">Без рефлексии</string>
+    <string name="entry_detail_delete_button">Удалить запись</string>
+    <string name="entry_detail_delete_first_title">Удалить запись?</string>
+    <string name="entry_detail_delete_first_body">После удаления запись нельзя восстановить — у приложения нет облака. Это часть приватности, но решайте взвешенно.</string>
+    <string name="entry_detail_delete_confirm_word">удалить</string>
+    <string name="entry_detail_delete_final_title">Подтвердите удаление</string>
+    <string name="entry_detail_delete_final_hint">Введите слово «%1$s», чтобы подтвердить. Это финальный шаг — потом записи не будет.</string>
+    <string name="entry_detail_delete_confirm_action">Удалить</string>
+    <string name="entry_detail_delete_error">Не удалось удалить запись</string>
+
+    <string name="danger_zone_title">Опасная зона</string>
+    <string name="danger_zone_subtitle">Действия здесь необратимы — у нас нет облака, в которое можно вернуться.</string>
+    <string name="settings_wipe_all_button">Стереть всю историю</string>
+    <string name="settings_wipe_first_title">Стереть всю историю?</string>
+    <string name="settings_wipe_first_body">Это удалит все ваши записи и ИИ-профиль ментальных трендов. Восстановить будет нельзя — у приложения нет облачной резервной копии, и в этом весь смысл.</string>
+    <string name="settings_wipe_action">Стереть</string>
+
+    <!-- Философия и руководство -->
+    <string name="philosophy_card_title">Философия и методология</string>
+    <string name="philosophy_card_subtitle">О научных основах приложения и практическом руководстве</string>
+    <string name="philosophy_dialog_title">Философия и методология</string>
+    
+    <string name="philosophy_section_philosophy_title">1. Наша философия: Вечерний ритуал</string>
+    <string name="philosophy_section_philosophy_body">«Санктум» создан не для продуктивности, гонки за достижениями или накопления статистики. Это ваше тихое вечернее убежище. Место, где можно выдохнуть, замедлиться и бережно оставить прошедший день позади.</string>
+    
+    <string name="philosophy_section_science_title">2. Методология: Почему это работает</string>
+    <string name="philosophy_section_science_body">Каждая функция приложения опирается на принципы доказанной психотерапии (КПТ (когнитивно-поведенческая терапия), ACT (терапия принятия и ответственности), Осознанность):\n\n• **Аффективный лейблинг (Теги настроения)** — называние своих чувств снижает активность амигдалы (центра тревоги) в мозге. Это возвращает ощущение контроля перед сном.\n• **Когнитивная разгрузка (Фокус на завтра)** — выгрузка задач на завтра в короткий список (лимит в 3 строки) освобождает рабочую память. Мозг понимает, что дела «зафиксированы», нейтрализуя тревожный эффект Зейгарник. Это ускоряет засыпание в среднем на 9 минут.\n• **Соматический мост (Дыхательный мост)** — около 60 секунд резонансного дыхания (6 вдохов в минуту: 5 с вдох, 5 с выдох) с тактильным ведением переключают тело в парасимпатический режим отдыха. Классическое квадратное дыхание (4-4-4-4) доступно в настройках.</string>
+    
+    <string name="philosophy_section_privacy_title">3. Абсолютная приватность</string>
+    <string name="philosophy_section_privacy_body">Ваши мысли — только ваши. В Санктуме нет серверов, аналитики и облачных резервных копий. Локальный ИИ-наставник Gemma работает на 100% внутри вашего устройства, не отправляя в сеть ни единого байта. Вы можете быть абсолютно искренни.</string>
+    
+    <string name="philosophy_section_guide_title">4. Практическое руководство</string>
+    <string name="philosophy_section_guide_body">**Оптимальный вечерний ритуал (Рекомендуемый порядок):**\n\n1. **Начните с дыхания**: Нажмите «Начать» на панели «Дыхательный мост». Закройте глаза и дышите по мягким тактильным сигналам, чтобы успокоить тело.\n2. **Примите свои чувства**: Отметьте теги эмоций, с которыми завершаете день. Без оценок и суждений.\n3. **Освободите голову**: Напишите 1–3 задачи на завтра. Почувствуйте, как мысли выходят из головы на лист.\n4. **Зафиксируйте ресурс**: Напишите микро-победы дня (если день был тяжелым и вы выбрали негативные теги — этот блок скроется, чтобы не вызывать давления).\n5. **Оставьте мысль**: Ответьте на вопрос дня или напишите рефлексию.\n6. **Получите отклик**: Завершите день и прочитайте бережный, неклишированный отклик локального наставника.\n\n**Функции чата:**\n\n• **Смена характеров** — выберите подходящий архетип (Бережный проводник для принятия, Честное зеркало для Сократовского диалога, Реалист-прагматик для заземления или Тихий слушатель, чтобы выговориться).\n• **Связь с дневником** — включите опцию «Учитывать дневник», чтобы ИИ-собеседник помнил контекст ваших последних дней и вам не приходилось описывать всё заново.</string>
+
+    <!-- Feature 5. Time Echo -->
+    <string name="time_echo_title">Год назад вы писали:</string>
+    <string name="time_echo_date_caption">%1$s</string>
+    <string name="time_echo_dismiss_cd">Скрыть</string>
+
+    <!-- Feature 2. Short Evening -->
+    <string name="ritual_short_banner_title">Сегодня короткий вечер</string>
+    <string name="ritual_short_banner_subtitle">Тяжёлая неделя. Достаточно одного тега и пары слов, если хочется. Не обязательно.</string>
+    <string name="ritual_short_expand">Развернуть полный ритуал</string>
+    <string name="ritual_short_save">Закрыть вечер</string>
+
+    <!-- Feature 1. Glance AppWidget -->
+    <string name="widget_yesterday_title">Вы писали вчера</string>
+    <string name="widget_no_recent">За последние сутки записей нет. Это нормально.</string>
+    <string name="widget_empty_state">Санктум — приватное пространство для вечерней рефлексии</string>
+    <string name="widget_preview_toggle">Показывать превью содержимого в виджете</string>
+    <string name="widget_preview_subtitle">По умолчанию выключено. Когда включено, виджет показывает первые 80 символов вчерашней записи. Учитывайте, кто видит ваш домашний экран.</string>
+    <string name="cd_expand">Развернуть</string>
+    <string name="cd_collapse">Свернуть</string>
+</resources>

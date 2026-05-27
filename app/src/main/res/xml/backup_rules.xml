@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Local-First privacy: ничего не выгружаем в Google Drive auto-backup.
+    Все сокровенные записи и AI-профиль ментальных трендов остаются только
+    на устройстве (allowBackup=false на уровне манифеста — это страховка).
+
+    `<exclude domain="file" path="." />` уже покрывает всю `filesDir/`,
+    включая `models/` (файлы Gemma 4 размером 2.6–3.7 GB). Явная вторая
+    строчка про `models/` оставлена документирующим маркером: если кто-то
+    в будущем сузит wildcard до конкретных подпапок, исключение модели
+    из бэкапа должно остаться обязательно — за это отвечает та же строка
+    в `data_extraction_rules.xml`.
+-->
+<full-backup-content>
+    <exclude domain="database" path="." />
+    <exclude domain="sharedpref" path="." />
+    <exclude domain="file" path="." />
+    <exclude domain="file" path="models/" />
+</full-backup-content>

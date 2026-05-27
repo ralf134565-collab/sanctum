@@ -1,0 +1,27 @@
+name: Security vulnerability report
+description: Guidelines on how to report a security vulnerability privately
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🛡️ Security Vulnerability Reporting Guidelines
+
+        Thank you for helping us keep Sanctum safe! Because Sanctum is built on strong privacy guarantees (offline-first, SQLCipher, KeyStore), we ask that you **DO NOT** post any security vulnerabilities or potential cryptographic leaks publicly.
+
+        Opening a public issue regarding a security weakness puts actual user journals and private data at risk.
+
+        ### 🔍 How to report a security issue privately:
+
+        Please do **not** submit this form. Instead, send a detailed email to **ralf.134565@gmail.com**.
+
+        In your email, please include:
+        1. **Description**: A clear description of the vulnerability (e.g., side-channel leak, cryptographic flaw, memory leak containing sensitive data, bypass of the biometric gate).
+        2. **Steps to Reproduce**: Detailed steps or a minimal Proof of Concept (PoC) code/script showing how to trigger the issue.
+        3. **Impact**: Your assessment of the severity and what an attacker with local device access could achieve.
+        4. **Environment**: App version, Android version, device model, and hardware details (whether TEE/StrongBox is present).
+
+        ### 🤝 Our commitment to you:
+        - We will confirm receipt of your report within **48 hours**.
+        - We will keep you updated as we investigate and develop a security patch.
+        - We will coordinate a private release and publish a security update.
+        - We will credit you for your responsible disclosure in our release notes (unless you prefer to remain anonymous).

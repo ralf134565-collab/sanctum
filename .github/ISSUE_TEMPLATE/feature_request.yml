@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest an idea or enhancement for Sanctum
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We love listening to user suggestions!
+        Please remember that Sanctum is **fully offline and local-first**. Any feature that requires internet access, external APIs, cloud synchronization, or sharing data with servers is fundamentally out of scope.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what the problem is.
+      placeholder: E.g., I'm always frustrated when I want to choose a customized breathing cycle...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+      placeholder: E.g., I would like a settings option to choose between Box Breathing (4-4-4-4) and Calm Breathing (4-7-8)...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: Any alternative solutions or features you've considered.
+      placeholder: E.g., Keeping a manual timer outside the app...
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.

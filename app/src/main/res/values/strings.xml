@@ -1,0 +1,454 @@
+<resources>
+    <string name="app_name">Sanctum</string>
+    <string name="store_title">Sanctum: Local Mind Vault</string>
+
+    <string name="screen_title">End of day</string>
+    <string name="screen_subtitle">Quiet, without judgment. Just for you.</string>
+
+    <string name="manifesto_title">Personal Landmarks</string>
+    <string name="manifesto_hint">Write down your long-term focuses, boundaries, and personal landmarks here. For example: "I tend to overwork", "after 9:00 PM my phone is away".</string>
+    <string name="manifesto_placeholder">Tap to write down your important landmarks, habits, long-term intentions, or boundaries...</string>
+    <string name="manifesto_edit_title">Edit Landmarks</string>
+    <string name="manifesto_saved_snackbar">Landmarks saved</string>
+    <string name="manifesto_card_teaser">Write your personal landmarks — boundaries, habits, intentions.</string>
+    <string name="manifesto_card_configured">Landmarks saved — open to edit or adjust context</string>
+    <string name="manifesto_include_mentor">Include in mentor response</string>
+    <string name="manifesto_include_weekly">Include in weekly mirror</string>
+    <string name="manifesto_context_title">AI context</string>
+    <string name="chat_manifesto_context_switch">Consider landmarks</string>
+    <string name="support_section_title">Sanctum stays independent thanks to you</string>
+    <string name="support_why_free">Why are there no ads or subscriptions in Sanctum?</string>
+    <string name="support_section_body">Most apps today make money by selling your attention and personal data. Sanctum is built differently: there are no investors, metrics, or hidden trackers here.\n\nSince the journal is completely local and runs without servers, we don\'t have massive cloud infrastructure bills. Every donation goes directly to the creator of the project — providing the author with the financial opportunity not only to polish Sanctum and refine the local AI, but also to bring new ideas to life: building other honest, gentle, and helpful tools designed to help people manage anxiety and find balance in a busy world.\n\nDonating to Sanctum is not about buying features; it\'s your personal contribution to protecting an independent space and supporting the future of honest tools that ask nothing of you in return.</string>
+    <string name="support_learn_how">Learn how to support</string>
+    <string name="support_github">Source code (GitHub)</string>
+    <string name="support_open_url_error">Could not open link. Install a browser or try again.</string>
+
+    <string name="breathing_banner_title">Breathing Bridge</string>
+    <string name="breathing_banner_subtitle">Slow down your thoughts and body before reflection (~%1$d min)</string>
+    <string name="breathing_banner_hint">"Breathe at a comfortable pace. If holding your breath feels difficult, skip the holds and simply inhale and exhale smoothly."</string>
+    <string name="breathing_resonant_hint">Close your eyes. Feel the soft pulses — they grow on inhale and fade on exhale, like a quiet heartbeat.</string>
+    <string name="breathing_banner_action">Start</string>
+    <string name="breathing_phase_inhale">Inhale…</string>
+    <string name="breathing_phase_hold">Hold breath</string>
+    <string name="breathing_phase_exhale">Exhale…</string>
+    <string name="breathing_completion_ready">Calmness within</string>
+    <string name="breathing_completion_subtitle">You are ready to meet your thoughts without rush.</string>
+
+    <string name="breathing_section_title">Breathing Bridge</string>
+    <string name="breathing_section_subtitle">Evening ritual before journaling</string>
+    <string name="breathing_pattern_label">Breathing mode</string>
+    <string name="breathing_pattern_resonant_title">Resonant</string>
+    <string name="breathing_pattern_resonant_detail">6 bpm · 5s inhale, 5s exhale</string>
+    <string name="breathing_pattern_box_title">Classic box</string>
+    <string name="breathing_pattern_box_detail">4-4-4-4 · inhale, hold, exhale, hold</string>
+    <string name="breathing_haptic_label">Haptic guide</string>
+    <string name="breathing_haptic_summary">Discrete pulses that rise on inhale and fade on exhale — not a continuous buzz</string>
+    <string name="breathing_haptic_intensity_label">Resonant intensity</string>
+    <string name="breathing_haptic_intensity_summary">Gentle mode uses soft heartbeat-like pulses. Does not affect classic box mode.</string>
+    <string name="breathing_haptic_intensity_gentle">Gentle</string>
+    <string name="breathing_haptic_intensity_moderate">Moderate</string>
+    <string name="breathing_cycle_count_label">Cycles per session</string>
+    <string name="breathing_cycle_count_option">%1$d cycles</string>
+    <string name="cd_breathing_ritual">Breathing ritual settings</string>
+
+    <string name="affective_question">How are you feeling as this day ends?</string>
+
+    <string name="micro_wins_title">Micro-wins of the day</string>
+    <string name="micro_wins_hint">What worked out today, even if it was small?</string>
+
+    <string name="tasks_title">Tomorrow focus</string>
+    <string name="tasks_hint">1–3 lines, no more. Free your mind — the list remembers for you.</string>
+    <string name="tasks_limit_hint">Up to %1$d lines</string>
+
+    <string name="prompt_title">Daily question</string>
+    <string name="prompt_reshuffle">Explore another</string>
+    <string name="reflection_hint">Write a thought if one came…</string>
+
+    <string name="action_save">Finish the day</string>
+    <string name="action_save_general">Save</string>
+    <string name="ai_thinking">AI mentor is reflecting on your day…</string>
+    <string name="ai_response_title">Mentor response</string>
+    <string name="ai_mentor_request">Get a response</string>
+    <string name="ai_mentor_refresh">Refresh response</string>
+    <string name="ai_mentor_hint_no_tags">Choose a mood tag — then you can ask the mentor for a response.</string>
+    <string name="ai_mentor_hint_request">Tap when you are ready — the response is generated locally on your device.</string>
+    
+    <string name="ai_status_local_model">AI model active</string>
+    <string name="ai_status_model_offline">AI model inactive</string>
+    <string name="ai_status_fallback">AI on standby</string>
+    <string name="ai_status_warming">AI model warming up…</string>
+    <string name="ai_thinking_local">AI mentor is reflecting on your day…</string>
+    <string name="ai_thinking_offline">Reflecting on your day…</string>
+    <string name="ai_status_dialog_title">Local AI Mentor</string>
+    <string name="ai_status_dialog_button_settings">AI Settings</string>
+    <string name="ai_status_dialog_ready">The Gemma model is fully prepared and active in your device\'s RAM.\n\nAll calculations and reflections are generated 100% locally — with no servers or internet required.</string>
+    <string name="ai_status_dialog_warming">The model is connecting: we are currently loading the AI model\'s weights into RAM. This takes about 30 seconds. Please wait.</string>
+    <string name="ai_status_dialog_offline">Local model is inactive.\n\nMentor reflections will be based on built-in empathetic templates, and chat will be unavailable.\n\nTo unlock the full potential of AI, download and attach the Gemma model file in Settings.</string>
+    <string name="ai_status_dialog_fallback">The local model is connected but is currently in "standby mode" to save battery and RAM.\n\nIt will automatically start and warm up (taking about 30 seconds) as soon as you activate any AI features, such as requesting a mentor\'s reflection or opening the chat.</string>
+
+    <string name="security_section_title">Protection</string>
+    <string name="security_lock_switch">Unlock on launch</string>
+    <string name="security_lock_subtitle">Biometrics or screen lock — data never leaves the device, but only you can open the journal.</string>
+    <string name="security_lock_unavailable">To enable this, set up a fingerprint or screen lock in system settings.</string>
+    <string name="security_haptic_switch">Interface haptic feedback</string>
+    <string name="security_haptic_subtitle">Gentle micro-vibrations when toggling mood tags, switching options, and saving — making entries feel physically tangible.</string>
+    <string name="screenshot_protection_switch">Protect screen from screenshots and recording</string>
+    <string name="screenshot_protection_subtitle">Sanctum carefully hides your thoughts from accidental screenshots and screen recording — so your entries remain yours alone. Turn off this protection if you need to save a memorable fragment for yourself or share with someone you trust completely.</string>
+    <string name="cd_screenshot_protection">Screenshot protection</string>
+
+    <string name="auto_lock_label">Require unlock after being in background for</string>
+    <string name="auto_lock_immediately">Immediately</string>
+    <string name="auto_lock_30_seconds">30 seconds</string>
+    <string name="auto_lock_1_minute">1 minute</string>
+    <string name="auto_lock_5_minutes">5 minutes</string>
+
+    <string name="lock_screen_title">Journal protected</string>
+    <string name="lock_screen_subtitle">Use biometrics or your screen lock to continue.</string>
+    <string name="lock_screen_unlock_button">Unlock</string>
+
+    <string name="biometric_prompt_title">Sanctum</string>
+    <string name="biometric_prompt_description">Confirm it is you — with biometrics or your screen lock.</string>
+
+    <string name="transfer_section_title">Move to another device</string>
+    <string name="transfer_section_subtitle">The file is password-encrypted. No cloud — you choose where to save it and move it yourself. Keep a copy to transfer your journal to another phone.</string>
+
+    <string name="db_unavailable_title">Journal unavailable on this device</string>
+    <string name="db_unavailable_body">Data is tied to this phone. If you changed devices or reset settings — restore from a backup file. Or you can start fresh.</string>
+    <string name="db_unavailable_restore">Restore from file</string>
+    <string name="db_unavailable_start_fresh">Start fresh</string>
+    <string name="transfer_export_button">Save backup</string>
+    <string name="transfer_import_button">Restore from file</string>
+
+    <string name="transfer_password_title_export">Encrypt backup</string>
+    <string name="transfer_password_title_import">Enter file password</string>
+    <string name="transfer_password_hint">If you forget the password, it cannot be recovered. There is no backup cloud — that is the point.</string>
+    <string name="transfer_password_field_label">Password</string>
+    <string name="transfer_password_confirm_label">Repeat password</string>
+    <string name="transfer_password_mismatch">Passwords do not match</string>
+    <string name="transfer_password_save_button">Save</string>
+    <string name="transfer_password_restore_button">Restore</string>
+    <string name="transfer_overwrite_checkbox">Overwrite existing entries</string>
+    <string name="transfer_cancel">Cancel</string>
+    <string name="transfer_in_progress">Encrypting…</string>
+
+    <string name="transfer_success_export">Saved %1$d entries</string>
+    <string name="transfer_success_import">Imported %1$d, skipped %2$d</string>
+    <string name="transfer_error_wrong_password">Wrong password or corrupted file</string>
+    <string name="transfer_error_not_a_backup">This is not a Sanctum backup file</string>
+    <string name="transfer_error_unsupported_format">Backup was created in a newer version of Sanctum</string>
+    <string name="transfer_error_io">Could not read or write the file</string>
+
+    <string name="vault_export_section_title">Export for Obsidian / Markdown</string>
+    <string name="vault_export_section_subtitle">Your journal is not locked inside the app. Export structured Markdown with YAML metadata for local knowledge bases (Obsidian, Logseq).</string>
+    <string name="vault_export_button">Export vault</string>
+    <string name="vault_import_button">Import from vault</string>
+    <string name="vault_export_include_weekly">Include weekly mirrors</string>
+    <string name="vault_export_include_manifesto">Include personal landmarks</string>
+    <string name="vault_export_encrypt">Protect with password (.sanctum-vault)</string>
+    <string name="vault_export_hint">Open ZIP: copy the journal/ folder into your Obsidian vault. Encrypted exports must be decrypted first.</string>
+    <string name="vault_export_password_title">Encrypt vault export</string>
+    <string name="vault_import_password_title">Import vault</string>
+    <string name="vault_import_password_hint">Leave password empty for an unencrypted .zip. Required for .sanctum-vault files.</string>
+    <string name="vault_export_success">Exported %1$d entries (%2$d weekly mirrors)</string>
+    <string name="vault_import_success">Imported %1$d entries, skipped %2$d</string>
+    <string name="vault_export_error_io">Could not read or write the vault file</string>
+    <string name="vault_import_error_not_vault">This is not a Sanctum vault export</string>
+    <string name="vault_import_error_no_entries">No journal entries found in the archive</string>
+    <string name="cd_vault_export">Export Markdown vault</string>
+    <string name="cd_vault_import">Import Markdown vault</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_retry">Try again</string>
+
+    <string name="model_section_title">AI mentor</string>
+    <string name="model_section_subtitle_unattached">AI model inactive — simple responses without local Gemma.</string>
+    <string name="model_section_subtitle_attached_template">Connected: %1$s</string>
+    <string name="model_section_open_button">Choose model</string>
+
+    <string name="model_screen_title">Local model</string>
+
+    <!-- Local AI Information -->
+    <string name="model_info_card_title">How does local AI work?</string>
+    <string name="model_info_card_subtitle">About privacy, offline mode, and battery</string>
+    <string name="model_info_card_hide">Hide details</string>
+    <string name="model_info_card_show">Learn more</string>
+    <string name="model_info_autonomy_title">📦 Full Autonomy</string>
+    <string name="model_info_autonomy_text">A local model is a full-fledged neural network from Google (Gemma) that runs physically on your phone. Unlike other AI, Sanctum has no external servers, query limits, or paid subscriptions.</string>
+    <string name="model_info_privacy_title">🔒 100% Privacy</string>
+    <string name="model_info_privacy_text">Since the model runs directly on your device\'s processor, your thoughts, feelings, and reflections never leave your phone. The app physically lacks internet permission, securing your data at the system level.</string>
+    <string name="model_info_battery_title">⚡ Standby Mode</string>
+    <string name="model_info_battery_text">The model is only active when you request feedback or open the chat. The rest of the time it remains in standby mode, consuming zero battery or RAM.</string>
+    <string name="model_variant_recommended_subtitle">Recommended for most devices</string>
+    <string name="model_variant_advanced_subtitle">For powerful devices</string>
+    <string name="model_variant_size_template">File size: %1$s</string>
+    <string name="model_variant_ram_template">Requires: %1$s</string>
+    <string name="model_variant_ram_value">≥ %1$d GB RAM</string>
+    <string name="model_variant_latency_template">Response: %1$s after warm-up</string>
+    <string name="model_variant_latency_value">%1$d–%2$d s</string>
+
+    <string name="model_sources_block_title">Where to get the file?</string>
+    <string name="model_sources_block_collapse">Hide instructions</string>
+    <string name="model_sources_intro">The model is open-source (Apache-2.0). You can download it directly from Hugging Face in your browser. Once downloaded, return here to connect it.</string>
+    <string name="model_sources_open_hf">Open HuggingFace</string>
+
+    <string name="model_attach_button">Attach file</string>
+    <string name="model_attaching_card_title">Connecting model</string>
+    <string name="model_attaching_copying">Copying file to device…</string>
+    <string name="model_attaching_verifying">Verifying file integrity…</string>
+    <string name="model_attach_success_template">Model %1$s connected.</string>
+    <string name="model_attach_fail_sha">File failed integrity check. Download again.</string>
+    <string name="model_attach_fail_io">Could not read the file. Try again.</string>
+
+    <string name="model_attached_card_title">Model connected</string>
+    <string name="model_attached_size_template">Size: %1$s</string>
+    <string name="model_attached_at_template">Connected: %1$s</string>
+    <string name="model_replace_button">Replace</string>
+    <string name="model_detach_button">Remove</string>
+
+    <string name="model_detach_confirm_title">Remove model?</string>
+    <string name="model_detach_confirm_text">The file will be deleted from the device. You can attach it again anytime.</string>
+    <string name="model_detach_confirm_button">Remove</string>
+
+    <string name="model_backend_section_title">Acceleration</string>
+    <string name="model_backend_gpu_label">GPU</string>
+    <string name="model_backend_cpu_label">CPU</string>
+    <string name="model_backend_description">GPU is faster on modern devices. CPU works everywhere. If the AI mentor is slower than usual — try the other mode.</string>
+
+    <string name="bootstrap_preparing_title">Aligning with your local AI mentor…</string>
+    <string name="bootstrap_preparing_subtitle">This takes about thirty seconds. You can wait here.</string>
+    <string name="bootstrap_failed_subtitle">Local model inactive. Responses will be simplified — you can still record your day as usual.</string>
+
+    <string name="chat_screen_title">Chat</string>
+    <string name="chat_privacy_chip">On device only</string>
+    <string name="chat_privacy_short">Local</string>
+    <string name="chat_context_label">Context: %1$d%%</string>
+    <string name="chat_context_full">Context full — clear or compact the chat to continue</string>
+    <string name="chat_compact">Compact context</string>
+    <string name="chat_compact_confirm_title">Compact conversation?</string>
+    <string name="chat_compact_confirm_text">Old messages will be summarized by Gemma into a short starting memory to clear up space. This cannot be undone.</string>
+    <string name="chat_compact_success">Context compacted successfully!</string>
+    <string name="chat_compact_error">Failed to compact context.</string>
+    <string name="chat_input_hint">Write anything…</string>
+    <string name="chat_send">Send</string>
+    <string name="chat_clear">Clear chat</string>
+    <string name="chat_clear_confirm_title">Clear conversation?</string>
+    <string name="chat_clear_confirm_text">All chat messages will be deleted from the device. This cannot be undone.</string>
+    <string name="chat_clear_confirm_button">Clear</string>
+    <string name="chat_persona_title">Companion style</string>
+    <string name="chat_journal_context_switch">Use journal context</string>
+    <string name="chat_journal_days_1">1 day</string>
+    <string name="chat_journal_days_3">3 days</string>
+    <string name="chat_journal_days_7">7 days</string>
+    <string name="chat_typing">Companion is typing…</string>
+    <string name="chat_empty_hint">You can talk about anything here. Nothing leaves your phone.</string>
+    <string name="chat_empty_hint_gentle_mentor">I am here to listen gently to your feelings and help you ground…</string>
+    <string name="chat_empty_hint_experienced_friend">Ask me a tough question or share a situation you want to dissect…</string>
+    <string name="chat_empty_hint_supportive_coach">Share a task or difficulty — we will break it down into facts and actions…</string>
+    <string name="chat_empty_hint_free_dialog">Speak out about anything. I will simply be here for you…</string>
+    <string name="chat_disclaimer_title">Before you start</string>
+    <string name="chat_disclaimer_body">The AI companion is not a doctor, psychiatrist, or therapist. It does not diagnose, treat, or provide medical or emergency crisis intervention. If you are experiencing a crisis, severe distress, or thoughts of self-harm, please contact professional services immediately: call 911 (or your local emergency number like 112 in the EU) or contact a crisis hotline (e.g., call or text 988 in the US/Canada). Messages stay only on this device and are never sent anywhere.</string>
+    <string name="chat_disclaimer_checkbox">I understand</string>
+    <string name="chat_disclaimer_continue">Continue</string>
+    <string name="chat_cancel">Cancel</string>
+    <string name="chat_model_standby_info">The local model is connected but currently inactive to save battery. Send a message and it will load automatically — this takes about 30 seconds.</string>
+    <string name="chat_model_offline_info">The local AI model is not connected. Responses will use built-in templates until you attach a Gemma model.</string>
+    <string name="chat_model_inactive_action">Connect model in Settings →</string>
+
+    <string name="cd_privacy_local_only">All data is stored locally, without internet</string>
+    <string name="cd_privacy_offline_icon">No internet</string>
+    <string name="cd_reshuffle_prompt">Another daily question</string>
+    <string name="cd_open_model_settings">Open local model settings</string>
+    <string name="cd_navigate_forward">Go forward</string>
+    <string name="cd_security_lock">Unlock on launch</string>
+    <string name="cd_privacy_on_device">All data is stored on the device</string>
+    <string name="cd_wipe_all_history">Erase all history</string>
+    <string name="cd_backup_export">Save encrypted backup</string>
+    <string name="cd_backup_import">Restore from file</string>
+    <string name="cd_mentor_ai_icon">AI mentor response</string>
+
+    <string name="weekly_trend_title">Weekly Mirror</string>
+    <string name="weekly_trend_subtitle">A gentle mirror of your recent days — completely private.</string>
+    <string name="weekly_trend_need_more_entries">You need at least 3 saved entries in the last 7 days to build a weekly mirror.</string>
+    <string name="weekly_trend_hint_request">When you are ready, ask for a gentle mirror of your recent days.</string>
+    <string name="weekly_trend_request">Look into weekly mirror</string>
+    <string name="weekly_trend_refresh">Refresh weekly mirror</string>
+    <string name="weekly_trend_building_local">Forming your weekly mirror…</string>
+    <string name="weekly_trend_building_offline">Forming your weekly mirror…</string>
+    <string name="weekly_trend_build_error">Could not build the weekly mirror. Please try again.</string>
+    <string name="cd_weekly_trend_action">View or refresh weekly mirror</string>
+
+    <string name="custom_journal_field_section_title">Custom journal field</string>
+    <string name="custom_journal_field_section_subtitle">Add your own question on the Today tab — between tomorrow focus and the daily prompt.</string>
+    <string name="custom_journal_field_switch">Show custom field on Today</string>
+    <string name="custom_journal_field_question_label">Your question</string>
+    <string name="custom_journal_field_question_placeholder">e.g. What am I grateful for today?</string>
+    <string name="custom_journal_field_hint_label">Placeholder hint (optional)</string>
+    <string name="custom_journal_field_hint_placeholder">Shown in the empty field as a gentle nudge</string>
+    <string name="custom_journal_field_question_required">Enter your question above, then turn on the switch.</string>
+    <string name="custom_field_answer_placeholder">Your answer…</string>
+
+    <string name="tomorrow_tasks_empathic_hint">Better to start small — the brain handles concrete tasks more easily.</string>
+    <string name="journal_tasks_limit_warning">Focus is limited to three lines to let you rest peacefully. Extra lines won\'t be saved.</string>
+
+    <string name="appearance_section_title">Appearance</string>
+    <string name="appearance_section_subtitle">Dark theme by default. Light — for daytime use.</string>
+    <string name="appearance_theme_label">Theme</string>
+    <string name="appearance_theme_dark">Dark</string>
+    <string name="appearance_theme_light">Light</string>
+    <string name="cd_appearance_theme">Choose appearance theme</string>
+
+    <string name="language_section_title">Language</string>
+    <string name="language_section_subtitle">UI and local AI texts. Default follows the system.</string>
+    <string name="language_label">App language</string>
+    <string name="language_system">System default</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_english">English</string>
+    <string name="cd_app_language">Choose app language</string>
+
+    <string name="nav_today">Today</string>
+    <string name="nav_history">History</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="settings_screen_title">Settings</string>
+    <string name="settings_manifesto_line1">Free. No metrics. No notifications.</string>
+    <string name="settings_manifesto_line2">No subscriptions, gamification, or hassle.</string>
+    <string name="settings_manifesto_line3">A journal that asks nothing of you.</string>
+    <string name="settings_hub_privacy_title">Privacy &amp; security</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_hub_privacy_lock_on">App lock on · %1$s</string>
+    <string name="settings_hub_privacy_lock_off">App lock off</string>
+    <string name="settings_hub_privacy_screenshot_on">Screen protection active</string>
+    <string name="settings_hub_privacy_screenshot_off">Screen open for screenshots</string>
+    <string name="settings_hub_appearance_title">Appearance</string>
+    <string name="settings_hub_appearance_summary">%1$s · %2$s</string>
+    <string name="settings_hub_ritual_title">Evening ritual</string>
+    <string name="settings_hub_ritual_summary">%1$s · %2$d cycles · %3$s</string>
+    <string name="settings_hub_ritual_custom_on">Custom field on</string>
+    <string name="settings_hub_ritual_custom_off">Custom field off</string>
+    <string name="settings_hub_data_title">Data</string>
+    <string name="settings_hub_data_summary">Encrypted backup and Markdown export</string>
+    <string name="privacy_section_title">Privacy</string>
+    <string name="privacy_section_subtitle">No servers. No internet. AES-256 database encryption (SQLCipher).</string>
+    <string name="privacy_on_device">All data stays on the device</string>
+    <string name="privacy_hide_details">Hide details</string>
+    <string name="privacy_show_details">What this means technically</string>
+    <string name="privacy_details_body">• The manifest has no android.permission.INTERNET — the app physically cannot reach the network.\n\n• The SQLite database is fully encrypted on-the-fly using SQLCipher (AES-256 encryption standard). Without your unlock passcode or encryption key, it is impossible to read your journal, even with physical access to your phone\'s files.\n\n• Android Auto-Backup to Google Drive is strictly disabled (allowBackup=false). Your backups are only created manually and stored wherever you choose.\n\n• You can export your journal as Obsidian-compatible Markdown (YAML + .md in a ZIP) or as an encrypted device backup — both via the system file picker, with no cloud involved.\n\n• Local AI (Gemma) is attached manually via the system file picker. The model file stays on the device and never leaves it.\n\n• System permissions (normal; no access to journal content): vibration — only when haptic feedback is enabled in the breathing bridge; biometrics or device PIN — optional app lock only (Sanctum does not store your fingerprint; Android handles authentication); background tasks — local AI model warm-up (WorkManager), offline, with no push notifications.\n\n• The app contains no ad or analytics SDKs and does not perform hidden tracking.</string>
+    <string name="settings_wipe_completed">History erased. You can start fresh.</string>
+    <string name="settings_wipe_confirm_word">erase</string>
+    <string name="settings_wipe_error">Could not erase data</string>
+    <string name="settings_wipe_final_title">Confirm erase</string>
+    <string name="settings_wipe_final_hint">Type \"%1$s\" to confirm full wipe.</string>
+    <string name="settings_wipe_confirm_action">Erase everything</string>
+
+    <string name="entry_detail_prompt_section">Daily question</string>
+
+    <string name="chat_persona_gentle_mentor">Gentle guide</string>
+    <string name="chat_persona_experienced_friend">Honest mirror</string>
+    <string name="chat_persona_supportive_coach">Realist-pragmatic</string>
+    <string name="chat_persona_free_dialog">Quiet listener</string>
+
+    <string name="mood_calm">Calm</string>
+    <string name="mood_joy">Joy</string>
+    <string name="mood_gratitude">Gratitude</string>
+    <string name="mood_focused">Focused</string>
+    <string name="mood_tired">Tired</string>
+    <string name="mood_overwhelmed">Overwhelmed</string>
+    <string name="mood_anxiety">Anxiety</string>
+    <string name="mood_sadness">Sadness</string>
+    <string name="mood_irritation">Irritation</string>
+
+    <string name="action_done">Done</string>
+    <string name="action_continue">Continue</string>
+    <string name="switch_on">On</string>
+    <string name="switch_off">Off</string>
+    <string name="action_understood">Got it</string>
+
+    <string name="affective_subtitle">You can pick several. No scales — only words.</string>
+    <string name="journal_update_entry">Update entry</string>
+    <string name="journal_save_hint_no_tags">Choose at least one mood tag — it sets the tone of the response.</string>
+    <string name="journal_saved_snackbar">Day saved. Take care of yourself.</string>
+    <string name="journal_saved_today_subtitle">Today\'s entry is saved</string>
+    <string name="journal_saved_past_day_subtitle">Entry for this day is saved</string>
+    <string name="journal_past_day_hint">Filling in a past day</string>
+    <string name="journal_date_picker_confirm">Select</string>
+    <string name="journal_date_picker_cancel">Cancel</string>
+    <string name="journal_privacy_dialog_title">No internet</string>
+    <string name="journal_privacy_dialog_body">The icon means the app works only on this device. Entries, tags, and AI mentor replies never go to servers — the app has no permission to use the network.\n\nSee Settings → Privacy for technical details.</string>
+    <string name="journal_micro_wins_placeholder">For example: went to bed on time without phone, drank enough water, took a 15-minute walk.</string>
+    <string name="journal_tasks_lines">Lines: %1$d/%2$d</string>
+    <string name="journal_save_error">Could not save the entry</string>
+    <string name="journal_bootstrap_error">Could not load today\'s journal. Your entries are safe — try again.</string>
+    <string name="history_load_error">Could not load history. Try again.</string>
+    <string name="ai_mentor_beside_title">I\'m here</string>
+
+    <string name="history_subtitle">No comparison with others. Only your path.</string>
+    <string name="history_search_hint">Search entries…</string>
+    <string name="history_search_empty">Nothing found</string>
+    <string name="history_search_empty_title">No matches</string>
+    <string name="history_search_empty_body">Try a different word — a task, mood, or phrase from your reflection.</string>
+    <string name="history_search_results_count">Found: %1$d</string>
+    <string name="cd_history_search">Search history</string>
+    <string name="cd_history_search_clear">Clear search</string>
+    <string name="history_empty_title">Nothing here yet</string>
+    <string name="history_empty_body">Your first entry will appear here after you finish the day on the main screen.</string>
+
+    <string name="entry_detail_title_fallback">Entry</string>
+    <string name="entry_detail_not_found">Entry not found. It may have just been deleted.</string>
+    <string name="entry_detail_mood_section">Mood</string>
+    <string name="entry_detail_no_tags">No tags</string>
+    <string name="entry_detail_no_reflection">No reflection</string>
+    <string name="entry_detail_delete_button">Delete entry</string>
+    <string name="entry_detail_delete_first_title">Delete entry?</string>
+    <string name="entry_detail_delete_first_body">After deletion the entry cannot be restored — there is no cloud. That is intentional; decide carefully.</string>
+    <string name="entry_detail_delete_confirm_word">delete</string>
+    <string name="entry_detail_delete_final_title">Confirm deletion</string>
+    <string name="entry_detail_delete_final_hint">Type \"%1$s\" to confirm. This is the final step — the entry will be gone.</string>
+    <string name="entry_detail_delete_confirm_action">Delete</string>
+    <string name="entry_detail_delete_error">Could not delete the entry</string>
+
+    <string name="danger_zone_title">Danger zone</string>
+    <string name="danger_zone_subtitle">Actions here are irreversible — there is no cloud to return to.</string>
+    <string name="settings_wipe_all_button">Erase all history</string>
+    <string name="settings_wipe_first_title">Erase all history?</string>
+    <string name="settings_wipe_first_body">This deletes all entries and the AI mental-trends profile. It cannot be undone — there is no cloud backup, by design.</string>
+    <string name="settings_wipe_action">Erase</string>
+
+    <!-- Philosophy and Guide -->
+    <string name="philosophy_card_title">Philosophy &amp; Methodology</string>
+    <string name="philosophy_card_subtitle">Learn the science behind the app and how to use it</string>
+    <string name="philosophy_dialog_title">Philosophy &amp; Methodology</string>
+    
+    <string name="philosophy_section_philosophy_title">1. Our Philosophy: The Evening Ritual</string>
+    <string name="philosophy_section_philosophy_body">Sanctum is not built for productivity, achievements, or collecting scores. It is your quiet evening sanctuary. A place to breathe, slow down, and gently leave the day behind.</string>
+    
+    <string name="philosophy_section_science_title">2. Methodology: Why it Works</string>
+    <string name="philosophy_section_science_body">Every feature of the app relies on evidence-based practices (ACT, CBT, Mindfulness):\n\n• **Affective Labeling (Mood tags)** — naming your feelings decreases amygdala (the brain\'s alarm center) activity. This brings back a sense of calm control.\n• **Cognitive Offloading (Tomorrow focus)** — unloading tasks with a 3-line limit frees working memory. The brain is reassured that tasks are safely written down, neutralizing the Zeigarnik effect. This speeds up falling asleep by an average of 9 minutes.\n• **Somatic Grounding (Breathing Bridge)** — ~60 seconds of resonant breathing at 6 breaths per minute (5 s inhale, 5 s exhale) with haptic guidance shifts the body into parasympathetic rest mode. Classic box breathing (4-4-4-4) is available in Settings.</string>
+    
+    <string name="philosophy_section_privacy_title">3. True Privacy</string>
+    <string name="philosophy_section_privacy_body">Your thoughts are yours alone. Sanctum has no servers, tracking, or cloud backups. The local AI mentor Gemma runs 100% inside your device, transmitting not a single byte. You can be absolutely sincere.</string>
+    
+    <string name="philosophy_section_guide_title">4. Practical Guide</string>
+    <string name="philosophy_section_guide_body">**The Winding-Down Ritual (Recommended Sequence):**\n\n1. **Start with breathing**: Tap \"Start\" on the Breathing Bridge. Close your eyes and follow the soft haptic signals to calm your body.\n2. **Acknowledge feelings**: Mark the emotion tags with which you finish the day, without judgment.\n3. **Clear your mind**: Write down 1–3 tomorrow focuses. Feel the thoughts leaving your mind onto the page.\n4. **Anchor the resources**: Write down micro-wins (this card hides on heavy days to avoid pressure).\n5. **Leave a thought**: Answer the daily prompt or write a reflection.\n6. **Receive response**: Finish the day and read the wise, non-cliché response of your local mentor.\n\n**Chat Features:**\n\n• **Switching Archetypes** — select a fitting archetype (Gentle Guide for acceptance, Honest Mirror for Socratic dialogue, Realist-Pragmatic for grounding, or Quiet Listener to vent).\n• **Journal Context** — toggle \"Observe Journal\" so the AI companion remembers recent days, saving you from re-typing your context.</string>
+
+    <!-- Feature 5. Time Echo -->
+    <string name="time_echo_title">A year ago you wrote:</string>
+    <string name="time_echo_date_caption">%1$s</string>
+    <string name="time_echo_dismiss_cd">Dismiss</string>
+
+    <!-- Feature 2. Short Evening -->
+    <string name="ritual_short_banner_title">A quiet evening today</string>
+    <string name="ritual_short_banner_subtitle">Heavy week. One tag and a couple of words is enough, if you feel like it. Optional.</string>
+    <string name="ritual_short_expand">Expand full ritual</string>
+    <string name="ritual_short_save">Close the evening</string>
+
+    <!-- Feature 1. Glance AppWidget -->
+    <string name="widget_yesterday_title">You wrote yesterday</string>
+    <string name="widget_no_recent">No entry in the last day. That\'s fine.</string>
+    <string name="widget_empty_state">Sanctum — private space for evening reflection</string>
+    <string name="widget_preview_toggle">Show content preview in widget</string>
+    <string name="widget_preview_subtitle">Off by default. When on, the widget shows the first 80 characters of yesterday\'s entry. Be mindful of who else sees your home screen.</string>
+    <string name="cd_expand">Expand</string>
+    <string name="cd_collapse">Collapse</string>
+</resources>

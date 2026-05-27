@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Cloud + device-to-device transfer (Android 12+).
+    Запрещаем выгрузку чувствительных данных при переносе на новое устройство.
+
+    `<exclude domain="file" path="." />` уже накрывает всю `filesDir/`,
+    но мы явно дублируем `models/` как документирующий маркер: 2.6–3.7 GB
+    `.litertlm` файлам категорически не место ни в облачном бэкапе, ни в
+    D2D-transfer, и эта строчка делает намерение очевидным в ревью.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="file" path="models/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="file" path="models/" />
+    </device-transfer>
+</data-extraction-rules>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        Splash-тема (Android 12+ SplashScreen API).
+        Применяется к Activity до её отрисовки. windowSplashScreenAnimatedIcon
+        указывает на наш foreground-вектор (без полумесяца не выглядит дёшево
+        даже без анимации). post-splash тема указана через postSplashScreenTheme.
+
+        На API < 31 SplashScreen-библиотека сама нарисует совместимый splash,
+        опираясь на background + icon.
+    -->
+    <style name="Theme.PocketReflect" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/midnight_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.PocketReflect.NoActionBar</item>
+    </style>
+
+    <!--
+        «Боевая» тема Activity после splash. Compose внутри использует наш
+        DarkColorScheme (см. ui/theme/Theme.kt). XML-тема нужна только для
+        системного фона/статус-бара, чтобы не было белой вспышки между
+        splash → Compose.
+    -->
+    <!-- AppCompatActivity требует предка Theme.AppCompat (не android:Theme.Material). -->
+    <style name="Theme.PocketReflect.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/midnight_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+    </style>
+
+</resources>

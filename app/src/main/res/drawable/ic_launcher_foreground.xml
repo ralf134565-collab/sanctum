@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Иконка PocketReflect / Vesper.
+    Концепт: «Озеро рефлексии» (The Water Mirror)
+    
+    Верхний лавандовый полумесяц увядания (символизирующий завершение дня,
+    освобождение от мыслей и покой) отражается в зеркальной глади воды.
+    Отражение расходится мягкими мятно-лавандовыми кругами (рябью),
+    постепенно угасая по мере погружения в глубину.
+    
+    Две золотисто-мятные точки присутствия справа создают небесный баланс
+    и символизируют осознанность и надежду.
+
+    Все формы идеально сцентрированы и вписаны в безопасную зону адаптивной иконки.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Линия горизонта (гладь воды) -->
+    <path
+        android:pathData="M34,54 L74,54"
+        android:strokeColor="#8FD8C4"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.3"
+        android:strokeLineCap="round" />
+
+    <!-- Верхний полумесяц (Луна разума) -->
+    <path
+        android:pathData="M54,24 A12,12 0 0,0 54,48 A18,18 0 0,1 54,24 Z"
+        android:fillColor="#B9A6FF" />
+
+    <!-- Главная звезда присутствия (осознанность) -->
+    <path
+        android:pathData="M68,30 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0"
+        android:fillColor="#8FD8C4" />
+
+    <!-- Малая звезда (надежда) -->
+    <path
+        android:pathData="M64,40 m-1.2,0 a1.2,1.2 0 1,0 2.4,0 a1.2,1.2 0 1,0 -2.4,0"
+        android:fillColor="#8FD8C4"
+        android:fillAlpha="0.5" />
+
+    <!-- Рябь отражения 1 (Лавандовая, у поверхности) -->
+    <path
+        android:pathData="M44,59 L51,59"
+        android:strokeColor="#B9A6FF"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.5"
+        android:strokeLineCap="round" />
+
+    <!-- Рябь отражения 2 (Переходный тон, максимальная ширина) -->
+    <path
+        android:pathData="M42,64 L53,64"
+        android:strokeColor="#A4C0E2"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.4"
+        android:strokeLineCap="round" />
+
+    <!-- Рябь отражения 3 (Мятная, уходящая вглубь) -->
+    <path
+        android:pathData="M43,69 L51,69"
+        android:strokeColor="#8FD8C4"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.3"
+        android:strokeLineCap="round" />
+
+    <!-- Рябь отражения 4 (Угасающая мятная) -->
+    <path
+        android:pathData="M45,74 L49,74"
+        android:strokeColor="#8FD8C4"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.2"
+        android:strokeLineCap="round" />
+
+    <!-- Рябь отражения 5 (Финальная точка погружения) -->
+    <path
+        android:pathData="M46.5,79 L47.5,79"
+        android:strokeColor="#8FD8C4"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.1"
+        android:strokeLineCap="round" />
+</vector>

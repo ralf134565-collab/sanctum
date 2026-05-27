@@ -1,0 +1,8 @@
+# Template for release-signing.properties
+# Copy this file to "release-signing.properties" (which is ignored by Git)
+# and fill in your actual keystore credentials.
+
+storeFile=release.jks
+storePassword=your_keystore_password
+keyAlias=your_key_alias
+keyPassword=your_key_password

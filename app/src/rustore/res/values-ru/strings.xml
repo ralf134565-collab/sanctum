@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Переопределение для сборки RuStore (Русская локаль) -->
+    <string name="support_learn_how">Отправить донат</string>
+    <string name="support_donate_url">ВСТАВЬТЕ_СЮДА_ВАШУ_ССЫЛКУ_НА_ОПЛАТУ</string>
+</resources>

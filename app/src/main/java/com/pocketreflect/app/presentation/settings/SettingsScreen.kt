@@ -249,10 +249,10 @@ private fun SupportHubSection(onOpenUrl: (String) -> Unit) {
             }
 
             val context = LocalContext.current
+            val donateUrl = stringResource(R.string.support_donate_url)
             Button(
                 onClick = {
-                    val isRussian = context.resources.configuration.locales[0].language == "ru"
-                    onOpenUrl(SupportLinks.getSupportLink(isRussian))
+                    onOpenUrl(donateUrl)
                 },
                 modifier = Modifier.fillMaxWidth(),
             ) {

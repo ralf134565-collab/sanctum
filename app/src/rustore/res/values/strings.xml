@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Переопределение для сборки RuStore (Английская локаль для очистки) -->
+    <string name="support_learn_how">Send donation</string>
+    <string name="support_donate_url">ВСТАВЬТЕ_СЮДА_ВАШУ_ССЫЛКУ_НА_ОПЛАТУ</string>
+</resources>

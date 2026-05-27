@@ -20,6 +20,7 @@
     <string name="support_why_free">Why are there no ads or subscriptions in Sanctum?</string>
     <string name="support_section_body">Most apps today make money by selling your attention and personal data. Sanctum is built differently: there are no investors, metrics, or hidden trackers here.\n\nSince the journal is completely local and runs without servers, we don\'t have massive cloud infrastructure bills. Every donation goes directly to the creator of the project — providing the author with the financial opportunity not only to polish Sanctum and refine the local AI, but also to bring new ideas to life: building other honest, gentle, and helpful tools designed to help people manage anxiety and find balance in a busy world.\n\nDonating to Sanctum is not about buying features; it\'s your personal contribution to protecting an independent space and supporting the future of honest tools that ask nothing of you in return.</string>
     <string name="support_learn_how">Learn how to support</string>
+    <string name="support_donate_url">https://github.com/ralf134565-collab/sanctum/blob/main/DONATE.md</string>
     <string name="support_github">Source code (GitHub)</string>
     <string name="support_open_url_error">Could not open link. Install a browser or try again.</string>
 

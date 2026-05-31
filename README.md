@@ -89,13 +89,27 @@ If you believe in our mission of offline, private mental health software, please
 
 ---
 
-## 📋 Releases
+## 📋 Releases & APK flavors
 
-Tagged releases: [GitHub Releases](https://github.com/ralf134565-collab/sanctum/releases).  
-Latest: **1.2.0** — Sand Flow, stability after background, database access improvements.
+Sanctum ships two **product flavors** (same codebase, different package names):
 
-Build RuStore APK: `./gradlew :app:assembleRustoreRelease`  
-Build global APK: `./gradlew :app:assembleGlobalRelease`
+| Flavor | applicationId | Where to get it |
+|--------|---------------|-----------------|
+| **global** | `com.pocketreflect.app` | [GitHub Releases](https://github.com/ralf134565-collab/sanctum/releases) — attach `app-global-release.apk` |
+| **rustore** | `com.pocketreflect.app.rustore` | [RuStore](https://www.rustore.ru/) — upload `app-rustore-release.apk` |
+
+**Latest release:** [v1.2.0](https://github.com/ralf134565-collab/sanctum/releases/tag/v1.2.0) — Sand Flow, stability after background, database access improvements.
+
+They install as separate apps on one device. Release history: [CHANGELOG.md](CHANGELOG.md).
+
+### Build signed release APKs locally
+
+```bash
+./gradlew :app:assembleGlobalRelease    # → app/build/outputs/apk/global/release/
+./gradlew :app:assembleRustoreRelease   # → app/build/outputs/apk/rustore/release/
+```
+
+Requires `release-signing.properties` in the project root (see above).
 
 ---
 

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,6 +60,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -136,6 +139,7 @@ fun JournalScreen(
     var showPrivacyDialog by remember { mutableStateOf(false) }
     var showAiStatusDialog by remember { mutableStateOf(false) }
     var showBreathingDialog by rememberSaveable { mutableStateOf(false) }
+    var showSandFlowDialog by rememberSaveable { mutableStateOf(false) }
     var showSaveBanner by remember { mutableStateOf(false) }
     val savedSnackbarMessage = stringResource(R.string.journal_saved_snackbar)
 
@@ -218,6 +222,7 @@ fun JournalScreen(
                     padding = innerPadding,
                     state = state,
                     onStartBreathing = { showBreathingDialog = true },
+                    onStartSandFlow = { showSandFlowDialog = true },
                     onNavigateToEntryDetail = onNavigateToEntryDetail,
                     onIntent = { intent ->
                         if (intent is JournalContract.Intent.ToggleTag) haptic.tick()
@@ -247,6 +252,14 @@ fun JournalScreen(
             hapticIntensity = state.breathingHapticIntensity,
             cycleCount = state.breathingCycleCount,
             onDismiss = { showBreathingDialog = false },
+        )
+    }
+
+    if (showSandFlowDialog) {
+        com.pocketreflect.app.presentation.journal.components.SandFlowDialog(
+            difficulty = state.sandFlowDifficulty,
+            breathingSyncEnabled = state.sandFlowBreathingSyncEnabled,
+            onDismiss = { showSandFlowDialog = false },
         )
     }
 
@@ -440,6 +453,7 @@ private fun JournalContent(
     padding: PaddingValues,
     state: JournalContract.State,
     onStartBreathing: () -> Unit,
+    onStartSandFlow: () -> Unit,
     onNavigateToEntryDetail: (Long) -> Unit,
     onIntent: (JournalContract.Intent) -> Unit,
 ) {
@@ -498,13 +512,24 @@ private fun JournalContent(
             }
         }
 
-        // === ДЫХАТЕЛЬНЫЙ МОСТ ========================================================
+        // === ДЫХАТЕЛЬНЫЙ МОСТ И ПЕСОЧНЫЙ ПОТОК ========================================
         if (!isShortModeActive) {
-            BreathingBannerCard(
-                onStart = onStartBreathing,
-                pattern = state.breathingPattern,
-                cycleCount = state.breathingCycleCount,
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                BreathingBannerCard(
+                    onStart = onStartBreathing,
+                    pattern = state.breathingPattern,
+                    cycleCount = state.breathingCycleCount,
+                )
+                if (state.sandFlowEnabled) {
+                    SandFlowBannerCard(
+                        onStart = onStartSandFlow,
+                        difficulty = state.sandFlowDifficulty,
+                    )
+                }
+            }
         }
 
         // === БЛОК 1. АФФЕКТИВНЫЙ ЛЕЙБЛИНГ ===========================================
@@ -810,6 +835,88 @@ private fun SaveBar(
     }
 }
 
+@Composable
+private fun RitualBannerCard(
+    title: String,
+    subtitle: String,
+    actionLabel: String,
+    onStart: () -> Unit,
+    icon: ImageVector,
+    iconBackgroundColor: Color,
+    iconTint: Color,
+    buttonContainerColor: Color,
+    buttonContentColor: Color,
+    gradient: Brush,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)),
+    ) {
+        Box(modifier = Modifier.background(gradient)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 18.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(iconBackgroundColor),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = iconTint,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .widthIn(min = 0.dp),
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+                        lineHeight = 16.sp,
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Button(
+                    onClick = onStart,
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = buttonContainerColor,
+                        contentColor = buttonContentColor,
+                    ),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
+                ) {
+                    Text(
+                        text = actionLabel,
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                    )
+                }
+            }
+        }
+    }
+}
+
 /**
  * Изящный баннер для запуска дыхательной сессии «Дыхательный мост».
  */
@@ -825,89 +932,57 @@ private fun BreathingBannerCard(
         BreathingSessionController.cycleDurationMs(pattern) * normalizedCycles / 1000L
         ).toInt()
     val durationMinutes = (durationSeconds + 59) / 60
-    val gradient = Brush.verticalGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.25f),
-            MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.15f)
-        )
-    )
+    val colorScheme = MaterialTheme.colorScheme
 
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+    RitualBannerCard(
+        title = stringResource(R.string.breathing_banner_title),
+        subtitle = stringResource(R.string.breathing_banner_subtitle, durationMinutes),
+        actionLabel = stringResource(R.string.breathing_banner_action),
+        onStart = onStart,
+        icon = Icons.Outlined.SelfImprovement,
+        iconBackgroundColor = colorScheme.secondaryContainer.copy(alpha = 0.6f),
+        iconTint = colorScheme.secondary,
+        buttonContainerColor = colorScheme.secondaryContainer,
+        buttonContentColor = colorScheme.onSecondaryContainer,
+        gradient = Brush.verticalGradient(
+            colors = listOf(
+                colorScheme.secondaryContainer.copy(alpha = 0.25f),
+                colorScheme.tertiaryContainer.copy(alpha = 0.15f),
+            ),
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
-    ) {
-        Box(modifier = Modifier.background(gradient)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 18.dp, vertical = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.SelfImprovement,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                        Column {
-                            Text(
-                                text = stringResource(R.string.breathing_banner_title),
-                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = stringResource(
-                                    R.string.breathing_banner_subtitle,
-                                    durationMinutes,
-                                ),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                                lineHeight = 16.sp
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        onClick = onStart,
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.breathing_banner_action),
-                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
-                        )
-                    }
-                }
-            }
-        }
-    }
+        modifier = modifier,
+    )
+}
+
+/**
+ * Изящный баннер для запуска кинетической сессии «Песочный поток» (Sand Flow).
+ */
+@Composable
+private fun SandFlowBannerCard(
+    onStart: () -> Unit,
+    difficulty: Int,
+    modifier: Modifier = Modifier,
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    RitualBannerCard(
+        title = stringResource(R.string.sand_flow_banner_title),
+        subtitle = stringResource(R.string.sand_flow_banner_subtitle),
+        actionLabel = stringResource(R.string.breathing_banner_action),
+        onStart = onStart,
+        icon = Icons.Outlined.SelfImprovement,
+        iconBackgroundColor = colorScheme.primaryContainer.copy(alpha = 0.6f),
+        iconTint = colorScheme.primary,
+        buttonContainerColor = colorScheme.primaryContainer,
+        buttonContentColor = colorScheme.onPrimaryContainer,
+        gradient = Brush.verticalGradient(
+            colors = listOf(
+                colorScheme.primaryContainer.copy(alpha = 0.25f),
+                colorScheme.tertiaryContainer.copy(alpha = 0.15f),
+            ),
+        ),
+        modifier = modifier,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

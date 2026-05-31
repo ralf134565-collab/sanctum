@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.pocketreflect.app.core.time.Clock
 import com.pocketreflect.app.data.local.entity.JournalEntry
 import com.pocketreflect.app.core.security.AuthSessionHolder
+import com.pocketreflect.app.core.security.DefaultDatabaseAccess
 import com.pocketreflect.app.data.repository.RoomJournalRepository
 import com.pocketreflect.app.data.transfer.DefaultBackupRepository
 import com.pocketreflect.app.domain.model.MoodTag
@@ -14,7 +15,6 @@ import com.pocketreflect.app.testing.FakeClock
 import com.pocketreflect.app.testing.FakeUserPreferencesRepository
 import com.pocketreflect.app.testing.RobolectricRoomTestSupport
 import com.pocketreflect.app.testing.StaticDatabaseProvider
-import com.pocketreflect.app.testing.testDaggerLazy
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.After
@@ -56,7 +56,7 @@ class BackupRepositoryRoundTripTest {
         }
         journalRepository = RoomJournalRepository(
             databaseProvider = databaseProvider,
-            authSessionHolder = testDaggerLazy(authSessionHolder),
+            databaseAccess = DefaultDatabaseAccess(databaseProvider, authSessionHolder),
         )
         val clock = object : Clock {
             override fun nowMillis(): Long = 9_999L

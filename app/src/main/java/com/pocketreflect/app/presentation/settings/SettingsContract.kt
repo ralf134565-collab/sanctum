@@ -39,6 +39,10 @@ object SettingsContract {
         val breathingHapticEnabled: Boolean = true,
         val breathingHapticIntensity: BreathingHapticIntensity = BreathingHapticIntensity.DEFAULT,
         val breathingCycleCount: Int = 6,
+
+        val sandFlowEnabled: Boolean = true,
+        val sandFlowBreathingSyncEnabled: Boolean = true,
+        val sandFlowDifficulty: Int = 80,
     )
 
     sealed interface Intent {
@@ -64,6 +68,10 @@ object SettingsContract {
         data class ToggleBreathingHaptic(val enabled: Boolean) : Intent
         data class SetBreathingHapticIntensity(val intensity: BreathingHapticIntensity) : Intent
         data class SetBreathingCycleCount(val count: Int) : Intent
+
+        data class ToggleSandFlow(val enabled: Boolean) : Intent
+        data class ToggleSandFlowBreathingSync(val enabled: Boolean) : Intent
+        data class SetSandFlowDifficulty(val difficulty: Int) : Intent
     }
 
     sealed interface Effect {

@@ -116,6 +116,21 @@ class SettingsViewModel @Inject constructor(
                 _state.update { it.copy(breathingCycleCount = count) }
             }
         }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowEnabled.collect { enabled ->
+                _state.update { it.copy(sandFlowEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowBreathingSyncEnabled.collect { enabled ->
+                _state.update { it.copy(sandFlowBreathingSyncEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowDifficulty.collect { difficulty ->
+                _state.update { it.copy(sandFlowDifficulty = difficulty) }
+            }
+        }
     }
 
     fun onIntent(intent: SettingsContract.Intent) {
@@ -161,6 +176,12 @@ class SettingsViewModel @Inject constructor(
                 setBreathingHapticIntensity(intent.intensity)
             is SettingsContract.Intent.SetBreathingCycleCount ->
                 setBreathingCycleCount(intent.count)
+            is SettingsContract.Intent.ToggleSandFlow ->
+                setSandFlowEnabled(intent.enabled)
+            is SettingsContract.Intent.ToggleSandFlowBreathingSync ->
+                setSandFlowBreathingSyncEnabled(intent.enabled)
+            is SettingsContract.Intent.SetSandFlowDifficulty ->
+                setSandFlowDifficulty(intent.difficulty)
         }
     }
 
@@ -171,7 +192,10 @@ class SettingsViewModel @Inject constructor(
         }
         viewModelScope.launch {
             userPreferencesRepository.setBiometricLockEnabled(enabled)
+            authSessionHolder.setRuntimeLockEnabled(enabled)
             if (enabled) {
+                authSessionHolder.requireLockAfterEnabling()
+            } else {
                 authSessionHolder.markAuthenticated()
             }
         }
@@ -253,6 +277,24 @@ class SettingsViewModel @Inject constructor(
     private fun setBreathingCycleCount(count: Int) {
         viewModelScope.launch {
             userPreferencesRepository.setBreathingCycleCount(count)
+        }
+    }
+
+    private fun setSandFlowEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setSandFlowEnabled(enabled)
+        }
+    }
+
+    private fun setSandFlowBreathingSyncEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setSandFlowBreathingSyncEnabled(enabled)
+        }
+    }
+
+    private fun setSandFlowDifficulty(difficulty: Int) {
+        viewModelScope.launch {
+            userPreferencesRepository.setSandFlowDifficulty(difficulty)
         }
     }
 

@@ -33,6 +33,7 @@ object ModelSettingsContract {
         val pickingForVariant: ModelVariant? = null,
         val isConfirmingDetach: Boolean = false,
         val selectedBackend: EngineBackend = EngineBackend.GPU,
+        val warmupOnLaunchEnabled: Boolean = false,
     )
 
     sealed interface AttachProgress {
@@ -50,6 +51,7 @@ object ModelSettingsContract {
         data object ConfirmDetach : Intent
         data object CancelDetach : Intent
         data class SelectBackend(val backend: EngineBackend) : Intent
+        data class SetWarmupOnLaunch(val enabled: Boolean) : Intent
     }
 
     sealed interface Effect {

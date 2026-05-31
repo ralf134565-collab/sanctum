@@ -60,6 +60,10 @@ object JournalContract {
         val breathingHapticIntensity: BreathingHapticIntensity = BreathingHapticIntensity.DEFAULT,
         val breathingCycleCount: Int = BreathingSessionController.defaultCycleCount(BreathingPattern.DEFAULT),
         val uiHapticEnabled: Boolean = true,
+
+        val sandFlowEnabled: Boolean = true,
+        val sandFlowBreathingSyncEnabled: Boolean = true,
+        val sandFlowDifficulty: Int = 80,
     ) {
 
         val isMicroWinsHidden: Boolean

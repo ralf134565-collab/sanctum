@@ -35,6 +35,12 @@
     <string name="breathing_completion_ready">Calmness within</string>
     <string name="breathing_completion_subtitle">You are ready to meet your thoughts without rush.</string>
 
+    <string name="sand_flow_banner_title">Sand Flow</string>
+    <string name="sand_flow_banner_subtitle">Focus on the flow of particles to quiet your mind</string>
+    <string name="sand_flow_banner_hint">Rotate the rings to align the gaps and let the sand flow smoothly into the core.</string>
+    <string name="sand_flow_completion_ready">Mind is clear</string>
+    <string name="sand_flow_completion_subtitle">You have let go of the day\'s noise and found your center.</string>
+
     <string name="breathing_section_title">Breathing Bridge</string>
     <string name="breathing_section_subtitle">Evening ritual before journaling</string>
     <string name="breathing_pattern_label">Breathing mode</string>
@@ -215,6 +221,8 @@
     <string name="model_backend_gpu_label">GPU</string>
     <string name="model_backend_cpu_label">CPU</string>
     <string name="model_backend_description">GPU is faster on modern devices. CPU works everywhere. If the AI mentor is slower than usual — try the other mode.</string>
+    <string name="model_warmup_on_launch_title">Warm up model on launch</string>
+    <string name="model_warmup_on_launch_subtitle">When off, the model loads on your first AI request and is released when you minimize the app — saving RAM. When on, the model prepares at startup (~30 s) so AI responds instantly.</string>
 
     <string name="bootstrap_preparing_title">Aligning with your local AI mentor…</string>
     <string name="bootstrap_preparing_subtitle">This takes about thirty seconds. You can wait here.</string>
@@ -230,6 +238,8 @@
     <string name="chat_compact_confirm_text">Old messages will be summarized by Gemma into a short starting memory to clear up space. This cannot be undone.</string>
     <string name="chat_compact_success">Context compacted successfully!</string>
     <string name="chat_compact_error">Failed to compact context.</string>
+    <string name="chat_send_error">Could not send the message. Try again.</string>
+    <string name="chat_clear_error">Could not clear the chat. Try again.</string>
     <string name="chat_input_hint">Write anything…</string>
     <string name="chat_send">Send</string>
     <string name="chat_clear">Clear chat</string>
@@ -288,6 +298,18 @@
     <string name="custom_journal_field_hint_placeholder">Shown in the empty field as a gentle nudge</string>
     <string name="custom_journal_field_question_required">Enter your question above, then turn on the switch.</string>
     <string name="custom_field_answer_placeholder">Your answer…</string>
+
+    <string name="sand_flow_settings_title">Sand Flow</string>
+    <string name="sand_flow_settings_subtitle">Interactive kinetic relaxation</string>
+    <string name="sand_flow_switch">Show Sand Flow on Today</string>
+    <string name="sand_flow_breathing_sync_label">Breathing synchronization</string>
+    <string name="sand_flow_breathing_sync_summary">Pulsate ring channels in a slow 10-second rhythm, guiding your breath</string>
+    <string name="sand_flow_difficulty_label">Core threshold</string>
+    <string name="sand_flow_difficulty_summary">Number of particles required to fill the core and complete the cycle</string>
+    <string name="sand_flow_difficulty_easy">Light (50 particles)</string>
+    <string name="sand_flow_difficulty_normal">Normal (80 particles)</string>
+    <string name="sand_flow_difficulty_deep">Deep (100 particles)</string>
+    <string name="cd_sand_flow_close">Close sand flow</string>
 
     <string name="tomorrow_tasks_empathic_hint">Better to start small — the brain handles concrete tasks more easily.</string>
     <string name="journal_tasks_limit_warning">Focus is limited to three lines to let you rest peacefully. Extra lines won\'t be saved.</string>

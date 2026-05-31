@@ -5,6 +5,10 @@
 .DS_Store
 /build
 /captures
+/app/build/
+/app/rustore/
+/feature-mandala/build/
+/sandbox-mandala/build/
 .externalNativeBuild
 .cxx
 local.properties

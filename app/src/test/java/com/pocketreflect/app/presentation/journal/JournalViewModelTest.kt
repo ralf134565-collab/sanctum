@@ -7,6 +7,7 @@ import com.pocketreflect.app.core.work.WeeklySummaryPolicy
 import com.pocketreflect.app.data.local.entity.AITrendProfile
 import com.pocketreflect.app.data.local.entity.JournalEntry
 import com.pocketreflect.app.domain.model.MoodTag
+import com.pocketreflect.app.testing.FakeDatabaseAccess
 import com.pocketreflect.app.testing.FakeUserPreferencesRepository
 import com.pocketreflect.app.testing.FakeAiEngineStatusSource
 import com.pocketreflect.app.testing.FakeClock
@@ -52,6 +53,7 @@ class JournalViewModelTest {
     private lateinit var aiEngineStatus: FakeAiEngineStatusSource
     private lateinit var userPreferences: FakeUserPreferencesRepository
     private lateinit var appLanguageResolver: AppLanguageResolver
+    private lateinit var databaseAccess: FakeDatabaseAccess
 
     @Before
     fun setUp() {
@@ -63,6 +65,7 @@ class JournalViewModelTest {
         aiEngineStatus = FakeAiEngineStatusSource()
         userPreferences = FakeUserPreferencesRepository()
         appLanguageResolver = AppLanguageResolver(userPreferences)
+        databaseAccess = FakeDatabaseAccess()
     }
 
     @After
@@ -79,6 +82,7 @@ class JournalViewModelTest {
         aiEngineStatusSource = aiEngineStatus,
         appLanguageResolver = appLanguageResolver,
         userPreferencesRepository = userPreferences,
+        databaseAccess = databaseAccess,
     )
 
     @Test

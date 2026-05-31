@@ -175,6 +175,27 @@ class DataStoreUserPreferencesRepository @Inject constructor(
     override val customJournalFieldHint: Flow<String> =
         safePrefs.map { prefs -> prefs[KEY_CUSTOM_JOURNAL_FIELD_HINT] ?: "" }
 
+    override val sandFlowEnabled: Flow<Boolean> =
+        safePrefs.map { prefs -> prefs[KEY_SAND_FLOW_ENABLED] ?: true }
+
+    override val sandFlowBreathingSyncEnabled: Flow<Boolean> =
+        safePrefs.map { prefs -> prefs[KEY_SAND_FLOW_BREATHING_SYNC_ENABLED] ?: true }
+
+    override val sandFlowDifficulty: Flow<Int> =
+        safePrefs.map { prefs -> prefs[KEY_SAND_FLOW_DIFFICULTY] ?: 80 }
+
+    override suspend fun setSandFlowEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[KEY_SAND_FLOW_ENABLED] = enabled }
+    }
+
+    override suspend fun setSandFlowBreathingSyncEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[KEY_SAND_FLOW_BREATHING_SYNC_ENABLED] = enabled }
+    }
+
+    override suspend fun setSandFlowDifficulty(difficulty: Int) {
+        dataStore.edit { prefs -> prefs[KEY_SAND_FLOW_DIFFICULTY] = difficulty }
+    }
+
     override suspend fun setCustomJournalFieldEnabled(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[KEY_CUSTOM_JOURNAL_FIELD_ENABLED] = enabled }
     }
@@ -211,6 +232,13 @@ class DataStoreUserPreferencesRepository @Inject constructor(
 
     override val uiHapticEnabled: Flow<Boolean> =
         safePrefs.map { prefs -> prefs[KEY_UI_HAPTIC_ENABLED] ?: true }
+
+    override val warmupOnLaunchEnabled: Flow<Boolean> =
+        safePrefs.map { prefs -> prefs[KEY_WARMUP_ON_LAUNCH_ENABLED] ?: false }
+
+    override suspend fun setWarmupOnLaunchEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[KEY_WARMUP_ON_LAUNCH_ENABLED] = enabled }
+    }
 
     override suspend fun setBreathingPattern(pattern: BreathingPattern) {
         dataStore.edit { prefs -> prefs[KEY_BREATHING_PATTERN] = pattern.storageKey }
@@ -260,11 +288,15 @@ class DataStoreUserPreferencesRepository @Inject constructor(
         val KEY_CUSTOM_JOURNAL_FIELD_ENABLED = booleanPreferencesKey("custom_journal_field_enabled")
         val KEY_CUSTOM_JOURNAL_FIELD_QUESTION = stringPreferencesKey("custom_journal_field_question")
         val KEY_CUSTOM_JOURNAL_FIELD_HINT = stringPreferencesKey("custom_journal_field_hint")
+        val KEY_SAND_FLOW_ENABLED = booleanPreferencesKey("sand_flow_enabled")
+        val KEY_SAND_FLOW_BREATHING_SYNC_ENABLED = booleanPreferencesKey("sand_flow_breathing_sync_enabled")
+        val KEY_SAND_FLOW_DIFFICULTY = intPreferencesKey("sand_flow_difficulty")
         val KEY_BREATHING_PATTERN = stringPreferencesKey("breathing_pattern")
         val KEY_BREATHING_HAPTIC_ENABLED = booleanPreferencesKey("breathing_haptic_enabled")
         val KEY_BREATHING_HAPTIC_INTENSITY = stringPreferencesKey("breathing_haptic_intensity")
         val KEY_BREATHING_CYCLE_COUNT = intPreferencesKey("breathing_cycle_count")
         val KEY_UI_HAPTIC_ENABLED = booleanPreferencesKey("ui_haptic_enabled")
+        val KEY_WARMUP_ON_LAUNCH_ENABLED = booleanPreferencesKey("warmup_on_launch_enabled")
 
         const val CUSTOM_JOURNAL_FIELD_QUESTION_MAX = 120
         const val CUSTOM_JOURNAL_FIELD_HINT_MAX = 240

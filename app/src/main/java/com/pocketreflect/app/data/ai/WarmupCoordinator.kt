@@ -7,6 +7,9 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.pocketreflect.app.core.work.ModelWarmupWorker
 import com.pocketreflect.app.data.repository.ModelSelectionRepository
+import com.pocketreflect.app.data.repository.UserPreferencesRepository
+import com.pocketreflect.app.domain.ai.GemmaLocalEngine
+import dagger.Lazy
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
@@ -19,62 +22,45 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 /**
  * Координатор прогрева модели — мост между `ModelSelectionRepository`,
  * `WorkManager` и UI-gating (`WarmupGate`/`ModelBootstrapScreen`).
  *
- * ### Зачем
- * `LiteRtGemmaEngine.warmUp()` греется 10–30 с. Если этот вызов сделать
- * лениво на первом `generatePromptResponse`, пользователь увидит немой UI на
- * `JournalScreen` после нажатия «Завершить день». Мы хотим, чтобы прогрев
- * случился ОДИН раз на cold-start процесса (когда модель уже привязана),
- * чтобы дальше любой инференс шёл «по горячему».
- *
- * ### Архитектура потока
- *  1. Подписываемся на [ModelSelectionRepository.attached]: как только видим
- *     первое не-null значение, делаем `enqueueUniqueWork(..., KEEP, ...)`.
- *     `KEEP` нужен, чтобы при rotation/повторных входах в gate не плодить
- *     дубликаты.
- *  2. Параллельно подписываемся на `WorkManager.getWorkInfosForUniqueWorkFlow`.
- *     Из самого свежего `WorkInfo` берём `.state` и пропускаем через
- *     [reduceWarmupState] вместе со снимком `attached`.
- *  3. Результат — горячий [StateFlow]&lt;[WarmupState]&gt;, который читает VM.
- *
- * ### Lifetime
- * `@Singleton` — координатор должен переживать rotation Activity и navigation;
- * SharedFlow собран `SharingStarted.WhileSubscribed(5_000)` для деликатного
- * unsubscribe (5 секунд буфера, чтобы быстрое recomposition не дёргало
- * WorkManager-подписку).
- *
- * Зависимость на `WorkModule.provideWorkManager` — Singleton WorkManager
- * (тоже инжектится Hilt'ом), что даёт нам инвариант «один WorkManager на
- * процесс».
+ * Enqueue при cold-start происходит только если [UserPreferencesRepository.warmupOnLaunchEnabled].
+ * В on-demand режиме движок греется лениво при первом инференсе.
  */
 @Singleton
 class WarmupCoordinator @Inject constructor(
     private val workManager: WorkManager,
     private val modelSelectionRepo: ModelSelectionRepository,
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val gemmaLocalEngine: Lazy<GemmaLocalEngine>,
 ) {
 
-    /**
-     * Свой scope живёт всю жизнь процесса. `SupervisorJob` — чтобы падение
-     * одной подписки не уронило всю координацию; `Dispatchers.Default` —
-     * combining flows и enqueue WorkManager-задачи compute-bound.
-     */
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    /**
-     * Только факт наличия модели важен reducer'у — не содержимое
-     * `AttachedModel`. State `Unknown` отражается в [state] через
-     * `initialValue` ниже, до первого emit'а из combine.
-     */
     private val hasAttachedFlow = modelSelectionRepo.attached
         .map { it != null }
         .distinctUntilChanged()
-        .onEach { isAttached ->
-            if (isAttached) enqueueWarmupIfNeeded()
+
+    private val launchWarmupFlow = userPreferencesRepository.warmupOnLaunchEnabled
+        .distinctUntilChanged()
+
+    init {
+        combine(hasAttachedFlow, launchWarmupFlow) { isAttached, launchWarmup ->
+            isAttached to launchWarmup
         }
+            .distinctUntilChanged()
+            .onEach { (isAttached, launchWarmup) ->
+                when {
+                    isAttached && launchWarmup -> enqueueWarmupIfNeeded()
+                    !launchWarmup -> releaseWarmupResources()
+                }
+            }
+            .stateIn(scope, SharingStarted.Eagerly, false to false)
+    }
 
     private val workInfoStateFlow = workManager
         .getWorkInfosForUniqueWorkFlow(ModelWarmupWorker.UNIQUE_WORK_NAME)
@@ -84,20 +70,19 @@ class WarmupCoordinator @Inject constructor(
     val state: StateFlow<WarmupState> = combine(
         hasAttachedFlow,
         workInfoStateFlow,
-    ) { hasAttached: Boolean, workState: WorkInfo.State? ->
-        reduceWarmupState(hasAttachedModel = hasAttached, workInfoState = workState)
+        launchWarmupFlow,
+    ) { hasAttached: Boolean, workState: WorkInfo.State?, launchWarmup: Boolean ->
+        reduceWarmupState(
+            hasAttachedModel = hasAttached,
+            workInfoState = workState,
+            launchWarmupEnabled = launchWarmup,
+        )
     }.stateIn(
         scope = scope,
         started = SharingStarted.WhileSubscribed(5_000L),
         initialValue = WarmupState.Unknown,
     )
 
-    /**
-     * Enqueue с `ExistingWorkPolicy.KEEP`: если задача уже в очереди или
-     * выполняется — повторный enqueue ничего не делает. Это критично,
-     * потому что наш `hasAttachedFlow.onEach` будет дёргаться при каждом
-     * пересоздании Activity (получает новое значение из cold cache).
-     */
     private fun enqueueWarmupIfNeeded() {
         val request = OneTimeWorkRequestBuilder<ModelWarmupWorker>().build()
         workManager.enqueueUniqueWork(
@@ -105,5 +90,12 @@ class WarmupCoordinator @Inject constructor(
             ExistingWorkPolicy.KEEP,
             request,
         )
+    }
+
+    private fun releaseWarmupResources() {
+        workManager.cancelUniqueWork(ModelWarmupWorker.UNIQUE_WORK_NAME)
+        scope.launch {
+            runCatching { gemmaLocalEngine.get().release() }
+        }
     }
 }

@@ -38,6 +38,12 @@
     <string name="breathing_completion_ready">Спокойствие внутри</string>
     <string name="breathing_completion_subtitle">Вы готовы встретиться со своими мыслями без суеты.</string>
 
+    <string name="sand_flow_banner_title">Песочный поток</string>
+    <string name="sand_flow_banner_subtitle">Сфокусируйтесь на потоке песчинок для успокоения ума</string>
+    <string name="sand_flow_banner_hint">Вращайте кольца, чтобы совместить каналы и дать песку беспрепятственно проникнуть в ядро.</string>
+    <string name="sand_flow_completion_ready">Ум чист и спокоен</string>
+    <string name="sand_flow_completion_subtitle">Вы отпустили суету дня и нашли свой центр.</string>
+
     <string name="breathing_section_title">Дыхательный мост</string>
     <string name="breathing_section_subtitle">Вечерний ритуал перед дневником</string>
     <string name="breathing_pattern_label">Режим дыхания</string>
@@ -240,6 +246,8 @@
     <string name="model_backend_gpu_label">GPU</string>
     <string name="model_backend_cpu_label">CPU</string>
     <string name="model_backend_description">GPU быстрее на современных устройствах. CPU работает везде. Если ИИ-наставник отвечает медленнее обычного — попробуйте другой режим.</string>
+    <string name="model_warmup_on_launch_title">Прогревать модель при запуске</string>
+    <string name="model_warmup_on_launch_subtitle">Когда выключено, модель загружается при первом AI-запросе и освобождается при сворачивании приложения — экономия RAM. Когда включено, модель готовится при запуске (~30 с), и AI отвечает сразу.</string>
 
     <!-- Бутстрап-экран прогрева модели — Sub-PR #4 -->
     <string name="bootstrap_preparing_title">Сонастраиваемся с локальным ИИ-наставником…</string>
@@ -257,6 +265,8 @@
     <string name="chat_compact_confirm_text">Старые сообщения будут сжаты ИИ в краткое начальное воспоминание, чтобы освободить место. Это действие нельзя отменить.</string>
     <string name="chat_compact_success">Контекст успешно сжат!</string>
     <string name="chat_compact_error">Не удалось сжать контекст.</string>
+    <string name="chat_send_error">Не удалось отправить сообщение. Попробуйте ещё раз.</string>
+    <string name="chat_clear_error">Не удалось очистить чат. Попробуйте ещё раз.</string>
     <string name="chat_input_hint">Напишите что угодно…</string>
     <string name="chat_send">Отправить</string>
     <string name="chat_clear">Очистить чат</string>
@@ -318,6 +328,18 @@
     <string name="custom_journal_field_hint_placeholder">Показывается в пустом поле как мягкая подсказка</string>
     <string name="custom_journal_field_question_required">Сначала введите вопрос выше, затем включите переключатель.</string>
     <string name="custom_field_answer_placeholder">Ваш ответ…</string>
+
+    <string name="sand_flow_settings_title">Песочный поток</string>
+    <string name="sand_flow_settings_subtitle">Интерактивная кинетическая релаксация</string>
+    <string name="sand_flow_switch">Показывать Песочный поток на «Сегодня»</string>
+    <string name="sand_flow_breathing_sync_label">Дыхательная синхронизация</string>
+    <string name="sand_flow_breathing_sync_summary">Пульсация ширины каналов колец в медленном 10-секундном ритме, направляющая дыхание</string>
+    <string name="sand_flow_difficulty_label">Порог заполнения ядра</string>
+    <string name="sand_flow_difficulty_summary">Количество частиц, необходимое для наполнения ядра и завершения цикла</string>
+    <string name="sand_flow_difficulty_easy">Легко (50 частиц)</string>
+    <string name="sand_flow_difficulty_normal">Нормально (80 частиц)</string>
+    <string name="sand_flow_difficulty_deep">Глубоко (100 частиц)</string>
+    <string name="cd_sand_flow_close">Закрыть песочный поток</string>
 
     <!-- Empathic-подсказка под «Фокус на завтра» -->
     <string name="tomorrow_tasks_empathic_hint">Лучше начать с малого — мозг проще берётся за конкретное.</string>

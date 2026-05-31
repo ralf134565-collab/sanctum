@@ -19,7 +19,7 @@ Please read below to understand how your privacy and security are guaranteed whe
 All your entries, mood tags, chat history with local AI, and personal anchors are stored strictly within the secure Android application sandbox:
 * **Database Encryption (SQLCipher):** The local SQLite database is encrypted with military-grade **AES-256** encryption using 200,000 PBKDF2 iterations.
 * **Hardware-Backed Keys (Android KeyStore):** Decryption keys are hardware-generated and stored in your device's secure environment (TEE/StrongBox).
-* **Zero-Memory Footprint:** The Application explicitly zeroes out temporary passphrases in system memory (RAM) immediately after decrypting the database to prevent memory-dump attacks.
+* **Zero-Memory Footprint:** When biometric app lock is enabled, the database is closed and temporary passphrases are zeroed in RAM whenever the app goes to the background until you unlock again. With biometric lock disabled, data remains encrypted at rest (AES-256); protection from other apps is provided by Android's application sandbox.
 
 ---
 

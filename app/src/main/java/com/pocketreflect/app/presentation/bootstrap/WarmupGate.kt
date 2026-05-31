@@ -44,7 +44,8 @@ fun WarmupGate(
         WarmupState.Warming -> ModelBootstrapScreen(state = state)
         WarmupState.Ready,
         WarmupState.Failed,
-        WarmupState.NoModel -> content()
+        WarmupState.NoModel,
+        WarmupState.Idle -> content()
     }
 }
 

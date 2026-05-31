@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.pocketreflect.app.core.security.AuthSessionHolder
+import com.pocketreflect.app.core.security.DefaultDatabaseAccess
 import com.pocketreflect.app.data.local.entity.AITrendProfile
 import com.pocketreflect.app.data.local.entity.JournalEntry
 import com.pocketreflect.app.domain.model.MoodTag
@@ -12,7 +13,6 @@ import com.pocketreflect.app.testing.FakeClock
 import com.pocketreflect.app.testing.FakeUserPreferencesRepository
 import com.pocketreflect.app.testing.RobolectricRoomTestSupport
 import com.pocketreflect.app.testing.StaticDatabaseProvider
-import com.pocketreflect.app.testing.testDaggerLazy
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -43,7 +43,7 @@ class RoomJournalRepositoryMergeImportTest {
         }
         repository = RoomJournalRepository(
             databaseProvider = databaseProvider,
-            authSessionHolder = testDaggerLazy(authSessionHolder),
+            databaseAccess = DefaultDatabaseAccess(databaseProvider, authSessionHolder),
         )
     }
 

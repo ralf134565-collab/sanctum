@@ -13,6 +13,7 @@ import com.pocketreflect.app.data.model.ModelStorage
 import com.pocketreflect.app.data.model.ModelVariant
 import com.pocketreflect.app.data.repository.AttachedModel
 import com.pocketreflect.app.data.repository.ModelSelectionRepository
+import com.pocketreflect.app.data.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
@@ -51,6 +52,7 @@ class ModelSettingsViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val modelStorage: ModelStorage,
     private val repository: ModelSelectionRepository,
+    private val userPreferencesRepository: UserPreferencesRepository,
     private val clock: Clock,
 ) : ViewModel() {
 
@@ -69,6 +71,11 @@ class ModelSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             repository.selectedBackend.collect { backend ->
                 _state.update { it.copy(selectedBackend = backend) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.warmupOnLaunchEnabled.collect { enabled ->
+                _state.update { it.copy(warmupOnLaunchEnabled = enabled) }
             }
         }
     }
@@ -102,7 +109,14 @@ class ModelSettingsViewModel @Inject constructor(
                 _state.update { it.copy(isConfirmingDetach = false) }
 
             is ModelSettingsContract.Intent.SelectBackend -> persistBackend(intent.backend)
+
+            is ModelSettingsContract.Intent.SetWarmupOnLaunch -> persistWarmupOnLaunch(intent.enabled)
         }
+    }
+
+    private fun persistWarmupOnLaunch(enabled: Boolean) {
+        if (_state.value.warmupOnLaunchEnabled == enabled) return
+        viewModelScope.launch { userPreferencesRepository.setWarmupOnLaunchEnabled(enabled) }
     }
 
     /**

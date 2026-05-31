@@ -42,6 +42,7 @@ import com.pocketreflect.app.data.model.ModelManifest
 import com.pocketreflect.app.presentation.settings.model.components.AttachProgressBlock
 import com.pocketreflect.app.presentation.settings.model.components.AttachedModelCard
 import com.pocketreflect.app.presentation.settings.model.components.BackendToggle
+import com.pocketreflect.app.presentation.settings.model.components.WarmupOnLaunchToggle
 import com.pocketreflect.app.presentation.settings.model.components.ModelInfoCard
 import com.pocketreflect.app.presentation.settings.model.components.ModelVariantCard
 
@@ -192,6 +193,14 @@ private fun Content(
             selected = state.selectedBackend,
             onSelect = { backend ->
                 onIntent(ModelSettingsContract.Intent.SelectBackend(backend))
+            },
+        )
+
+        WarmupOnLaunchToggle(
+            enabled = state.attached != null,
+            checked = state.warmupOnLaunchEnabled,
+            onCheckedChange = { enabled ->
+                onIntent(ModelSettingsContract.Intent.SetWarmupOnLaunch(enabled))
             },
         )
 

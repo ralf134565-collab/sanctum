@@ -86,6 +86,7 @@ class PocketReflectApp : Application(), Configuration.Provider {
         super.onCreate()
         databaseBootstrap.ensureReadyOnMainThread()
         val lockEnabled = runBlocking { userPreferencesRepository.biometricLockEnabled.first() }
+        authSessionHolder.setRuntimeLockEnabled(lockEnabled)
         if (lockEnabled) {
             authSessionHolder.lockDatabase()
         } else {

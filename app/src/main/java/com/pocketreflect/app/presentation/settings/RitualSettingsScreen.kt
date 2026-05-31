@@ -76,5 +76,13 @@ private fun RitualSettingsContent(
             onQuestionChange = { onIntent(SettingsContract.Intent.SetCustomJournalFieldQuestion(it)) },
             onHintChange = { onIntent(SettingsContract.Intent.SetCustomJournalFieldHint(it)) },
         )
+        SandFlowSettingsSection(
+            enabled = state.sandFlowEnabled,
+            breathingSyncEnabled = state.sandFlowBreathingSyncEnabled,
+            difficulty = state.sandFlowDifficulty,
+            onToggle = { onIntent(SettingsContract.Intent.ToggleSandFlow(it)) },
+            onToggleBreathingSync = { onIntent(SettingsContract.Intent.ToggleSandFlowBreathingSync(it)) },
+            onDifficultySelected = { onIntent(SettingsContract.Intent.SetSandFlowDifficulty(it)) },
+        )
     }
 }

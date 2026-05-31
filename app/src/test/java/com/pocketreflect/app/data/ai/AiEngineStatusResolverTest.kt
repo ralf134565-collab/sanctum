@@ -34,13 +34,37 @@ class AiEngineStatusResolverTest {
     }
 
     @Test
-    fun `attached and ready warmup is real ready`() {
+    fun `attached and ready warmup without real engine is fallback`() {
+        assertEquals(
+            AiEngineStatus.FALLBACK,
+            resolveAiEngineStatus(
+                hasAttachedModel = true,
+                warmupState = WarmupState.Ready,
+                realEngineReady = false,
+            ),
+        )
+    }
+
+    @Test
+    fun `attached and idle without real engine is fallback`() {
+        assertEquals(
+            AiEngineStatus.FALLBACK,
+            resolveAiEngineStatus(
+                hasAttachedModel = true,
+                warmupState = WarmupState.Idle,
+                realEngineReady = false,
+            ),
+        )
+    }
+
+    @Test
+    fun `attached and ready warmup with real engine is real ready`() {
         assertEquals(
             AiEngineStatus.REAL_READY,
             resolveAiEngineStatus(
                 hasAttachedModel = true,
                 warmupState = WarmupState.Ready,
-                realEngineReady = false,
+                realEngineReady = true,
             ),
         )
     }
@@ -64,6 +88,18 @@ class AiEngineStatusResolverTest {
             resolveAiEngineStatus(
                 hasAttachedModel = true,
                 warmupState = WarmupState.Failed,
+                realEngineReady = false,
+            ),
+        )
+    }
+
+    @Test
+    fun `attached unknown without real engine is fallback`() {
+        assertEquals(
+            AiEngineStatus.FALLBACK,
+            resolveAiEngineStatus(
+                hasAttachedModel = true,
+                warmupState = WarmupState.Unknown,
                 realEngineReady = false,
             ),
         )

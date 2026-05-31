@@ -101,6 +101,15 @@ interface UserPreferencesRepository {
     suspend fun setCustomJournalFieldQuestion(question: String)
     suspend fun setCustomJournalFieldHint(hint: String)
 
+    /** Настройки практики «Песочный поток» (Sand Flow). */
+    val sandFlowEnabled: Flow<Boolean>
+    val sandFlowBreathingSyncEnabled: Flow<Boolean>
+    val sandFlowDifficulty: Flow<Int> // 50 (легко), 80 (нормально), 100 (глубоко)
+
+    suspend fun setSandFlowEnabled(enabled: Boolean)
+    suspend fun setSandFlowBreathingSyncEnabled(enabled: Boolean)
+    suspend fun setSandFlowDifficulty(difficulty: Int)
+
     /** Режим дыхательного моста на экране «Сегодня». */
     val breathingPattern: Flow<BreathingPattern>
     val breathingHapticEnabled: Flow<Boolean>
@@ -116,6 +125,14 @@ interface UserPreferencesRepository {
     /** Включен ли тактильный отклик интерфейса (выбор тегов, кнопки). */
     val uiHapticEnabled: Flow<Boolean>
     suspend fun setUiHapticEnabled(enabled: Boolean)
+
+    /**
+     * Прогревать локальную Gemma при запуске приложения (WorkManager + bootstrap UI).
+     * По умолчанию `false` — модель загружается при первом AI-запросе и освобождается
+     * при сворачивании приложения.
+     */
+    val warmupOnLaunchEnabled: Flow<Boolean>
+    suspend fun setWarmupOnLaunchEnabled(enabled: Boolean)
 
     /** Первый запуск на en*-устройстве → сохранить [AppLanguage.EN]. */
     suspend fun ensureFirstRunLanguageBootstrap()

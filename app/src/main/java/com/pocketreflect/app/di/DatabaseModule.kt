@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package com.pocketreflect.app.di
 
+import com.pocketreflect.app.core.security.DatabaseAccess
 import com.pocketreflect.app.core.security.DatabaseProvider
+import com.pocketreflect.app.core.security.DefaultDatabaseAccess
 import com.pocketreflect.app.data.local.RoomDatabaseProvider
 import dagger.Binds
 import dagger.Module
@@ -32,4 +34,8 @@ abstract class DatabaseModule {
     @Binds
     @Singleton
     abstract fun bindDatabaseProvider(impl: RoomDatabaseProvider): DatabaseProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindDatabaseAccess(impl: DefaultDatabaseAccess): DatabaseAccess
 }

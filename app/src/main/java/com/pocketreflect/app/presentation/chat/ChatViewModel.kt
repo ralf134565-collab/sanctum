@@ -216,48 +216,58 @@ class ChatViewModel @Inject constructor(
                 timestamp = clock.nowMillis(),
                 personaId = snapshot.persona.storageKey,
             )
-            chatRepository.insert(userMessage)
-            val history = chatRepository.observeMessages(snapshot.persona.storageKey).first()
-            val journalSnippet = if (snapshot.journalContextEnabled) journalSnippetCache else null
-            val manifestoSnippet = if (snapshot.manifestoContextEnabled) {
-                manifestoSnippetCache.takeIf { it.isNotBlank() }
-            } else {
-                null
-            }
-            val trimmed = ChatContextPolicy.trimHistoryForInference(
-                messages = history,
-                journalSnippetLength = journalSnippet?.length ?: 0,
-                manifestoSnippetLength = manifestoSnippet?.length ?: 0,
-            )
-            val buffer = StringBuilder()
             try {
-                gemmaEngine.streamChat(
-                    history = trimmed,
-                    persona = snapshot.persona,
-                    journalSnippet = journalSnippet,
-                    manifestoSnippet = manifestoSnippet,
-                ).collect { chunk ->
-                    buffer.append(chunk)
-                    _state.update { it.copy(streamingPreview = buffer.toString()) }
+                chatRepository.insert(userMessage)
+                val history = chatRepository.observeMessages(snapshot.persona.storageKey).first()
+                val journalSnippet = if (snapshot.journalContextEnabled) journalSnippetCache else null
+                val manifestoSnippet = if (snapshot.manifestoContextEnabled) {
+                    manifestoSnippetCache.takeIf { it.isNotBlank() }
+                } else {
+                    null
                 }
-                val assistant = ChatMessage(
-                    role = ChatRole.ASSISTANT,
-                    content = buffer.toString().trim().ifEmpty { "…" },
-                    timestamp = clock.nowMillis(),
-                    personaId = snapshot.persona.storageKey,
+                val trimmed = ChatContextPolicy.trimHistoryForInference(
+                    messages = history,
+                    journalSnippetLength = journalSnippet?.length ?: 0,
+                    manifestoSnippetLength = manifestoSnippet?.length ?: 0,
                 )
-                chatRepository.insert(assistant)
-            } catch (_: kotlinx.coroutines.CancellationException) {
-                if (buffer.isNotBlank()) {
-                    chatRepository.insert(
-                        ChatMessage(
-                            role = ChatRole.ASSISTANT,
-                            content = buffer.toString().trim(),
-                            timestamp = clock.nowMillis(),
-                            personaId = snapshot.persona.storageKey,
-                        ),
+                val buffer = StringBuilder()
+                try {
+                    gemmaEngine.streamChat(
+                        history = trimmed,
+                        persona = snapshot.persona,
+                        journalSnippet = journalSnippet,
+                        manifestoSnippet = manifestoSnippet,
+                    ).collect { chunk ->
+                        buffer.append(chunk)
+                        _state.update { it.copy(streamingPreview = buffer.toString()) }
+                    }
+                    val assistant = ChatMessage(
+                        role = ChatRole.ASSISTANT,
+                        content = buffer.toString().trim().ifEmpty { "…" },
+                        timestamp = clock.nowMillis(),
+                        personaId = snapshot.persona.storageKey,
                     )
+                    chatRepository.insert(assistant)
+                } catch (_: kotlinx.coroutines.CancellationException) {
+                    if (buffer.isNotBlank()) {
+                        chatRepository.insert(
+                            ChatMessage(
+                                role = ChatRole.ASSISTANT,
+                                content = buffer.toString().trim(),
+                                timestamp = clock.nowMillis(),
+                                personaId = snapshot.persona.storageKey,
+                            ),
+                        )
+                    }
                 }
+            } catch (t: Throwable) {
+                Log.e(TAG, "Chat send failed", t)
+                _state.update { it.copy(inputText = text) }
+                _effects.trySend(
+                    ChatContract.Effect.ShowSnackbar(
+                        appContext.getString(R.string.chat_send_error),
+                    ),
+                )
             } finally {
                 _state.update { it.copy(isStreaming = false, streamingPreview = null) }
             }
@@ -267,8 +277,18 @@ class ChatViewModel @Inject constructor(
     private fun clearChat() {
         viewModelScope.launch {
             val snapshot = _state.value
-            chatRepository.clearPersonaChat(snapshot.persona.storageKey)
-            _state.update { it.copy(showClearConfirm = false) }
+            try {
+                chatRepository.clearPersonaChat(snapshot.persona.storageKey)
+                _state.update { it.copy(showClearConfirm = false) }
+            } catch (t: Throwable) {
+                Log.e(TAG, "Chat clear failed", t)
+                _state.update { it.copy(showClearConfirm = false) }
+                _effects.trySend(
+                    ChatContract.Effect.ShowSnackbar(
+                        appContext.getString(R.string.chat_clear_error),
+                    ),
+                )
+            }
         }
     }
 

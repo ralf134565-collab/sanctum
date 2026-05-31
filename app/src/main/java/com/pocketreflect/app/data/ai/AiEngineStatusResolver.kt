@@ -11,10 +11,10 @@ internal fun resolveAiEngineStatus(
     if (!hasAttachedModel) return AiEngineStatus.MODEL_OFFLINE
     if (realEngineReady) return AiEngineStatus.REAL_READY
     return when (warmupState) {
-        WarmupState.Warming,
+        WarmupState.Warming -> AiEngineStatus.WARMING
         WarmupState.Unknown,
-        -> AiEngineStatus.WARMING
-        WarmupState.Ready -> AiEngineStatus.REAL_READY
+        WarmupState.Idle,
+        WarmupState.Ready,
         WarmupState.Failed,
         WarmupState.NoModel,
         -> AiEngineStatus.FALLBACK

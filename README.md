@@ -18,10 +18,14 @@ Every aspect of Sanctum is architected to protect your inner world. Unlike typic
    - **Zero-Memory Footprint**: All entered passphrases use `CharArray` and are explicitly zeroed out in RAM using memory wiping (`Arrays.fill`) immediately after use.
 
 3. **Strict Biometric Gate**
-   - Active database connections are closed and decryption keys are completely erased from memory when the application is backgrounded or locked.
-   - WorkManager background processes dynamically check cryptographic status and defer operations when locked, ensuring no leak can happen.
+   - When biometric lock is enabled, the database is closed and passphrases are wiped from RAM when the app is backgrounded until you unlock again.
+   - WorkManager background processes defer work while the database is locked.
 
-4. **Private On-Device AI (LiteRT-LM)**
+4. **Evening Rituals**
+   - **Breathing bridge** — guided resonant or box breathing before reflection.
+   - **Sand Flow** — interactive kinetic relaxation (rotate rings, guide sand into the core).
+
+5. **Private On-Device AI (LiteRT-LM)**
    - All reflection mentoring is processed using local **Gemma** quantized models running via the Google LiteRT (TensorFlow Lite) runtime.
    - Streaming is thread-safe and isolated. In case of process memory trim or cancellation, resources are proactively reclaimed to prevent JNI lockups.
 
@@ -42,17 +46,9 @@ Every aspect of Sanctum is architected to protect your inner world. Unlike typic
 ## 📂 Project Structure
 
 ```
-├── app/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/pocketreflect/app/
-│   │   │   │   ├── core/           # Security, time, work providers
-│   │   │   │   ├── data/           # Repositories, AI Engines, Transfer decoders
-│   │   │   │   ├── di/             # Hilt Dependency Injection modules
-│   │   │   │   ├── domain/         # Domain models, Chat/Journal prompt templates
-│   │   │   │   └── presentation/   # Compose UI (Screens, ViewModels, Contracts)
-│   │   │   └── res/                # Localized strings (EN, RU) and themes
-│   │   └── build.gradle.kts        # App build configuration and dependencies
+├── app/                    # Main Sanctum application
+├── feature-mandala/        # Sand Flow engine and canvas (used by app)
+└── sandbox-mandala/        # Standalone mandala dev sandbox (optional)
 ```
 
 ---
@@ -88,8 +84,18 @@ Sanctum is developed entirely as a labor of love for human privacy and digital w
 
 If you believe in our mission of offline, private mental health software, please consider supporting development:
 
-- **Boosty (for ruble donations)**: *Coming soon!*
 - Star our repository on GitHub!
+- See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+---
+
+## 📋 Releases
+
+Tagged releases: [GitHub Releases](https://github.com/ralf134565-collab/sanctum/releases).  
+Latest: **1.2.0** — Sand Flow, stability after background, database access improvements.
+
+Build RuStore APK: `./gradlew :app:assembleRustoreRelease`  
+Build global APK: `./gradlew :app:assembleGlobalRelease`
 
 ---
 

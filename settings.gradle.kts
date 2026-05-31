@@ -28,4 +28,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "PocketReflect"
 include(":app")
+include(":feature-mandala")
+include(":sandbox-mandala")
  

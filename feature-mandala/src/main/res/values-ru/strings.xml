@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_focus">Заметьте, где в теле живёт напряжение. Направьте дыхание туда.</string>
+    <string name="intro_tap_to_begin">Коснитесь для начала</string>
+    <string name="session_complete">Цикл завершен. Отпустите.</string>
+    <string name="session_restart">Коснитесь, чтобы начать заново</string>
+</resources>

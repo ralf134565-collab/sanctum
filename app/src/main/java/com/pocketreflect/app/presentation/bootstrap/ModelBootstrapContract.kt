@@ -22,7 +22,8 @@ object ModelBootstrapContract {
         val isFinished: Boolean
             get() = warmup == WarmupState.Ready ||
                 warmup == WarmupState.Failed ||
-                warmup == WarmupState.NoModel
+                warmup == WarmupState.NoModel ||
+                warmup == WarmupState.Idle
 
         /** Показывать ли «работаем в режиме поддержки»-сообщение. */
         val hasFailed: Boolean

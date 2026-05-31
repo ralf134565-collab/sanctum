@@ -10,7 +10,8 @@ Only the latest release of Sanctum is supported with security updates and patche
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.x   | ✅ Yes     |
+| 1.2.x   | ✅ Yes     |
+| 1.0.x   | ❌ No      |
 | < 1.0   | ❌ No      |
 
 ---

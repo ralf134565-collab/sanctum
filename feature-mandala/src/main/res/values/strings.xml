@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_focus">Notice where stress lives in your body. Breathe into that place.</string>
+    <string name="intro_tap_to_begin">Tap to begin</string>
+    <string name="session_complete">Cycle complete. Let go.</string>
+    <string name="session_restart">Tap to begin again</string>
+</resources>

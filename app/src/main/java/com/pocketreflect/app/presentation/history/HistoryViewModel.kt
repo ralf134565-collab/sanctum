@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pocketreflect.app.core.locale.AppLanguage
 import com.pocketreflect.app.core.locale.AppLanguageResolver
+import com.pocketreflect.app.core.security.DatabaseAccess
 import com.pocketreflect.app.core.time.DateFormats
 import com.pocketreflect.app.data.local.entity.JournalEntry
 import com.pocketreflect.app.data.repository.JournalRepository
@@ -37,6 +38,7 @@ class HistoryViewModel @Inject constructor(
     private val journalRepository: JournalRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
     private val appLanguageResolver: AppLanguageResolver,
+    private val databaseAccess: DatabaseAccess,
 ) : ViewModel() {
 
     private val reloadSignal = MutableStateFlow(0)
@@ -48,6 +50,15 @@ class HistoryViewModel @Inject constructor(
             searchQuery
                 .debounce(SEARCH_DEBOUNCE_MS)
                 .collect { debouncedSearchQuery.value = it }
+        }
+        viewModelScope.launch {
+            var wasReady = false
+            databaseAccess.isReady.collect { ready ->
+                if (ready && !wasReady) {
+                    reloadSignal.update { it + 1 }
+                }
+                wasReady = ready
+            }
         }
     }
 

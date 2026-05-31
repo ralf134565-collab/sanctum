@@ -34,6 +34,7 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     private val breathingHapticIntensityPref = MutableStateFlow(BreathingHapticIntensity.DEFAULT)
     private val breathingCycles = MutableStateFlow(6)
     private val uiHaptic = MutableStateFlow(true)
+    private val warmupOnLaunch = MutableStateFlow(false)
 
     override val biometricLockEnabled: Flow<Boolean> = lockEnabled.asStateFlow()
     override val autoLockTimeout: Flow<AutoLockTimeout> = autoLock.asStateFlow()
@@ -58,6 +59,15 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     override val breathingCycleCount: Flow<Int> = breathingCycles.asStateFlow()
     override val lastTimeEchoDismissedAt: Flow<Long?> = MutableStateFlow(null).asStateFlow()
     override val uiHapticEnabled: Flow<Boolean> = uiHaptic.asStateFlow()
+    override val warmupOnLaunchEnabled: Flow<Boolean> = warmupOnLaunch.asStateFlow()
+
+    override val sandFlowEnabled: Flow<Boolean> = MutableStateFlow(true).asStateFlow()
+    override val sandFlowBreathingSyncEnabled: Flow<Boolean> = MutableStateFlow(true).asStateFlow()
+    override val sandFlowDifficulty: Flow<Int> = MutableStateFlow(80).asStateFlow()
+
+    override suspend fun setSandFlowEnabled(enabled: Boolean) = Unit
+    override suspend fun setSandFlowBreathingSyncEnabled(enabled: Boolean) = Unit
+    override suspend fun setSandFlowDifficulty(difficulty: Int) = Unit
 
     override suspend fun markTimeEchoDismissed(timestamp: Long) = Unit
 
@@ -143,6 +153,10 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
 
     override suspend fun setUiHapticEnabled(enabled: Boolean) {
         uiHaptic.value = enabled
+    }
+
+    override suspend fun setWarmupOnLaunchEnabled(enabled: Boolean) {
+        warmupOnLaunch.value = enabled
     }
 
     override suspend fun ensureFirstRunLanguageBootstrap() = Unit

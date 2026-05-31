@@ -31,6 +31,78 @@ class HapticFeedback internal constructor(
 
     private val vibrator: Vibrator? = resolveVibrator(context)
 
+    /**
+     * Тактильный отклик для вращения колец в «Песочном потоке» (Sand Flow).
+     * Частота и амплитуда зависят от угловой скорости вращения.
+     */
+    fun sandFlowRotation(intensity: Float) {
+        if (!isEnabled || intensity <= 0.05f) return
+        val v = vibrator ?: return
+        if (!v.hasVibrator()) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            v.areAllPrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_LOW_TICK)
+        ) {
+            val composition = VibrationEffect.startComposition()
+            val scale = (0.08f + intensity * 0.42f).coerceIn(0.08f, 0.5f)
+            composition.addPrimitive(VibrationEffect.Composition.PRIMITIVE_LOW_TICK, scale)
+            vibrateEffect(v, composition.compose())
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val amplitude = (40f + intensity * 110f).toInt().coerceIn(30, 150)
+            vibrateEffect(v, VibrationEffect.createOneShot(10, amplitude))
+        } else {
+            @Suppress("DEPRECATION")
+            v.vibrate(10)
+        }
+    }
+
+    /**
+     * Тактильный отклик при прохождении песчинки сквозь каналы колец.
+     * Деликатный, ультра-короткий импульс.
+     */
+    fun sandFlowPass() {
+        if (!isEnabled) return
+        val v = vibrator ?: return
+        if (!v.hasVibrator()) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            v.areAllPrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_LOW_TICK)
+        ) {
+            val composition = VibrationEffect.startComposition()
+            composition.addPrimitive(VibrationEffect.Composition.PRIMITIVE_LOW_TICK, 0.12f)
+            vibrateEffect(v, composition.compose())
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrateEffect(v, VibrationEffect.createOneShot(8, 35))
+        } else {
+            @Suppress("DEPRECATION")
+            v.vibrate(8)
+        }
+    }
+
+    /**
+     * Тактильный отклик при поглощении песчинки ядром.
+     * Мягкий волновой эффект, создающий ощущение всасывания.
+     */
+    fun sandFlowCoreCapture() {
+        if (!isEnabled) return
+        val v = vibrator ?: return
+        if (!v.hasVibrator()) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrateEffect(
+                v,
+                VibrationEffect.createWaveform(
+                    longArrayOf(0, 15, 30, 15),
+                    intArrayOf(0, 45, 0, 25),
+                    -1
+                )
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            v.vibrate(30)
+        }
+    }
+
     /** Лёгкая «галочка» — выбор тега, переключатель (очень короткий деликатный импульс). */
     fun tick() {
         if (!isEnabled) return

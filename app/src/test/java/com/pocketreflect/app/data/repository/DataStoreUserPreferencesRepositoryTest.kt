@@ -87,6 +87,19 @@ class DataStoreUserPreferencesRepositoryTest {
     }
 
     @Test
+    fun `warmupOnLaunchEnabled defaults to false`() = runTest(testDispatcher) {
+        assertEquals(false, repository.warmupOnLaunchEnabled.first())
+    }
+
+    @Test
+    fun `setWarmupOnLaunchEnabled is observed via flow`() = runTest(testDispatcher) {
+        repository.setWarmupOnLaunchEnabled(true)
+        assertEquals(true, repository.warmupOnLaunchEnabled.first())
+        repository.setWarmupOnLaunchEnabled(false)
+        assertEquals(false, repository.warmupOnLaunchEnabled.first())
+    }
+
+    @Test
     fun `setUiHapticEnabled is observed via flow`() = runTest(testDispatcher) {
         assertEquals(true, repository.uiHapticEnabled.first())
         repository.setUiHapticEnabled(false)

@@ -2,19 +2,14 @@
 package com.pocketreflect.app.data.repository
 
 import androidx.room.withTransaction
-import com.pocketreflect.app.core.security.AuthSessionHolder
+import com.pocketreflect.app.core.security.DatabaseAccess
 import com.pocketreflect.app.core.security.DatabaseProvider
 import com.pocketreflect.app.core.time.DayBucket
 import com.pocketreflect.app.data.local.entity.AITrendProfile
 import com.pocketreflect.app.data.local.entity.JournalEntry
-import dagger.Lazy
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapLatest
 
 /**
  * Абстракция над локальным хранилищем для presentation- и domain-слоёв.
@@ -70,154 +65,157 @@ data class ImportMergeReport(
 @Singleton
 class RoomJournalRepository @Inject constructor(
     private val databaseProvider: DatabaseProvider,
-    private val authSessionHolder: Lazy<AuthSessionHolder>,
+    private val databaseAccess: DatabaseAccess,
 ) : JournalRepository {
 
-    private fun journalDao() = databaseProvider.get().journalDao()
-    private fun aiTrendProfileDao() = databaseProvider.get().aiTrendProfileDao()
-    private fun chatMessageDao() = databaseProvider.get().chatMessageDao()
-
-    private fun dbReadyFlow(): Flow<Boolean> = combine(
-        authSessionHolder.get().isAuthenticated,
-        databaseProvider.isLocked,
-        databaseProvider.revision,
-    ) { authenticated, locked, _ -> authenticated && !locked }
-
     override fun observeHistory(): Flow<List<JournalEntry>> =
-        dbReadyFlow().flatMapLatest { ready ->
-            if (ready) {
-                runCatching { journalDao().observeAll() }
-                    .getOrElse { emptyFlow() }
-                    .catch { emit(emptyList()) }
-            } else {
-                emptyFlow()
-            }
+        databaseAccess.observeWhenReady(emptyList()) {
+            databaseProvider.get().journalDao().observeAll()
         }
 
     override fun observeToday(): Flow<JournalEntry?> =
-        dbReadyFlow().flatMapLatest { ready ->
-            if (ready) {
-                runCatching { journalDao().observeByDay(DayBucket.today()) }
-                    .getOrElse { emptyFlow() }
-                    .catch { emit(null) }
-            } else {
-                emptyFlow()
-            }
+        databaseAccess.observeWhenReady(null) {
+            databaseProvider.get().journalDao().observeByDay(DayBucket.today())
         }
 
     override suspend fun findToday(): JournalEntry? =
-        journalDao().findByDay(DayBucket.today())
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findByDay(DayBucket.today())
+        }
 
     override suspend fun findByDay(dayBucket: String): JournalEntry? =
-        journalDao().findByDay(dayBucket)
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findByDay(dayBucket)
+        }
 
-    override suspend fun saveEntry(entry: JournalEntry): Long {
-        val existing = journalDao().findByDay(entry.dayBucket)
-        val normalized = if (existing != null) entry.copy(id = existing.id) else entry
-        return journalDao().upsert(normalized)
-    }
+    override suspend fun saveEntry(entry: JournalEntry): Long =
+        databaseAccess.whenReady {
+            val journalDao = databaseProvider.get().journalDao()
+            val existing = journalDao.findByDay(entry.dayBucket)
+            val normalized = if (existing != null) entry.copy(id = existing.id) else entry
+            journalDao.upsert(normalized)
+        }
 
-    override suspend fun delete(entry: JournalEntry) = journalDao().delete(entry)
+    override suspend fun delete(entry: JournalEntry) =
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().delete(entry)
+        }
 
-    override suspend fun findById(id: Long): JournalEntry? = journalDao().findById(id)
+    override suspend fun findById(id: Long): JournalEntry? =
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findById(id)
+        }
 
     override fun observeById(id: Long): Flow<JournalEntry?> =
-        dbReadyFlow().flatMapLatest { ready ->
-            if (ready) {
-                runCatching { journalDao().observeById(id) }
-                    .getOrElse { emptyFlow() }
-                    .catch { emit(null) }
-            } else {
-                emptyFlow()
-            }
+        databaseAccess.observeWhenReady(null) {
+            databaseProvider.get().journalDao().observeById(id)
         }
 
-    override suspend fun entriesForLastDays(days: Int): List<JournalEntry> {
-        val fromDate = DayBucket.toLocalDate(DayBucket.today())
-            .minusDays((days - 1).toLong())
-        return journalDao().entriesSinceDayBucket(DayBucket.fromLocalDate(fromDate))
-    }
+    override suspend fun entriesForLastDays(days: Int): List<JournalEntry> =
+        databaseAccess.whenReady {
+            val journalDao = databaseProvider.get().journalDao()
+            val fromDate = DayBucket.toLocalDate(DayBucket.today())
+                .minusDays((days - 1).toLong())
+            journalDao.entriesSinceDayBucket(DayBucket.fromLocalDate(fromDate))
+        }
 
     override suspend fun findEntryInDayRange(fromDayBucket: String, toDayBucket: String): JournalEntry? =
-        journalDao().findEntryInDayRange(fromDayBucket, toDayBucket)
-
-    override suspend fun findLastNEntries(count: Int): List<JournalEntry> =
-        journalDao().findLastNEntries(count)
-
-    override fun observeTrendProfiles(): Flow<List<AITrendProfile>> =
-        dbReadyFlow().flatMapLatest { ready ->
-            if (ready) {
-                runCatching { aiTrendProfileDao().observeAll() }
-                    .getOrElse { emptyFlow() }
-                    .catch { emit(emptyList()) }
-            } else {
-                emptyFlow()
-            }
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findEntryInDayRange(fromDayBucket, toDayBucket)
         }
 
-    override suspend fun latestTrendProfile(): AITrendProfile? = aiTrendProfileDao().latest()
+    override suspend fun findLastNEntries(count: Int): List<JournalEntry> =
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findLastNEntries(count)
+        }
+
+    override fun observeTrendProfiles(): Flow<List<AITrendProfile>> =
+        databaseAccess.observeWhenReady(emptyList()) {
+            databaseProvider.get().aiTrendProfileDao().observeAll()
+        }
+
+    override suspend fun latestTrendProfile(): AITrendProfile? =
+        databaseAccess.whenReady {
+            databaseProvider.get().aiTrendProfileDao().latest()
+        }
 
     override suspend fun saveTrendProfile(profile: AITrendProfile): Long =
-        aiTrendProfileDao().insert(profile)
+        databaseAccess.whenReady {
+            databaseProvider.get().aiTrendProfileDao().insert(profile)
+        }
 
     override suspend fun wipeAll() {
-        databaseProvider.get().withTransaction {
-            journalDao().deleteAll()
-            aiTrendProfileDao().deleteAll()
-            chatMessageDao().deleteAll()
+        databaseAccess.whenReady {
+            val db = databaseProvider.get()
+            db.withTransaction {
+                db.journalDao().deleteAll()
+                db.aiTrendProfileDao().deleteAll()
+                db.chatMessageDao().deleteAll()
+            }
         }
     }
 
-    override suspend fun findAllEntries(): List<JournalEntry> = journalDao().findAll()
+    override suspend fun findAllEntries(): List<JournalEntry> =
+        databaseAccess.whenReady {
+            databaseProvider.get().journalDao().findAll()
+        }
 
-    override suspend fun findAllProfiles(): List<AITrendProfile> = aiTrendProfileDao().findAll()
+    override suspend fun findAllProfiles(): List<AITrendProfile> =
+        databaseAccess.whenReady {
+            databaseProvider.get().aiTrendProfileDao().findAll()
+        }
 
     override suspend fun mergeImport(
         entries: List<JournalEntry>,
         profiles: List<AITrendProfile>,
         overwrite: Boolean,
-    ): ImportMergeReport = databaseProvider.get().withTransaction {
-        val existingByDay: Map<String, JournalEntry> = journalDao().findAll()
-            .associateBy { it.dayBucket }
-        val existingProfileKeys: Set<Triple<Long, Long, Long>> =
-            aiTrendProfileDao().findAll()
-                .mapTo(HashSet()) { Triple(it.periodStart, it.periodEnd, it.generatedAt) }
+    ): ImportMergeReport = databaseAccess.whenReady {
+        val db = databaseProvider.get()
+        db.withTransaction {
+            val journalDao = db.journalDao()
+            val aiTrendProfileDao = db.aiTrendProfileDao()
+            val existingByDay: Map<String, JournalEntry> = journalDao.findAll()
+                .associateBy { it.dayBucket }
+            val existingProfileKeys: Set<Triple<Long, Long, Long>> =
+                aiTrendProfileDao.findAll()
+                    .mapTo(HashSet()) { Triple(it.periodStart, it.periodEnd, it.generatedAt) }
 
-        var insertedEntries = 0
-        var skippedEntries = 0
-        for (incoming in entries) {
-            val existing = existingByDay[incoming.dayBucket]
-            if (existing == null) {
-                journalDao().upsert(incoming.copy(id = 0L))
-                insertedEntries++
-            } else if (overwrite) {
-                journalDao().upsert(incoming.copy(id = existing.id))
-                insertedEntries++
-            } else {
-                skippedEntries++
+            var insertedEntries = 0
+            var skippedEntries = 0
+            for (incoming in entries) {
+                val existing = existingByDay[incoming.dayBucket]
+                if (existing == null) {
+                    journalDao.upsert(incoming.copy(id = 0L))
+                    insertedEntries++
+                } else if (overwrite) {
+                    journalDao.upsert(incoming.copy(id = existing.id))
+                    insertedEntries++
+                } else {
+                    skippedEntries++
+                }
             }
-        }
 
-        var insertedProfiles = 0
-        var skippedProfiles = 0
-        for (incoming in profiles) {
-            val key = Triple(incoming.periodStart, incoming.periodEnd, incoming.generatedAt)
-            if (key !in existingProfileKeys) {
-                aiTrendProfileDao().insert(incoming.copy(id = 0L))
-                insertedProfiles++
-            } else if (overwrite) {
-                aiTrendProfileDao().insert(incoming.copy(id = 0L))
-                insertedProfiles++
-            } else {
-                skippedProfiles++
+            var insertedProfiles = 0
+            var skippedProfiles = 0
+            for (incoming in profiles) {
+                val key = Triple(incoming.periodStart, incoming.periodEnd, incoming.generatedAt)
+                if (key !in existingProfileKeys) {
+                    aiTrendProfileDao.insert(incoming.copy(id = 0L))
+                    insertedProfiles++
+                } else if (overwrite) {
+                    aiTrendProfileDao.insert(incoming.copy(id = 0L))
+                    insertedProfiles++
+                } else {
+                    skippedProfiles++
+                }
             }
-        }
 
-        ImportMergeReport(
-            insertedEntries = insertedEntries,
-            skippedEntries = skippedEntries,
-            insertedProfiles = insertedProfiles,
-            skippedProfiles = skippedProfiles,
-        )
+            ImportMergeReport(
+                insertedEntries = insertedEntries,
+                skippedEntries = skippedEntries,
+                insertedProfiles = insertedProfiles,
+                skippedProfiles = skippedProfiles,
+            )
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.pocketreflect.app.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import androidx.lifecycle.viewModelScope
 import com.pocketreflect.app.core.locale.AppLanguageResolver
+import com.pocketreflect.app.core.security.DatabaseAccess
 import com.pocketreflect.app.core.time.Clock
 import com.pocketreflect.app.core.time.DayBucket
 import com.pocketreflect.app.core.work.WeeklySummaryPolicy
@@ -50,6 +51,7 @@ class JournalViewModel @Inject constructor(
     private val aiEngineStatusSource: AiEngineStatusSource,
     private val appLanguageResolver: AppLanguageResolver,
     private val userPreferencesRepository: UserPreferencesRepository,
+    private val databaseAccess: DatabaseAccess,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(JournalContract.State())
@@ -112,6 +114,34 @@ class JournalViewModel @Inject constructor(
         viewModelScope.launch {
             userPreferencesRepository.uiHapticEnabled.collect { enabled ->
                 _state.update { it.copy(uiHapticEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowEnabled.collect { enabled ->
+                _state.update { it.copy(sandFlowEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowBreathingSyncEnabled.collect { enabled ->
+                _state.update { it.copy(sandFlowBreathingSyncEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.sandFlowDifficulty.collect { difficulty ->
+                _state.update { it.copy(sandFlowDifficulty = difficulty) }
+            }
+        }
+        viewModelScope.launch {
+            var wasReady = false
+            databaseAccess.isReady.collect { ready ->
+                if (ready && !wasReady) {
+                    val current = _state.value
+                    if (current.bootstrapFailed) {
+                        val day = current.selectedDayBucket.takeIf { it.isNotBlank() } ?: clock.today()
+                        loadDay(day)
+                    }
+                }
+                wasReady = ready
             }
         }
     }

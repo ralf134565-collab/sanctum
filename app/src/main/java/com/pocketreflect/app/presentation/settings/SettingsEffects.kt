@@ -15,6 +15,8 @@ internal fun CollectSettingsEffects(
     val biometricUnavailableMessage = stringResource(R.string.security_lock_unavailable)
     val customFieldQuestionRequiredMessage =
         stringResource(R.string.custom_journal_field_question_required)
+    val customPersonaPromptRequiredMessage =
+        stringResource(R.string.chat_custom_persona_prompt_required)
     val wipeCompletedMessage = stringResource(R.string.settings_wipe_completed)
 
     LaunchedEffect(viewModel) {
@@ -28,6 +30,8 @@ internal fun CollectSettingsEffects(
                     snackbarHostState.showSnackbar(biometricUnavailableMessage)
                 SettingsContract.Effect.CustomFieldQuestionRequired ->
                     snackbarHostState.showSnackbar(customFieldQuestionRequiredMessage)
+                SettingsContract.Effect.CustomPersonaPromptRequired ->
+                    snackbarHostState.showSnackbar(customPersonaPromptRequiredMessage)
             }
         }
     }

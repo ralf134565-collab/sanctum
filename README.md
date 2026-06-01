@@ -24,6 +24,8 @@ Every aspect of Sanctum is architected to protect your inner world. Unlike typic
 4. **Evening Rituals**
    - **Breathing bridge** — guided resonant or box breathing before reflection.
    - **Sand Flow** — interactive kinetic relaxation (rotate rings, guide sand into the core).
+   - **Evening music** — optional ambient playback while the app is open (built-in + your tracks).
+   - **Insights** (`Картина`) — local patterns from your mood labels over 30/90 days.
 
 5. **Private On-Device AI (LiteRT-LM)**
    - All reflection mentoring is processed using local **Gemma** quantized models running via the Google LiteRT (TensorFlow Lite) runtime.
@@ -48,6 +50,7 @@ Every aspect of Sanctum is architected to protect your inner world. Unlike typic
 ```
 ├── app/                    # Main Sanctum application
 ├── feature-mandala/        # Sand Flow engine and canvas (used by app)
+├── feature-insights/       # Insights tab (state map, patterns)
 └── sandbox-mandala/        # Standalone mandala dev sandbox (optional)
 ```
 
@@ -98,7 +101,7 @@ Sanctum ships two **product flavors** (same codebase, different package names):
 | **global** | `com.pocketreflect.app` | [GitHub Releases](https://github.com/ralf134565-collab/sanctum/releases) — attach `app-global-release.apk` |
 | **rustore** | `com.pocketreflect.app.rustore` | [RuStore](https://www.rustore.ru/) — upload `app-rustore-release.apk` |
 
-**Latest release:** [v1.2.0](https://github.com/ralf134565-collab/sanctum/releases/tag/v1.2.0) — Sand Flow, stability after background, database access improvements.
+**Latest release:** [v1.3.0](https://github.com/ralf134565-collab/sanctum/releases/tag/v1.3.0) — Insights, evening music, custom chat style, ritual settings refresh.
 
 They install as separate apps on one device. Release history: [CHANGELOG.md](CHANGELOG.md).
 

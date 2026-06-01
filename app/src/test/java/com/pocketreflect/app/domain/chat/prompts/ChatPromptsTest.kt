@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package com.pocketreflect.app.domain.chat.prompts
 
+import com.pocketreflect.app.core.locale.AppLanguage
+import com.pocketreflect.app.domain.chat.ChatCustomPersonaPolicy
 import com.pocketreflect.app.domain.chat.ChatMessage
 import com.pocketreflect.app.domain.chat.ChatPersona
 import com.pocketreflect.app.domain.chat.ChatRole
@@ -11,11 +13,22 @@ import org.junit.Test
 class ChatPromptsTest {
 
     @Test
-    fun systemInstructions_coverAllPersonas() {
-        ChatPersona.entries.forEach { persona ->
+    fun systemInstructions_coverBuiltInPersonas() {
+        ChatCustomPersonaPolicy.BUILT_IN_PERSONAS.forEach { persona ->
             assertTrue(ChatPrompts.SYSTEM_INSTRUCTIONS.containsKey(persona))
             assertTrue(ChatPrompts.SYSTEM_INSTRUCTIONS[persona]!!.isNotBlank())
         }
+    }
+
+    @Test
+    fun customSystemInstruction_includesSafetyKernelAndUserStyle() {
+        val instruction = ChatPrompts.customSystemInstruction(
+            userStylePrompt = "Тон: мягкий.",
+            language = AppLanguage.RU,
+        )
+        assertTrue(instruction.contains("БАЗОВЫЕ ПРАВИЛА SANCTUM"))
+        assertTrue(instruction.contains("--- Ваш стиль ---"))
+        assertTrue(instruction.contains("Тон: мягкий."))
     }
 
     @Test

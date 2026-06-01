@@ -12,10 +12,11 @@ data class TagFrequency(
 
 /**
  * Агрегация частотности аффективных тегов за набор записей (обычно — один месяц).
+ * В шапке истории показывается самый частый тег: «Эмоция (N)».
  */
 object MonthTagFrequency {
 
-    const val DEFAULT_TOP_LIMIT = 3
+    const val DEFAULT_TOP_LIMIT = 1
 
     fun summarize(
         entries: List<JournalEntry>,

@@ -30,4 +30,6 @@ rootProject.name = "PocketReflect"
 include(":app")
 include(":feature-mandala")
 include(":sandbox-mandala")
+include(":feature-insights")
+include(":sandbox-insights")
  

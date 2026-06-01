@@ -53,6 +53,7 @@ interface GemmaLocalEngine {
         persona: ChatPersona,
         journalSnippet: String?,
         manifestoSnippet: String? = null,
+        customPersonaPrompt: String? = null,
     ): Flow<String>
 
     /** Готова ли модель к инференсу (загружена в память, прогрета). */

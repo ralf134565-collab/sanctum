@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -103,34 +105,40 @@ fun PhaseOverlay(
     val introTick = introUiTick
 
     Box(modifier = modifier.fillMaxSize()) {
+        val bottomOverlayModifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 32.dp)
+            .padding(bottom = 48.dp)
+
         when (engine.phase) {
             MandalaPhase.IntroFocus -> {
                 Column(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(32.dp)
+                    modifier = bottomOverlayModifier
                         .pointerInput(Unit) {
                             detectTapGestures { onIntroSkip() }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.intro_focus),
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            lineHeight = 32.sp
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 22.sp,
                         ),
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
                     )
-                    
+
                     CircularProgressIndicator(
                         progress = { engine.introElapsedSec / 10f },
-                        modifier = Modifier.size(48.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                        strokeWidth = 3.dp,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                        modifier = Modifier.size(40.dp),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                        strokeWidth = 2.dp,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
                     )
 
                     Text(
@@ -139,38 +147,41 @@ fun PhaseOverlay(
                         } else {
                             "${(10f - engine.introElapsedSec).toInt().coerceAtLeast(0)}s"
                         },
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Medium,
-                            letterSpacing = 0.5.sp
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            letterSpacing = 0.5.sp,
                         ),
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.75f),
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
 
             MandalaPhase.Complete -> {
                 Column(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(32.dp)
+                    modifier = bottomOverlayModifier
                         .pointerInput(Unit) {
                             detectTapGestures { onRestart() }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.session_complete),
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 22.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                     Text(
                         text = stringResource(R.string.session_restart),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.75f),
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }

@@ -261,6 +261,7 @@ class EngineCoordinatorTest {
             persona: ChatPersona,
             journalSnippet: String?,
             manifestoSnippet: String?,
+            customPersonaPrompt: String?,
         ): Flow<String> = flowOf(promptResponse)
 
         override suspend fun summarizeChat(history: List<ChatMessage>): String = promptResponse

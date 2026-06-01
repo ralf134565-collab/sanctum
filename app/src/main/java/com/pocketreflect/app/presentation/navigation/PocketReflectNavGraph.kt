@@ -10,11 +10,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.pocketreflect.app.presentation.history.HistoryScreen
+import com.pocketreflect.app.presentation.insights.InsightsScreen
 import com.pocketreflect.app.presentation.history.detail.EntryDetailScreen
 import com.pocketreflect.app.presentation.chat.ChatScreen
 import com.pocketreflect.app.presentation.journal.JournalScreen
 import com.pocketreflect.app.presentation.settings.AppearanceSettingsScreen
+import com.pocketreflect.app.presentation.settings.ChatSettingsScreen
 import com.pocketreflect.app.presentation.settings.DataSettingsScreen
 import com.pocketreflect.app.presentation.settings.PrivacySettingsScreen
 import com.pocketreflect.app.presentation.settings.RitualSettingsScreen
@@ -44,6 +47,15 @@ fun PocketReflectNavGraph(
                 onNavigateToModelSettings = {
                     navController.navigate(Routes.SettingsModel)
                 },
+                onNavigateToInsights = {
+                    navController.navigate(Routes.Insights) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
                 onNavigateToEntryDetail = { id ->
                     navController.navigate(Routes.entryDetail(id))
                 },
@@ -52,6 +64,14 @@ fun PocketReflectNavGraph(
 
         composable(Routes.History) {
             HistoryScreen(
+                onOpenEntry = { id ->
+                    navController.navigate(Routes.entryDetail(id))
+                },
+            )
+        }
+
+        composable(Routes.Insights) {
+            InsightsScreen(
                 onOpenEntry = { id ->
                     navController.navigate(Routes.entryDetail(id))
                 },
@@ -82,6 +102,7 @@ fun PocketReflectNavGraph(
                 onOpenPrivacy = { navController.navigate(Routes.SettingsPrivacy) },
                 onOpenAppearance = { navController.navigate(Routes.SettingsAppearance) },
                 onOpenRitual = { navController.navigate(Routes.SettingsRitual) },
+                onOpenChat = { navController.navigate(Routes.SettingsChat) },
                 onOpenModelSettings = { navController.navigate(Routes.SettingsModel) },
                 onOpenData = { navController.navigate(Routes.SettingsData) },
             )
@@ -95,6 +116,12 @@ fun PocketReflectNavGraph(
 
         composable(Routes.SettingsRitual) {
             RitualSettingsScreen(
+                onBack = { navController.popBackStack() },
+            )
+        }
+
+        composable(Routes.SettingsChat) {
+            ChatSettingsScreen(
                 onBack = { navController.popBackStack() },
             )
         }

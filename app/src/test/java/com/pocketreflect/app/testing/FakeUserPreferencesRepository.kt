@@ -8,6 +8,7 @@ import com.pocketreflect.app.data.repository.UserPreferencesRepository
 import com.pocketreflect.app.domain.breathing.BreathingHapticIntensity
 import com.pocketreflect.app.domain.breathing.BreathingPattern
 import com.pocketreflect.app.domain.chat.ChatPersona
+import com.pocketreflect.insights.domain.InsightPolicy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +19,14 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     private val screenshotProtection = MutableStateFlow(true)
     private val disclaimer = MutableStateFlow(false)
     private val persona = MutableStateFlow(ChatPersona.DEFAULT)
+    private val customPersonaEnabled = MutableStateFlow(false)
+    private val customPersonaName = MutableStateFlow("")
+    private val customPersonaPrompt = MutableStateFlow("")
+    private val ambientMusicEnabledPref = MutableStateFlow(true)
+    private val ambientMusicPausedPref = MutableStateFlow(true)
+    private val ambientMusicVolumePref = MutableStateFlow(45)
+    private val ambientMusicSelectedTrackPref = MutableStateFlow("")
+    private val ambientMusicCustomJsonPref = MutableStateFlow("")
     private val journalOn = MutableStateFlow(false)
     private val journalDays = MutableStateFlow(3)
     private val theme = MutableStateFlow(AppThemeMode.DEFAULT)
@@ -29,12 +38,17 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     private val customFieldEnabled = MutableStateFlow(false)
     private val customFieldQuestion = MutableStateFlow("")
     private val customFieldHint = MutableStateFlow("")
+    private val breathingBridgeEnabledPref = MutableStateFlow(true)
     private val breathingPatternPref = MutableStateFlow(BreathingPattern.DEFAULT)
     private val breathingHaptic = MutableStateFlow(true)
     private val breathingHapticIntensityPref = MutableStateFlow(BreathingHapticIntensity.DEFAULT)
     private val breathingCycles = MutableStateFlow(6)
     private val uiHaptic = MutableStateFlow(true)
     private val warmupOnLaunch = MutableStateFlow(false)
+    private val insightsWindowDaysPref = MutableStateFlow(InsightPolicy.WINDOW_30_DAYS)
+    private val insightsTabEverOpenedPref = MutableStateFlow(false)
+    private val insightsTabLastOpenedAtPref = MutableStateFlow<Long?>(null)
+    private val insightsBannerLastShownPref = MutableStateFlow<Long?>(null)
 
     override val biometricLockEnabled: Flow<Boolean> = lockEnabled.asStateFlow()
     override val autoLockTimeout: Flow<AutoLockTimeout> = autoLock.asStateFlow()
@@ -43,6 +57,14 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     override val chatPersona: Flow<ChatPersona> = persona.asStateFlow()
     override val chatJournalContextEnabled: Flow<Boolean> = journalOn.asStateFlow()
     override val chatJournalContextDays: Flow<Int> = journalDays.asStateFlow()
+    override val chatCustomPersonaEnabled: Flow<Boolean> = customPersonaEnabled.asStateFlow()
+    override val chatCustomPersonaName: Flow<String> = customPersonaName.asStateFlow()
+    override val chatCustomPersonaPrompt: Flow<String> = customPersonaPrompt.asStateFlow()
+    override val ambientMusicEnabled: Flow<Boolean> = ambientMusicEnabledPref.asStateFlow()
+    override val ambientMusicPausedByUser: Flow<Boolean> = ambientMusicPausedPref.asStateFlow()
+    override val ambientMusicVolumePercent: Flow<Int> = ambientMusicVolumePref.asStateFlow()
+    override val ambientMusicSelectedTrackId: Flow<String> = ambientMusicSelectedTrackPref.asStateFlow()
+    override val ambientMusicCustomTracksJson: Flow<String> = ambientMusicCustomJsonPref.asStateFlow()
     override val themeMode: Flow<AppThemeMode> = theme.asStateFlow()
     override val appLanguage: Flow<AppLanguage> = language.asStateFlow()
     override val personalManifesto: Flow<String> = manifesto.asStateFlow()
@@ -52,6 +74,7 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     override val customJournalFieldEnabled: Flow<Boolean> = customFieldEnabled.asStateFlow()
     override val customJournalFieldQuestion: Flow<String> = customFieldQuestion.asStateFlow()
     override val customJournalFieldHint: Flow<String> = customFieldHint.asStateFlow()
+    override val breathingBridgeEnabled: Flow<Boolean> = breathingBridgeEnabledPref.asStateFlow()
     override val breathingPattern: Flow<BreathingPattern> = breathingPatternPref.asStateFlow()
     override val breathingHapticEnabled: Flow<Boolean> = breathingHaptic.asStateFlow()
     override val breathingHapticIntensity: Flow<BreathingHapticIntensity> =
@@ -60,6 +83,10 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
     override val lastTimeEchoDismissedAt: Flow<Long?> = MutableStateFlow(null).asStateFlow()
     override val uiHapticEnabled: Flow<Boolean> = uiHaptic.asStateFlow()
     override val warmupOnLaunchEnabled: Flow<Boolean> = warmupOnLaunch.asStateFlow()
+    override val insightsWindowDays: Flow<Int> = insightsWindowDaysPref.asStateFlow()
+    override val insightsTabEverOpened: Flow<Boolean> = insightsTabEverOpenedPref.asStateFlow()
+    override val insightsTabLastOpenedAtMs: Flow<Long?> = insightsTabLastOpenedAtPref.asStateFlow()
+    override val insightsBannerLastShownMs: Flow<Long?> = insightsBannerLastShownPref.asStateFlow()
 
     override val sandFlowEnabled: Flow<Boolean> = MutableStateFlow(true).asStateFlow()
     override val sandFlowBreathingSyncEnabled: Flow<Boolean> = MutableStateFlow(true).asStateFlow()
@@ -89,6 +116,38 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
 
     override suspend fun setChatPersona(persona: ChatPersona) {
         this.persona.value = persona
+    }
+
+    override suspend fun setChatCustomPersonaEnabled(enabled: Boolean) {
+        customPersonaEnabled.value = enabled
+    }
+
+    override suspend fun setChatCustomPersonaName(name: String) {
+        customPersonaName.value = name
+    }
+
+    override suspend fun setChatCustomPersonaPrompt(prompt: String) {
+        customPersonaPrompt.value = prompt
+    }
+
+    override suspend fun setAmbientMusicEnabled(enabled: Boolean) {
+        ambientMusicEnabledPref.value = enabled
+    }
+
+    override suspend fun setAmbientMusicPausedByUser(paused: Boolean) {
+        ambientMusicPausedPref.value = paused
+    }
+
+    override suspend fun setAmbientMusicVolumePercent(percent: Int) {
+        ambientMusicVolumePref.value = percent
+    }
+
+    override suspend fun setAmbientMusicSelectedTrackId(trackId: String) {
+        ambientMusicSelectedTrackPref.value = trackId
+    }
+
+    override suspend fun setAmbientMusicCustomTracksJson(json: String) {
+        ambientMusicCustomJsonPref.value = json
     }
 
     override suspend fun setChatJournalContextEnabled(enabled: Boolean) {
@@ -135,6 +194,10 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
         customFieldHint.value = hint
     }
 
+    override suspend fun setBreathingBridgeEnabled(enabled: Boolean) {
+        breathingBridgeEnabledPref.value = enabled
+    }
+
     override suspend fun setBreathingPattern(pattern: BreathingPattern) {
         breathingPatternPref.value = pattern
     }
@@ -157,6 +220,19 @@ class FakeUserPreferencesRepository : UserPreferencesRepository {
 
     override suspend fun setWarmupOnLaunchEnabled(enabled: Boolean) {
         warmupOnLaunch.value = enabled
+    }
+
+    override suspend fun setInsightsWindowDays(days: Int) {
+        insightsWindowDaysPref.value = days
+    }
+
+    override suspend fun markInsightsTabOpened(timestampMs: Long) {
+        insightsTabEverOpenedPref.value = true
+        insightsTabLastOpenedAtPref.value = timestampMs
+    }
+
+    override suspend fun markInsightsBannerShown(timestampMs: Long) {
+        insightsBannerLastShownPref.value = timestampMs
     }
 
     override suspend fun ensureFirstRunLanguageBootstrap() = Unit

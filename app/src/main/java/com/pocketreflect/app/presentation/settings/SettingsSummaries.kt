@@ -53,6 +53,21 @@ internal fun ritualHubSummary(state: SettingsContract.State): String {
 }
 
 @Composable
+internal fun chatHubSummary(state: SettingsContract.State): String {
+    val customPart = if (state.chatCustomPersonaEnabled) {
+        stringResource(R.string.settings_hub_chat_custom_on)
+    } else {
+        stringResource(R.string.settings_hub_chat_custom_off)
+    }
+    val promptPart = if (state.chatCustomPersonaPrompt.trim().isNotBlank()) {
+        stringResource(R.string.settings_hub_chat_custom_configured)
+    } else {
+        stringResource(R.string.settings_hub_chat_custom_empty)
+    }
+    return stringResource(R.string.settings_hub_chat_summary, customPart, promptPart)
+}
+
+@Composable
 internal fun modelHubSummary(attached: AttachedModel?): String =
     if (attached == null) {
         stringResource(R.string.model_section_subtitle_unattached)

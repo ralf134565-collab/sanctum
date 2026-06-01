@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.pocketreflect.app.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import androidx.lifecycle.viewModelScope
+import com.pocketreflect.app.core.audio.AmbientMusicController
 import com.pocketreflect.app.core.locale.AppLanguageResolver
 import com.pocketreflect.app.core.security.DatabaseAccess
 import com.pocketreflect.app.core.time.Clock
@@ -17,7 +18,10 @@ import com.pocketreflect.app.data.local.entity.JournalEntry
 import com.pocketreflect.app.data.repository.DailyPromptsHistoryRepository
 import com.pocketreflect.app.data.repository.JournalRepository
 import com.pocketreflect.app.data.repository.UserPreferencesRepository
+import com.pocketreflect.app.domain.insights.InsightsBannerPolicy
+import com.pocketreflect.app.domain.ritual.RitualMode
 import com.pocketreflect.app.domain.timeecho.TimeEchoPolicy
+import com.pocketreflect.insights.domain.InsightPolicy
 import java.time.Instant
 import java.time.ZoneId
 import com.pocketreflect.app.domain.ai.AiEngineStatusSource
@@ -33,6 +37,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +59,7 @@ class JournalViewModel @Inject constructor(
     private val appLanguageResolver: AppLanguageResolver,
     private val userPreferencesRepository: UserPreferencesRepository,
     private val databaseAccess: DatabaseAccess,
+    private val ambientMusicController: AmbientMusicController,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(JournalContract.State())
@@ -117,6 +125,11 @@ class JournalViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
+            userPreferencesRepository.breathingBridgeEnabled.collect { enabled ->
+                _state.update { it.copy(breathingBridgeEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
             userPreferencesRepository.sandFlowEnabled.collect { enabled ->
                 _state.update { it.copy(sandFlowEnabled = enabled) }
             }
@@ -132,6 +145,11 @@ class JournalViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
+            ambientMusicController.uiState.collect { ambient ->
+                _state.update { it.copy(ambientMusic = ambient) }
+            }
+        }
+        viewModelScope.launch {
             var wasReady = false
             databaseAccess.isReady.collect { ready ->
                 if (ready && !wasReady) {
@@ -142,6 +160,37 @@ class JournalViewModel @Inject constructor(
                     }
                 }
                 wasReady = ready
+            }
+        }
+        observeInsightsBanner()
+    }
+
+    private fun observeInsightsBanner() {
+        viewModelScope.launch {
+            combine(
+                journalRepository.observeHistory(),
+                userPreferencesRepository.insightsTabEverOpened,
+                userPreferencesRepository.insightsTabLastOpenedAtMs,
+                userPreferencesRepository.insightsBannerLastShownMs,
+                _state.map { snapshot ->
+                    snapshot.ritualMode == RitualMode.SHORT && !snapshot.isShortRitualOverridden
+                }.distinctUntilChanged(),
+            ) { history, tabEverOpened, tabLastOpenedAtMs, bannerLastShownMs, shortRitual ->
+                val fromBucket = DayBucket.fromLocalDate(
+                    DayBucket.toLocalDate(DayBucket.today())
+                        .minusDays((InsightPolicy.WINDOW_30_DAYS - 1).toLong()),
+                )
+                val entriesLast30 = history.count { it.dayBucket >= fromBucket }
+                InsightsBannerPolicy.shouldShow(
+                    entriesLast30Days = entriesLast30,
+                    tabEverOpened = tabEverOpened,
+                    tabLastOpenedAtMs = tabLastOpenedAtMs,
+                    bannerLastShownMs = bannerLastShownMs,
+                    nowMs = clock.nowMillis(),
+                    isShortRitualActive = shortRitual,
+                )
+            }.collect { show ->
+                _state.update { it.copy(showInsightsBanner = show) }
             }
         }
     }
@@ -179,7 +228,31 @@ class JournalViewModel @Inject constructor(
                 val dayToRetry = _state.value.selectedDayBucket.takeIf { it.isNotBlank() } ?: clock.today()
                 loadDay(dayToRetry)
             }
+            JournalContract.Intent.OpenInsights -> handleOpenInsights()
+            JournalContract.Intent.DismissInsightsBanner -> dismissInsightsBanner()
+            JournalContract.Intent.ToggleAmbientMusicPlayPause ->
+                ambientMusicController.togglePlayPause()
+            JournalContract.Intent.AmbientMusicSkipNext ->
+                ambientMusicController.skipNext()
+            JournalContract.Intent.AmbientMusicSkipPrevious ->
+                ambientMusicController.skipPrevious()
+            is JournalContract.Intent.SetAmbientMusicVolume ->
+                ambientMusicController.setVolume(intent.volume)
+            is JournalContract.Intent.SelectAmbientTrack ->
+                ambientMusicController.selectTrack(intent.trackId)
         }
+    }
+
+    private fun handleOpenInsights() {
+        dismissInsightsBanner()
+        _effects.trySend(JournalContract.Effect.NavigateToInsights)
+    }
+
+    private fun dismissInsightsBanner() {
+        viewModelScope.launch {
+            userPreferencesRepository.markInsightsBannerShown(clock.nowMillis())
+        }
+        _state.update { it.copy(showInsightsBanner = false) }
     }
 
     private fun bootstrap() {

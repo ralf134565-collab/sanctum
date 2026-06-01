@@ -6,6 +6,7 @@ import com.pocketreflect.app.core.work.WeeklySummaryPolicy
 import com.pocketreflect.app.domain.ai.AiEngineStatus
 import com.pocketreflect.app.domain.breathing.BreathingHapticIntensity
 import com.pocketreflect.app.domain.breathing.BreathingPattern
+import com.pocketreflect.app.core.audio.AmbientPlaybackUiState
 import com.pocketreflect.app.domain.breathing.BreathingSessionController
 import com.pocketreflect.app.domain.model.MoodTag
 import com.pocketreflect.app.domain.model.hasNegative
@@ -61,9 +62,14 @@ object JournalContract {
         val breathingCycleCount: Int = BreathingSessionController.defaultCycleCount(BreathingPattern.DEFAULT),
         val uiHapticEnabled: Boolean = true,
 
+        val breathingBridgeEnabled: Boolean = true,
         val sandFlowEnabled: Boolean = true,
         val sandFlowBreathingSyncEnabled: Boolean = true,
         val sandFlowDifficulty: Int = 80,
+
+        val showInsightsBanner: Boolean = false,
+
+        val ambientMusic: AmbientPlaybackUiState = AmbientPlaybackUiState(),
     ) {
 
         val isMicroWinsHidden: Boolean
@@ -118,11 +124,19 @@ object JournalContract {
         data object DismissTimeEcho : Intent
         data object ExpandFullRitual : Intent
         data object RetryBootstrap : Intent
+        data object OpenInsights : Intent
+        data object DismissInsightsBanner : Intent
+        data object ToggleAmbientMusicPlayPause : Intent
+        data object AmbientMusicSkipNext : Intent
+        data object AmbientMusicSkipPrevious : Intent
+        data class SetAmbientMusicVolume(val volume: Float) : Intent
+        data class SelectAmbientTrack(val trackId: String) : Intent
     }
 
     sealed interface Effect {
         data class ShowError(val message: String) : Effect
         data object DaySaved : Effect
         data object ScrollToTop : Effect
+        data object NavigateToInsights : Effect
     }
 }

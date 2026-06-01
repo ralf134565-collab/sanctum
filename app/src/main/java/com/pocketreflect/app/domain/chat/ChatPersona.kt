@@ -20,6 +20,7 @@ enum class ChatPersona(
     EXPERIENCED_FRIEND("experienced_friend", "Честное зеркало"),
     SUPPORTIVE_COACH("supportive_coach", "Реалист-прагматик"),
     FREE_DIALOG("free_dialog", "Тихий слушатель"),
+    CUSTOM("custom", "Свой стиль"),
     ;
 
     fun displayName(language: AppLanguage): String =
@@ -36,6 +37,7 @@ enum class ChatPersona(
             EXPERIENCED_FRIEND to "Honest mirror",
             SUPPORTIVE_COACH to "Realist-pragmatic",
             FREE_DIALOG to "Quiet listener",
+            CUSTOM to "Custom style",
         )
     }
 }

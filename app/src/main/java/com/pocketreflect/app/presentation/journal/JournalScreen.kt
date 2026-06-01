@@ -116,6 +116,7 @@ import com.pocketreflect.app.ui.theme.PocketReflectTypographyAccent
 @Composable
 fun JournalScreen(
     onNavigateToModelSettings: () -> Unit = {},
+    onNavigateToInsights: () -> Unit = {},
     onNavigateToEntryDetail: (Long) -> Unit = {},
     viewModel: JournalViewModel = hiltViewModel(),
 ) {
@@ -153,6 +154,7 @@ fun JournalScreen(
                     showSaveBanner = true
                 }
                 JournalContract.Effect.ScrollToTop -> Unit
+                JournalContract.Effect.NavigateToInsights -> onNavigateToInsights()
             }
         }
     }
@@ -477,6 +479,13 @@ private fun JournalContent(
             )
         }
 
+        if (state.showInsightsBanner) {
+            com.pocketreflect.app.presentation.journal.components.InsightsBannerCard(
+                onOpenInsights = { onIntent(JournalContract.Intent.OpenInsights) },
+                onDismiss = { onIntent(JournalContract.Intent.DismissInsightsBanner) },
+            )
+        }
+
         val isShortModeActive = state.ritualMode == com.pocketreflect.app.domain.ritual.RitualMode.SHORT && !state.isShortRitualOverridden
 
         // === БАННЕР КОРОТКОГО ВЕЧЕРА (Feature 2) =====================================
@@ -518,11 +527,23 @@ private fun JournalContent(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                BreathingBannerCard(
-                    onStart = onStartBreathing,
-                    pattern = state.breathingPattern,
-                    cycleCount = state.breathingCycleCount,
-                )
+                if (state.ambientMusic.featureEnabled) {
+                    com.pocketreflect.app.presentation.journal.components.AmbientMusicBannerCard(
+                        state = state.ambientMusic,
+                        onTogglePlayPause = { onIntent(JournalContract.Intent.ToggleAmbientMusicPlayPause) },
+                        onSkipPrevious = { onIntent(JournalContract.Intent.AmbientMusicSkipPrevious) },
+                        onSkipNext = { onIntent(JournalContract.Intent.AmbientMusicSkipNext) },
+                        onVolumeChange = { onIntent(JournalContract.Intent.SetAmbientMusicVolume(it)) },
+                        onSelectTrack = { onIntent(JournalContract.Intent.SelectAmbientTrack(it)) },
+                    )
+                }
+                if (state.breathingBridgeEnabled) {
+                    BreathingBannerCard(
+                        onStart = onStartBreathing,
+                        pattern = state.breathingPattern,
+                        cycleCount = state.breathingCycleCount,
+                    )
+                }
                 if (state.sandFlowEnabled) {
                     SandFlowBannerCard(
                         onStart = onStartSandFlow,

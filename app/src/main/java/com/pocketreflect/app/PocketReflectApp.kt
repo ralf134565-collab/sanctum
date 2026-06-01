@@ -12,6 +12,7 @@ import com.pocketreflect.app.core.locale.LanguageBootstrap
 import com.pocketreflect.app.core.security.AuthSessionHolder
 import com.pocketreflect.app.core.security.DatabaseBootstrap
 import com.pocketreflect.app.core.security.DatabaseEncryptionPolicy
+import com.pocketreflect.app.core.audio.ProcessLifecycleAmbientMusicObserver
 import com.pocketreflect.app.core.security.ProcessLifecycleAuthObserver
 import androidx.work.WorkManager
 import com.pocketreflect.app.core.locale.AppLanguage
@@ -45,6 +46,9 @@ class PocketReflectApp : Application(), Configuration.Provider {
      */
     @Inject
     lateinit var processLifecycleAuthObserver: ProcessLifecycleAuthObserver
+
+    @Inject
+    lateinit var processLifecycleAmbientMusicObserver: ProcessLifecycleAmbientMusicObserver
 
     /**
      * Хилт-связанный `GemmaLocalEngine` (на самом деле `EngineCoordinator`).
@@ -95,6 +99,7 @@ class PocketReflectApp : Application(), Configuration.Provider {
         // Регистрируется один раз на процесс. Сам observer не удерживает Activity,
         // поэтому утечек нет, а отписка не требуется.
         ProcessLifecycleOwner.get().lifecycle.addObserver(processLifecycleAuthObserver)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(processLifecycleAmbientMusicObserver)
         runBlocking {
             languageBootstrap.runIfNeeded()
             AppLocales.apply(userPreferencesRepository.appLanguage.first())

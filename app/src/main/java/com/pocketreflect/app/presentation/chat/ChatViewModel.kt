@@ -16,6 +16,7 @@ import com.pocketreflect.app.domain.ai.AiEngineStatusSource
 import com.pocketreflect.app.domain.ai.GemmaLocalEngine
 import com.pocketreflect.app.domain.ai.prompts.JournalPrompts
 import com.pocketreflect.app.domain.chat.ChatContextPolicy
+import com.pocketreflect.app.domain.chat.ChatCustomPersonaPolicy
 import com.pocketreflect.app.domain.chat.ChatJournalSnippetBuilder
 import com.pocketreflect.app.domain.chat.ChatMessage
 import com.pocketreflect.app.domain.chat.ChatPersona
@@ -63,9 +64,25 @@ class ChatViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            userPreferencesRepository.chatPersona.flatMapLatest { persona ->
+            combine(
+                userPreferencesRepository.chatPersona,
+                userPreferencesRepository.chatCustomPersonaEnabled,
+                userPreferencesRepository.chatCustomPersonaPrompt,
+            ) { stored, customEnabled, customPrompt ->
+                PersonaPrefs(stored, customEnabled, customPrompt)
+            }.flatMapLatest { prefs ->
+                val resolved = ChatCustomPersonaPolicy.resolveActivePersona(
+                    stored = prefs.stored,
+                    enabled = prefs.customEnabled,
+                    prompt = prefs.customPrompt,
+                )
+                if (resolved != prefs.stored) {
+                    viewModelScope.launch {
+                        userPreferencesRepository.setChatPersona(resolved)
+                    }
+                }
                 combine(
-                    chatRepository.observeMessages(persona.storageKey),
+                    chatRepository.observeMessages(resolved.storageKey),
                     userPreferencesRepository.chatDisclaimerAccepted,
                     userPreferencesRepository.chatJournalContextEnabled,
                     userPreferencesRepository.chatJournalContextDays,
@@ -78,11 +95,13 @@ class ChatViewModel @Inject constructor(
                     ChatSnapshot(
                         messages = messages,
                         disclaimerAccepted = disclaimer,
-                        persona = persona,
+                        persona = resolved,
                         journalContextEnabled = journalOn,
                         journalContextDays = journalDays,
                         manifestoContextEnabled = manifestoOn,
                         personalManifesto = manifestoText,
+                        customPersonaEnabled = prefs.customEnabled,
+                        customPersonaPrompt = prefs.customPrompt,
                     )
                 }
             }.collect { snapshot ->
@@ -113,6 +132,14 @@ class ChatViewModel @Inject constructor(
         val journalPart = journalSnippetCache.takeIf { snapshot.journalContextEnabled }
         val manifestoPart = manifestoSnippetCache.takeIf { snapshot.manifestoContextEnabled }
         val usage = ChatContextPolicy.computeUsage(snapshot.messages, journalPart, manifestoPart)
+        val language = appLanguageResolver.resolvedNow()
+        val personaChipLabel = when (snapshot.persona) {
+            ChatPersona.CUSTOM -> ChatCustomPersonaPolicy.chipDisplayName(
+                customName = null,
+                language = language,
+            )
+            else -> ""
+        }
         _state.update { current ->
             current.copy(
                 disclaimerAccepted = snapshot.disclaimerAccepted,
@@ -123,9 +150,18 @@ class ChatViewModel @Inject constructor(
                 manifestoContextEnabled = snapshot.manifestoContextEnabled,
                 contextPercent = usage.percent,
                 isContextFull = usage.isFull,
+                customPersonaEnabled = snapshot.customPersonaEnabled,
+                customPersonaPrompt = snapshot.customPersonaPrompt,
+                personaChipLabel = personaChipLabel,
             )
         }
     }
+
+    private data class PersonaPrefs(
+        val stored: ChatPersona,
+        val customEnabled: Boolean,
+        val customPrompt: String,
+    )
 
     private data class ChatSnapshot(
         val messages: List<ChatMessage>,
@@ -135,6 +171,8 @@ class ChatViewModel @Inject constructor(
         val journalContextDays: Int,
         val manifestoContextEnabled: Boolean,
         val personalManifesto: String,
+        val customPersonaEnabled: Boolean,
+        val customPersonaPrompt: String,
     )
 
     fun onIntent(intent: ChatContract.Intent) {
@@ -143,6 +181,20 @@ class ChatViewModel @Inject constructor(
             ChatContract.Intent.SendMessage -> sendMessage()
             ChatContract.Intent.CancelStreaming -> streamJob?.cancel()
             is ChatContract.Intent.SelectPersona -> {
+                val current = _state.value
+                if (!ChatCustomPersonaPolicy.isSelectable(
+                        enabled = current.customPersonaEnabled,
+                        prompt = current.customPersonaPrompt,
+                        persona = intent.persona,
+                    )
+                ) {
+                    _effects.trySend(
+                        ChatContract.Effect.ShowSnackbar(
+                            appContext.getString(R.string.chat_custom_persona_not_configured),
+                        ),
+                    )
+                    return
+                }
                 viewModelScope.launch {
                     userPreferencesRepository.setChatPersona(intent.persona)
                 }
@@ -231,12 +283,18 @@ class ChatViewModel @Inject constructor(
                     manifestoSnippetLength = manifestoSnippet?.length ?: 0,
                 )
                 val buffer = StringBuilder()
+                val customPersonaPrompt = if (snapshot.persona == ChatPersona.CUSTOM) {
+                    snapshot.customPersonaPrompt.takeIf { it.isNotBlank() }
+                } else {
+                    null
+                }
                 try {
                     gemmaEngine.streamChat(
                         history = trimmed,
                         persona = snapshot.persona,
                         journalSnippet = journalSnippet,
                         manifestoSnippet = manifestoSnippet,
+                        customPersonaPrompt = customPersonaPrompt,
                     ).collect { chunk ->
                         buffer.append(chunk)
                         _state.update { it.copy(streamingPreview = buffer.toString()) }

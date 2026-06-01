@@ -25,6 +25,9 @@ object ChatContract {
         val showClearConfirm: Boolean = false,
         val isCompacting: Boolean = false,
         val aiEngineStatus: AiEngineStatus = AiEngineStatus.MODEL_OFFLINE,
+        val customPersonaEnabled: Boolean = false,
+        val customPersonaPrompt: String = "",
+        val personaChipLabel: String = "",
     ) {
         val canSend: Boolean
             get() = disclaimerAccepted &&

@@ -615,8 +615,93 @@ internal fun AiMentorSection(
 
 internal const val CUSTOM_JOURNAL_FIELD_QUESTION_MAX = 120
 internal const val CUSTOM_JOURNAL_FIELD_HINT_MAX = 240
+internal const val CHAT_CUSTOM_PERSONA_PROMPT_MAX = 800
 
 internal val BREATHING_CYCLE_OPTIONS = listOf(4, 6, 8)
+
+@Composable
+internal fun SettingsSwitchRow(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    hint: String? = null,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            if (hint != null) {
+                Text(
+                    text = hint,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 2.dp),
+                )
+            }
+        }
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                checkedTrackColor = MaterialTheme.colorScheme.primary,
+            ),
+        )
+    }
+}
+
+@Composable
+internal fun TodayTabRitualSection(
+    breathingEnabled: Boolean,
+    sandFlowEnabled: Boolean,
+    customFieldEnabled: Boolean,
+    ambientMusicEnabled: Boolean,
+    onToggleBreathing: (Boolean) -> Unit,
+    onToggleSandFlow: (Boolean) -> Unit,
+    onToggleCustomField: (Boolean) -> Unit,
+    onToggleAmbientMusic: (Boolean) -> Unit,
+) {
+    val todayTabHint = stringResource(R.string.breathing_bridge_switch)
+    SectionCard(
+        title = stringResource(R.string.settings_today_tab_section_title),
+        subtitle = stringResource(R.string.settings_today_tab_section_subtitle),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            SettingsSwitchRow(
+                label = stringResource(R.string.breathing_banner_title),
+                hint = todayTabHint,
+                checked = breathingEnabled,
+                onCheckedChange = onToggleBreathing,
+            )
+            SettingsSwitchRow(
+                label = stringResource(R.string.sand_flow_banner_title),
+                hint = todayTabHint,
+                checked = sandFlowEnabled,
+                onCheckedChange = onToggleSandFlow,
+            )
+            SettingsSwitchRow(
+                label = stringResource(R.string.custom_journal_field_section_title),
+                hint = todayTabHint,
+                checked = customFieldEnabled,
+                onCheckedChange = onToggleCustomField,
+            )
+            SettingsSwitchRow(
+                label = stringResource(R.string.ambient_music_banner_title),
+                hint = todayTabHint,
+                checked = ambientMusicEnabled,
+                onCheckedChange = onToggleAmbientMusic,
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -634,114 +719,116 @@ internal fun BreathingRitualSection(
         title = stringResource(R.string.breathing_section_title),
         subtitle = stringResource(R.string.breathing_section_subtitle),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.SelfImprovement,
-                contentDescription = stringResource(R.string.cd_breathing_ritual),
-                tint = MaterialTheme.colorScheme.primary,
-            )
-            Text(
-                text = stringResource(R.string.breathing_pattern_label),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-        }
-        BreathingPatternSelector(
-            pattern = pattern,
-            onPatternSelected = onPatternSelected,
-        )
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.SelfImprovement,
+                        contentDescription = stringResource(R.string.cd_breathing_ritual),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = stringResource(R.string.breathing_pattern_label),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+                BreathingPatternSelector(
+                    pattern = pattern,
+                    onPatternSelected = onPatternSelected,
+                )
 
-        HorizontalDivider(
-            modifier = Modifier.padding(vertical = 4.dp),
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
-        )
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.breathing_cycle_count_label),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.weight(1f),
-            )
-        }
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            BREATHING_CYCLE_OPTIONS.forEach { option ->
-                FilterChip(
-                    selected = option == cycleCount,
-                    onClick = { onCycleCountSelected(option) },
-                    label = {
-                        Text(stringResource(R.string.breathing_cycle_count_option, option))
-                    },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
-                )
-            }
-        }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.breathing_cycle_count_label),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    BREATHING_CYCLE_OPTIONS.forEach { option ->
+                        FilterChip(
+                            selected = option == cycleCount,
+                            onClick = { onCycleCountSelected(option) },
+                            label = {
+                                Text(stringResource(R.string.breathing_cycle_count_option, option))
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            ),
+                        )
+                    }
+                }
 
-        HorizontalDivider(
-            modifier = Modifier.padding(vertical = 4.dp),
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
-        )
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.breathing_haptic_label),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = stringResource(R.string.breathing_haptic_summary),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Switch(
-                checked = hapticEnabled,
-                onCheckedChange = onToggleHaptic,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary,
-                ),
-            )
-        }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.breathing_haptic_label),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = stringResource(R.string.breathing_haptic_summary),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Switch(
+                        checked = hapticEnabled,
+                        onCheckedChange = onToggleHaptic,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    )
+                }
 
-        AnimatedVisibility(visible = hapticEnabled && pattern == BreathingPattern.RESONANT) {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    text = stringResource(R.string.breathing_haptic_intensity_label),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = stringResource(R.string.breathing_haptic_intensity_summary),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                SegmentedControl(
-                    options = BreathingHapticIntensity.entries,
-                    selected = hapticIntensity,
-                    onSelect = onHapticIntensitySelected,
-                    label = { it.label() },
-                )
-            }
+                AnimatedVisibility(visible = hapticEnabled && pattern == BreathingPattern.RESONANT) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(
+                            text = stringResource(R.string.breathing_haptic_intensity_label),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = stringResource(R.string.breathing_haptic_intensity_summary),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        SegmentedControl(
+                            options = BreathingHapticIntensity.entries,
+                            selected = hapticIntensity,
+                            onSelect = onHapticIntensitySelected,
+                            label = { it.label() },
+                        )
+                    }
+                }
         }
     }
 }
@@ -827,10 +914,8 @@ internal fun BreathingPattern.label(): String = title()
 
 @Composable
 internal fun CustomJournalFieldSection(
-    enabled: Boolean,
     question: String,
     hint: String,
-    onToggle: (Boolean) -> Unit,
     onQuestionChange: (String) -> Unit,
     onHintChange: (String) -> Unit,
 ) {
@@ -875,13 +960,77 @@ internal fun CustomJournalFieldSection(
                     cursorColor = MaterialTheme.colorScheme.primary,
                 ),
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+internal fun CustomChatPersonaSection(
+    enabled: Boolean,
+    stylePrompt: String,
+    onToggle: (Boolean) -> Unit,
+    onStylePromptChange: (String) -> Unit,
+    onApplyTemplate: (SettingsContract.ChatCustomPersonaTemplate) -> Unit,
+) {
+    SectionCard(
+        title = stringResource(R.string.chat_custom_persona_section_title),
+        subtitle = stringResource(R.string.chat_custom_persona_section_subtitle),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            OutlinedTextField(
+                value = stylePrompt,
+                onValueChange = { onStylePromptChange(it.take(CHAT_CUSTOM_PERSONA_PROMPT_MAX)) },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.chat_custom_persona_prompt_label)) },
+                placeholder = { Text(stringResource(R.string.chat_custom_persona_prompt_placeholder)) },
+                singleLine = false,
+                minLines = 4,
+                maxLines = 8,
+                shape = RoundedCornerShape(16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                ),
+            )
+            Text(
+                text = stringResource(R.string.chat_custom_persona_templates_title),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                FilterChip(
+                    selected = false,
+                    onClick = {
+                        onApplyTemplate(SettingsContract.ChatCustomPersonaTemplate.QUIET_LISTENER)
+                    },
+                    label = { Text(stringResource(R.string.chat_custom_persona_template_quiet_label)) },
+                )
+                FilterChip(
+                    selected = false,
+                    onClick = {
+                        onApplyTemplate(SettingsContract.ChatCustomPersonaTemplate.GENTLE_QUESTIONS)
+                    },
+                    label = { Text(stringResource(R.string.chat_custom_persona_template_questions_label)) },
+                )
+                FilterChip(
+                    selected = false,
+                    onClick = {
+                        onApplyTemplate(SettingsContract.ChatCustomPersonaTemplate.NO_CLICHES)
+                    },
+                    label = { Text(stringResource(R.string.chat_custom_persona_template_no_cliches_label)) },
+                )
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.custom_journal_field_switch),
+                    text = stringResource(R.string.chat_custom_persona_switch),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
@@ -899,13 +1048,65 @@ internal fun CustomJournalFieldSection(
     }
 }
 
+@Composable
+internal fun AmbientMusicSettingsSection(
+    musicEnabled: Boolean,
+    customTracks: List<com.pocketreflect.app.domain.ambient.StoredCustomAmbientTrack>,
+    onImport: () -> Unit,
+    onRename: (String) -> Unit,
+    onRemove: (String) -> Unit,
+) {
+    SectionCard(
+        title = stringResource(R.string.ambient_music_settings_title),
+        subtitle = stringResource(R.string.ambient_music_settings_subtitle),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(
+                text = stringResource(R.string.ambient_music_import_tip),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            OutlinedButton(
+                onClick = onImport,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = musicEnabled,
+            ) {
+                Text(stringResource(R.string.ambient_music_import_button))
+            }
+            if (customTracks.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.ambient_music_custom_tracks_label),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                customTracks.forEach { track ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = track.displayName,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.weight(1f),
+                        )
+                        TextButton(onClick = { onRename(track.id) }) {
+                            Text(stringResource(R.string.ambient_music_rename_track))
+                        }
+                        TextButton(onClick = { onRemove(track.id) }) {
+                            Text(stringResource(R.string.ambient_music_remove_track))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun SandFlowSettingsSection(
-    enabled: Boolean,
     breathingSyncEnabled: Boolean,
     difficulty: Int,
-    onToggle: (Boolean) -> Unit,
     onToggleBreathingSync: (Boolean) -> Unit,
     onDifficultySelected: (Int) -> Unit,
 ) {
@@ -913,34 +1114,7 @@ internal fun SandFlowSettingsSection(
         title = stringResource(R.string.sand_flow_settings_title),
         subtitle = stringResource(R.string.sand_flow_settings_subtitle),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.sand_flow_switch),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.weight(1f),
-            )
-            Switch(
-                checked = enabled,
-                onCheckedChange = onToggle,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary,
-                ),
-            )
-        }
-
-        AnimatedVisibility(visible = enabled) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
-                )
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -1009,7 +1183,6 @@ internal fun SandFlowSettingsSection(
                     }
                 }
             }
-        }
     }
 }
 

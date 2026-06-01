@@ -16,15 +16,22 @@ import com.pocketreflect.app.data.repository.UserDataRepository
 import com.pocketreflect.app.data.repository.UserPreferencesRepository
 import com.pocketreflect.app.domain.breathing.BreathingHapticIntensity
 import com.pocketreflect.app.domain.breathing.BreathingPattern
+import android.net.Uri
+import com.pocketreflect.app.data.ambient.AmbientMusicStorage
+import com.pocketreflect.app.domain.ambient.AmbientMusicPolicy
+import com.pocketreflect.app.domain.chat.ChatPersona
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +42,7 @@ class SettingsViewModel @Inject constructor(
     private val modelSelectionRepository: ModelSelectionRepository,
     private val biometricAvailability: BiometricAvailability,
     private val authSessionHolder: AuthSessionHolder,
+    private val ambientMusicStorage: AmbientMusicStorage,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsContract.State())
@@ -97,6 +105,11 @@ class SettingsViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
+            userPreferencesRepository.breathingBridgeEnabled.collect { enabled ->
+                _state.update { it.copy(breathingBridgeEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
             userPreferencesRepository.breathingPattern.collect { pattern ->
                 _state.update { it.copy(breathingPattern = pattern) }
             }
@@ -130,6 +143,62 @@ class SettingsViewModel @Inject constructor(
             userPreferencesRepository.sandFlowDifficulty.collect { difficulty ->
                 _state.update { it.copy(sandFlowDifficulty = difficulty) }
             }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.chatCustomPersonaEnabled.collect { enabled ->
+                _state.update { it.copy(chatCustomPersonaEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.chatCustomPersonaName.collect { name ->
+                _state.update { it.copy(chatCustomPersonaName = name) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.chatCustomPersonaPrompt.collect { prompt ->
+                _state.update { it.copy(chatCustomPersonaPrompt = prompt) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.ambientMusicEnabled.collect { enabled ->
+                _state.update { it.copy(ambientMusicEnabled = enabled) }
+            }
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.ambientMusicCustomTracksJson.collect { json ->
+                _state.update {
+                    it.copy(ambientMusicCustomTracks = ambientMusicStorage.parseCustomTracks(json))
+                }
+            }
+        }
+    }
+
+    fun importAmbientTrack(sourceUri: Uri, displayName: String) {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                val existing = ambientMusicStorage.parseCustomTracks(
+                    userPreferencesRepository.ambientMusicCustomTracksJson.first(),
+                )
+                ambientMusicStorage.importCustomTrack(sourceUri, displayName = displayName, existing = existing)
+            }
+            result.fold(
+                onSuccess = { track ->
+                    val existing = _state.value.ambientMusicCustomTracks
+                    val updated = existing + track
+                    userPreferencesRepository.setAmbientMusicCustomTracksJson(
+                        ambientMusicStorage.encodeCustomTracks(updated),
+                    )
+                },
+                onFailure = { error ->
+                    val messageRes = when (error.message) {
+                        "max_custom_tracks" -> R.string.ambient_music_import_max
+                        "file_too_large" -> R.string.ambient_music_import_too_large
+                        "unsupported_format" -> R.string.ambient_music_import_unsupported
+                        else -> R.string.ambient_music_import_failed
+                    }
+                    _effects.trySend(SettingsContract.Effect.ShowError(appContext.getString(messageRes)))
+                },
+            )
         }
     }
 
@@ -168,6 +237,8 @@ class SettingsViewModel @Inject constructor(
                 setCustomJournalFieldQuestion(intent.question)
             is SettingsContract.Intent.SetCustomJournalFieldHint ->
                 setCustomJournalFieldHint(intent.hint)
+            is SettingsContract.Intent.ToggleBreathingBridge ->
+                setBreathingBridgeEnabled(intent.enabled)
             is SettingsContract.Intent.SetBreathingPattern ->
                 setBreathingPattern(intent.pattern)
             is SettingsContract.Intent.ToggleBreathingHaptic ->
@@ -182,6 +253,20 @@ class SettingsViewModel @Inject constructor(
                 setSandFlowBreathingSyncEnabled(intent.enabled)
             is SettingsContract.Intent.SetSandFlowDifficulty ->
                 setSandFlowDifficulty(intent.difficulty)
+            is SettingsContract.Intent.ToggleChatCustomPersona ->
+                setChatCustomPersonaEnabled(intent.enabled)
+            is SettingsContract.Intent.SetChatCustomPersonaName ->
+                setChatCustomPersonaName(intent.name)
+            is SettingsContract.Intent.SetChatCustomPersonaPrompt ->
+                setChatCustomPersonaPrompt(intent.prompt)
+            is SettingsContract.Intent.ApplyChatCustomPersonaTemplate ->
+                applyChatCustomPersonaTemplate(intent.template)
+            is SettingsContract.Intent.ToggleAmbientMusic ->
+                setAmbientMusicEnabled(intent.enabled)
+            is SettingsContract.Intent.RemoveAmbientCustomTrack ->
+                removeAmbientCustomTrack(intent.trackId)
+            is SettingsContract.Intent.RenameAmbientCustomTrack ->
+                renameAmbientCustomTrack(intent.trackId, intent.displayName)
         }
     }
 
@@ -256,6 +341,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun setBreathingBridgeEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setBreathingBridgeEnabled(enabled)
+        }
+    }
+
     private fun setBreathingPattern(pattern: BreathingPattern) {
         viewModelScope.launch {
             userPreferencesRepository.setBreathingPattern(pattern)
@@ -296,6 +387,81 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             userPreferencesRepository.setSandFlowDifficulty(difficulty)
         }
+    }
+
+    private fun setChatCustomPersonaEnabled(enabled: Boolean) {
+        if (enabled && _state.value.chatCustomPersonaPrompt.trim().isBlank()) {
+            _effects.trySend(SettingsContract.Effect.CustomPersonaPromptRequired)
+            return
+        }
+        viewModelScope.launch {
+            userPreferencesRepository.setChatCustomPersonaEnabled(enabled)
+            if (!enabled && userPreferencesRepository.chatPersona.first() == ChatPersona.CUSTOM) {
+                userPreferencesRepository.setChatPersona(ChatPersona.DEFAULT)
+            }
+        }
+    }
+
+    private fun setChatCustomPersonaName(name: String) {
+        _state.update { it.copy(chatCustomPersonaName = name) }
+        viewModelScope.launch {
+            userPreferencesRepository.setChatCustomPersonaName(name)
+        }
+    }
+
+    private fun setChatCustomPersonaPrompt(prompt: String) {
+        _state.update { it.copy(chatCustomPersonaPrompt = prompt) }
+        viewModelScope.launch {
+            userPreferencesRepository.setChatCustomPersonaPrompt(prompt)
+        }
+    }
+
+    private fun setAmbientMusicEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setAmbientMusicEnabled(enabled)
+            if (!enabled) {
+                userPreferencesRepository.setAmbientMusicPausedByUser(true)
+            }
+        }
+    }
+
+    private fun removeAmbientCustomTrack(trackId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val existing = _state.value.ambientMusicCustomTracks
+            val track = existing.firstOrNull { it.id == trackId } ?: return@launch
+            val updated = ambientMusicStorage.deleteCustomTrack(track, existing)
+            userPreferencesRepository.setAmbientMusicCustomTracksJson(
+                ambientMusicStorage.encodeCustomTracks(updated),
+            )
+        }
+    }
+
+    fun renameAmbientCustomTrack(trackId: String, displayName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val existing = _state.value.ambientMusicCustomTracks
+            val index = existing.indexOfFirst { it.id == trackId }
+            if (index < 0) return@launch
+            val trimmed = displayName.trim().take(AmbientMusicPolicy.MAX_DISPLAY_NAME_LENGTH)
+            if (trimmed.isBlank()) return@launch
+            val updated = existing.toMutableList().apply {
+                set(index, existing[index].copy(displayName = trimmed))
+            }
+            userPreferencesRepository.setAmbientMusicCustomTracksJson(
+                ambientMusicStorage.encodeCustomTracks(updated),
+            )
+        }
+    }
+
+    private fun applyChatCustomPersonaTemplate(template: SettingsContract.ChatCustomPersonaTemplate) {
+        val text = when (template) {
+            SettingsContract.ChatCustomPersonaTemplate.QUIET_LISTENER ->
+                appContext.getString(R.string.chat_custom_persona_template_quiet)
+            SettingsContract.ChatCustomPersonaTemplate.GENTLE_QUESTIONS ->
+                appContext.getString(R.string.chat_custom_persona_template_questions)
+            SettingsContract.ChatCustomPersonaTemplate.NO_CLICHES ->
+                appContext.getString(R.string.chat_custom_persona_template_no_cliches)
+        }
+        setChatCustomPersonaPrompt(text)
     }
 
     private fun performWipe() {

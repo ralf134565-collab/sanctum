@@ -25,8 +25,8 @@ android {
         applicationId = "com.pocketreflect.app"
         minSdk = 28
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.2.0"
+        versionCode = 4
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
@@ -135,6 +135,7 @@ kotlin {
 dependencies {
 
     implementation(project(":feature-mandala"))
+    implementation(project(":feature-insights"))
 
     // --- AndroidX / Lifecycle ---
     implementation(libs.androidx.core.ktx)
@@ -181,6 +182,9 @@ dependencies {
     // --- Пользовательские настройки (DataStore<Preferences>, не SharedPreferences) ---
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.glance.appwidget)
+
+    // --- Media3: локальный ambient-плеер (без сети) ---
+    implementation(libs.androidx.media3.exoplayer)
 
     // --- Encrypted backup payload (JSON внутри .sanctum файла) ---
     implementation(libs.kotlinx.serialization.json)

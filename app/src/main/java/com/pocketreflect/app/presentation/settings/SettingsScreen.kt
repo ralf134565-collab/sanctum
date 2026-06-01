@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.SelfImprovement
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Storage
@@ -69,6 +70,7 @@ fun SettingsScreen(
     onOpenPrivacy: () -> Unit = {},
     onOpenAppearance: () -> Unit = {},
     onOpenRitual: () -> Unit = {},
+    onOpenChat: () -> Unit = {},
     onOpenModelSettings: () -> Unit = {},
     onOpenData: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel(),
@@ -125,6 +127,7 @@ fun SettingsScreen(
                 onOpenPrivacy = onOpenPrivacy,
                 onOpenAppearance = onOpenAppearance,
                 onOpenRitual = onOpenRitual,
+                onOpenChat = onOpenChat,
                 onOpenModelSettings = onOpenModelSettings,
                 onOpenData = onOpenData,
             )
@@ -140,6 +143,7 @@ private fun SettingsHubContent(
     onOpenPrivacy: () -> Unit,
     onOpenAppearance: () -> Unit,
     onOpenRitual: () -> Unit,
+    onOpenChat: () -> Unit,
     onOpenModelSettings: () -> Unit,
     onOpenData: () -> Unit,
 ) {
@@ -193,6 +197,12 @@ private fun SettingsHubContent(
             title = stringResource(R.string.settings_hub_ritual_title),
             summary = ritualHubSummary(state),
             onClick = onOpenRitual,
+        )
+        SettingsHubRow(
+            icon = Icons.Outlined.Forum,
+            title = stringResource(R.string.settings_hub_chat_title),
+            summary = chatHubSummary(state),
+            onClick = onOpenChat,
         )
         SettingsHubRow(
             icon = Icons.Outlined.AutoAwesome,

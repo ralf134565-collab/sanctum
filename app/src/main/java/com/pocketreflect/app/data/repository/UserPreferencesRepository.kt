@@ -55,6 +55,14 @@ interface UserPreferencesRepository {
     suspend fun setChatJournalContextEnabled(enabled: Boolean)
     suspend fun setChatJournalContextDays(days: Int)
 
+    val chatCustomPersonaEnabled: Flow<Boolean>
+    val chatCustomPersonaName: Flow<String>
+    val chatCustomPersonaPrompt: Flow<String>
+
+    suspend fun setChatCustomPersonaEnabled(enabled: Boolean)
+    suspend fun setChatCustomPersonaName(name: String)
+    suspend fun setChatCustomPersonaPrompt(prompt: String)
+
     /** Сброс настроек чата при «Стереть всю историю». */
     suspend fun clearChatPreferences()
 
@@ -110,6 +118,23 @@ interface UserPreferencesRepository {
     suspend fun setSandFlowBreathingSyncEnabled(enabled: Boolean)
     suspend fun setSandFlowDifficulty(difficulty: Int)
 
+    /** Показывать карточку «Дыхательный мост» на экране «Сегодня». */
+    val breathingBridgeEnabled: Flow<Boolean>
+    suspend fun setBreathingBridgeEnabled(enabled: Boolean)
+
+    /** Фоновая ambient-музыка, пока приложение на переднем плане. */
+    val ambientMusicEnabled: Flow<Boolean>
+    val ambientMusicPausedByUser: Flow<Boolean>
+    val ambientMusicVolumePercent: Flow<Int>
+    val ambientMusicSelectedTrackId: Flow<String>
+    val ambientMusicCustomTracksJson: Flow<String>
+
+    suspend fun setAmbientMusicEnabled(enabled: Boolean)
+    suspend fun setAmbientMusicPausedByUser(paused: Boolean)
+    suspend fun setAmbientMusicVolumePercent(percent: Int)
+    suspend fun setAmbientMusicSelectedTrackId(trackId: String)
+    suspend fun setAmbientMusicCustomTracksJson(json: String)
+
     /** Режим дыхательного моста на экране «Сегодня». */
     val breathingPattern: Flow<BreathingPattern>
     val breathingHapticEnabled: Flow<Boolean>
@@ -133,6 +158,19 @@ interface UserPreferencesRepository {
      */
     val warmupOnLaunchEnabled: Flow<Boolean>
     suspend fun setWarmupOnLaunchEnabled(enabled: Boolean)
+
+    // --- Вкладка «Картина» (Insights) ---
+
+    /** 30 или 90 дней — окно сводки и закономерностей. */
+    val insightsWindowDays: Flow<Int>
+    suspend fun setInsightsWindowDays(days: Int)
+
+    val insightsTabEverOpened: Flow<Boolean>
+    val insightsTabLastOpenedAtMs: Flow<Long?>
+    val insightsBannerLastShownMs: Flow<Long?>
+
+    suspend fun markInsightsTabOpened(timestampMs: Long)
+    suspend fun markInsightsBannerShown(timestampMs: Long)
 
     /** Первый запуск на en*-устройстве → сохранить [AppLanguage.EN]. */
     suspend fun ensureFirstRunLanguageBootstrap()

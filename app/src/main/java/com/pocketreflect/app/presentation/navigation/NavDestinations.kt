@@ -3,6 +3,7 @@ package com.pocketreflect.app.presentation.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoGraph
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.History
@@ -24,6 +25,7 @@ import com.pocketreflect.app.R
 object Routes {
     const val Today: String = "today"
     const val History: String = "history"
+    const val Insights: String = "insights"
     const val Chat: String = "chat"
     const val Settings: String = "settings"
 
@@ -32,6 +34,7 @@ object Routes {
     const val SettingsRitual: String = "settings/ritual"
     const val SettingsData: String = "settings/data"
     const val SettingsAppearance: String = "settings/appearance"
+    const val SettingsChat: String = "settings/chat"
 
     /**
      * Экран выбора и подключения локальной модели Gemma 4.
@@ -53,6 +56,7 @@ enum class TopLevelDestination(
 ) {
     TODAY(route = Routes.Today, titleRes = R.string.nav_today, icon = Icons.Outlined.Edit),
     HISTORY(route = Routes.History, titleRes = R.string.nav_history, icon = Icons.Outlined.History),
+    INSIGHTS(route = Routes.Insights, titleRes = R.string.nav_insights, icon = Icons.Outlined.AutoGraph),
     CHAT(route = Routes.Chat, titleRes = R.string.nav_chat, icon = Icons.Outlined.Forum),
     SETTINGS(route = Routes.Settings, titleRes = R.string.nav_settings, icon = Icons.Outlined.Settings),
 }

@@ -12,7 +12,7 @@ import org.junit.Test
 class MonthTagFrequencyTest {
 
     @Test
-    fun summarize_returns_top_three_by_count() {
+    fun summarize_default_returns_top_one_by_count() {
         val entries = listOf(
             entry(tags = listOf(MoodTag.CALM, MoodTag.TIRED)),
             entry(tags = listOf(MoodTag.CALM)),
@@ -21,15 +21,11 @@ class MonthTagFrequencyTest {
             entry(tags = listOf(MoodTag.ANXIETY)),
         )
 
-        val result = MonthTagFrequency.summarize(entries, limit = 3)
+        val result = MonthTagFrequency.summarize(entries)
 
-        assertEquals(3, result.size)
+        assertEquals(1, result.size)
         assertEquals(MoodTag.CALM, result[0].tag)
         assertEquals(3, result[0].count)
-        assertEquals(MoodTag.TIRED, result[1].tag)
-        assertEquals(2, result[1].count)
-        assertEquals(MoodTag.JOY, result[2].tag)
-        assertEquals(1, result[2].count)
     }
 
     @Test
@@ -58,14 +54,11 @@ class MonthTagFrequencyTest {
     @Test
     fun formatLine_builds_russian_line() {
         val line = MonthTagFrequency.formatLine(
-            tags = listOf(
-                TagFrequency(MoodTag.CALM, 12),
-                TagFrequency(MoodTag.TIRED, 8),
-            ),
+            tags = listOf(TagFrequency(MoodTag.CALM, 12)),
             language = AppLanguage.RU,
         )
 
-        assertEquals("Спокойствие (12) • Усталость (8)", line)
+        assertEquals("Спокойствие (12)", line)
     }
 
     private fun entry(tags: List<MoodTag>): JournalEntry = JournalEntry(

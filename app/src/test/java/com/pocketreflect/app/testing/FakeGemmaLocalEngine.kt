@@ -49,6 +49,7 @@ class FakeGemmaLocalEngine(
         persona: ChatPersona,
         journalSnippet: String?,
         manifestoSnippet: String?,
+        customPersonaPrompt: String?,
     ): Flow<String> = flowOf(chatResponse)
 
     override suspend fun isReady(): Boolean = true

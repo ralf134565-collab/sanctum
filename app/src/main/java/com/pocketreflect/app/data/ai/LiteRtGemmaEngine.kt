@@ -166,6 +166,7 @@ class LiteRtGemmaEngine @Inject constructor(
         persona: ChatPersona,
         journalSnippet: String?,
         manifestoSnippet: String?,
+        customPersonaPrompt: String?,
     ): Flow<String> = flow {
         val language = languageResolver.resolvedNow()
         val eng = ensureEngine()
@@ -176,9 +177,11 @@ class LiteRtGemmaEngine @Inject constructor(
             language,
             manifestoSnippet,
         )
-        val instructions = ChatPrompts.systemInstructions(language)
-        val systemInstruction = instructions[persona]
-            ?: instructions[ChatPersona.DEFAULT]!!
+        val systemInstruction = ChatPrompts.systemInstructionFor(
+            persona = persona,
+            language = language,
+            customPersonaPrompt = customPersonaPrompt,
+        )
         try {
             inferenceMutex.withLock {
                 eng.createConversation(

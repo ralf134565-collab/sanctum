@@ -9,7 +9,9 @@
 /app/rustore/
 /app/global/
 /feature-mandala/build/
+/feature-insights/build/
 /sandbox-mandala/build/
+/sandbox-insights/build/
 .externalNativeBuild
 .cxx
 local.properties

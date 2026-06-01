@@ -81,6 +81,7 @@ class MockGemmaLocalEngine @Inject constructor(
         persona: ChatPersona,
         journalSnippet: String?,
         manifestoSnippet: String?,
+        customPersonaPrompt: String?,
     ): Flow<String> = flow {
         delay(300)
         val lastUser = history.lastOrNull { it.role == ChatRole.USER }?.content.orEmpty()
@@ -99,6 +100,7 @@ class MockGemmaLocalEngine @Inject constructor(
     ): String {
         val pools = MockGemmaTextPools.forLanguage(languageResolver.resolvedNow())
         val pool = when (persona) {
+            ChatPersona.CUSTOM -> pools.gentleMentorChat
             ChatPersona.GENTLE_MENTOR -> pools.gentleMentorChat
             ChatPersona.EXPERIENCED_FRIEND -> pools.friendChat
             ChatPersona.SUPPORTIVE_COACH -> pools.coachChat

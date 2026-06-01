@@ -71,21 +71,25 @@ class EngineCoordinator @Inject constructor(
         persona: ChatPersona,
         journalSnippet: String?,
         manifestoSnippet: String?,
+        customPersonaPrompt: String?,
     ): Flow<String> = flow {
         if (modelSelectionRepo.attached.first() == null) {
             Log.i(TAG, "streamChat → MOCK (no model attached)")
-            mock.streamChat(history, persona, journalSnippet, manifestoSnippet).collect { emit(it) }
+            mock.streamChat(history, persona, journalSnippet, manifestoSnippet, customPersonaPrompt)
+                .collect { emit(it) }
             return@flow
         }
         Log.i(TAG, "streamChat → REAL")
         try {
-            real.streamChat(history, persona, journalSnippet, manifestoSnippet).collect { emit(it) }
+            real.streamChat(history, persona, journalSnippet, manifestoSnippet, customPersonaPrompt)
+                .collect { emit(it) }
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (t: Throwable) {
             Log.w(TAG, "streamChat real failed, falling back to mock", t)
             aiEngineStatusSource.notifyRuntimeFailure()
-            mock.streamChat(history, persona, journalSnippet, manifestoSnippet).collect { emit(it) }
+            mock.streamChat(history, persona, journalSnippet, manifestoSnippet, customPersonaPrompt)
+                .collect { emit(it) }
         }
     }
 

@@ -28,6 +28,7 @@ import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.automirrored.outlined.TrendingUp
@@ -74,6 +75,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pocketreflect.app.R
+import com.pocketreflect.app.domain.chat.ChatCustomPersonaPolicy
 import com.pocketreflect.app.domain.chat.ChatMessage
 import com.pocketreflect.app.domain.ai.AiEngineStatus
 import com.pocketreflect.app.domain.chat.ChatPersona
@@ -137,6 +139,8 @@ fun ChatScreen(
         ) {
             PersonaSheetContent(
                 selected = state.persona,
+                customPersonaEnabled = state.customPersonaEnabled,
+                customPersonaPrompt = state.customPersonaPrompt,
                 journalEnabled = state.journalContextEnabled,
                 journalDays = state.journalContextDays,
                 manifestoEnabled = state.manifestoContextEnabled,
@@ -164,6 +168,7 @@ fun ChatScreen(
                 isContextFull = state.isContextFull,
                 isCompacting = state.isCompacting,
                 persona = state.persona,
+                personaChipLabel = state.personaChipLabel,
                 aiEngineStatus = state.aiEngineStatus,
                 onOpenPersona = { viewModel.onIntent(ChatContract.Intent.OpenPersonaSheet) },
                 onClear = { viewModel.onIntent(ChatContract.Intent.RequestClearChat) },
@@ -216,6 +221,7 @@ private fun ChatTopBar(
     isContextFull: Boolean,
     isCompacting: Boolean,
     persona: ChatPersona,
+    personaChipLabel: String,
     aiEngineStatus: AiEngineStatus,
     onOpenPersona: () -> Unit,
     onClear: () -> Unit,
@@ -255,7 +261,13 @@ private fun ChatTopBar(
                 Spacer(modifier = Modifier.width(4.dp))
                 AssistChip(
                     onClick = onOpenPersona,
-                    label = { Text(persona.label(), maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                    label = {
+                        Text(
+                            text = persona.topBarLabel(personaChipLabel),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
                     modifier = Modifier.widthIn(max = 120.dp)
                 )
                 IconButton(onClick = onClear) {
@@ -341,6 +353,7 @@ private fun ChatMessageList(
             ChatPersona.EXPERIENCED_FRIEND -> R.string.chat_empty_hint_experienced_friend
             ChatPersona.SUPPORTIVE_COACH -> R.string.chat_empty_hint_supportive_coach
             ChatPersona.FREE_DIALOG -> R.string.chat_empty_hint_free_dialog
+            ChatPersona.CUSTOM -> R.string.chat_empty_hint
         }
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -495,6 +508,8 @@ private fun ChatInputBar(
 @Composable
 private fun PersonaSheetContent(
     selected: ChatPersona,
+    customPersonaEnabled: Boolean,
+    customPersonaPrompt: String,
     journalEnabled: Boolean,
     journalDays: Int,
     manifestoEnabled: Boolean,
@@ -565,11 +580,17 @@ private fun PersonaSheetContent(
             text = stringResource(R.string.chat_persona_title),
             style = MaterialTheme.typography.titleMedium,
         )
+        val selectablePersonas = buildList {
+            addAll(ChatCustomPersonaPolicy.BUILT_IN_PERSONAS)
+            if (ChatCustomPersonaPolicy.isConfigured(customPersonaEnabled, customPersonaPrompt)) {
+                add(ChatPersona.CUSTOM)
+            }
+        }
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ChatPersona.entries.forEach { persona ->
+            selectablePersonas.forEach { persona ->
                 FilterChip(
                     selected = persona == selected,
                     onClick = { onPersona(persona) },
@@ -629,6 +650,13 @@ private fun ChatPersona.icon() = when (this) {
     ChatPersona.EXPERIENCED_FRIEND -> Icons.Outlined.Visibility
     ChatPersona.SUPPORTIVE_COACH -> Icons.AutoMirrored.Outlined.TrendingUp
     ChatPersona.FREE_DIALOG -> Icons.Outlined.Forum
+    ChatPersona.CUSTOM -> Icons.Outlined.Edit
+}
+
+@Composable
+private fun ChatPersona.topBarLabel(customChipLabel: String): String = when (this) {
+    ChatPersona.CUSTOM -> customChipLabel
+    else -> label()
 }
 
 @Composable
@@ -691,4 +719,5 @@ private fun ChatPersona.label(): String = when (this) {
     ChatPersona.EXPERIENCED_FRIEND -> stringResource(R.string.chat_persona_experienced_friend)
     ChatPersona.SUPPORTIVE_COACH -> stringResource(R.string.chat_persona_supportive_coach)
     ChatPersona.FREE_DIALOG -> stringResource(R.string.chat_persona_free_dialog)
+    ChatPersona.CUSTOM -> stringResource(R.string.chat_persona_custom)
 }

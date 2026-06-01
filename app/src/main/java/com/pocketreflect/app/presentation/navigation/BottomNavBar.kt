@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +40,8 @@ import com.pocketreflect.app.ui.theme.PocketReflectShapes
 /**
  * Нижняя навигационная панель.
  *
- * Переработана в компактный кастомный вариант (высота 56dp вместо громоздких 80dp в M3),
+ * Переработана в компактный кастомный вариант (высота 58dp вместо громоздких 80dp в M3).
+ * Каждая вкладка занимает равную долю ширины — подписи не обрезаются на 5 табах.
  * что идеально подходит для вечерних ритуалов рефлексии и экономит драгоценную
  * вертикальную высоту.
  *
@@ -64,8 +66,7 @@ fun BottomNavBar(navController: NavHostController) {
                 modifier = Modifier
                     .navigationBarsPadding()
                     .fillMaxWidth()
-                    .height(56.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                    .height(58.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TopLevelDestination.entries.forEach { destination ->
@@ -100,10 +101,13 @@ fun BottomNavBar(navController: NavHostController) {
                             .testTag("nav_${destination.route}"),
                         contentAlignment = Alignment.Center,
                     ) {
+                        val label = stringResource(destination.titleRes)
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
                                 .clip(PocketReflectShapes.Chip)
                                 .then(
                                     if (selected) {
@@ -114,23 +118,27 @@ fun BottomNavBar(navController: NavHostController) {
                                         Modifier
                                     },
                                 )
-                                .padding(horizontal = 10.dp, vertical = 6.dp),
+                                .padding(horizontal = 2.dp, vertical = 4.dp),
                         ) {
                             Icon(
                                 imageVector = destination.icon,
-                                contentDescription = stringResource(destination.titleRes),
+                                contentDescription = label,
                                 tint = contentColor,
-                                modifier = Modifier.size(22.dp),
+                                modifier = Modifier.size(21.dp),
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = stringResource(destination.titleRes),
+                                text = label,
+                                modifier = Modifier.fillMaxWidth(),
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    fontSize = 10.sp,
+                                    fontSize = 9.sp,
+                                    lineHeight = 11.sp,
                                     fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
                                 ),
                                 color = contentColor,
+                                textAlign = TextAlign.Center,
                                 maxLines = 1,
+                                softWrap = false,
                                 overflow = TextOverflow.Ellipsis,
                             )
                         }
